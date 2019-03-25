@@ -8,5 +8,11 @@ namespace NIK.BoulderDash.Logic
 {
     interface IGameLogic
     {
+        void OneTick();
+
+        void MovePlayerLeft();
+        void MovePlayerRight();
+        void MovePlayerUp();
+        void MovePlayerDown();
     }
 }
