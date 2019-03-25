@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIK.BoulderDash.Data", "NIK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIK.BoulderDash.Repository", "NIK.BoulderDash.Repository\NIK.BoulderDash.Repository.csproj", "{7AD7C681-ADED-4104-BC7A-AEACD5C4536B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIK.BoulderDash.Logic", "NIK.BoulderDash.Logic\NIK.BoulderDash.Logic.csproj", "{CA33D86D-F354-41B1-A38C-4E64C312BD0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7AD7C681-ADED-4104-BC7A-AEACD5C4536B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AD7C681-ADED-4104-BC7A-AEACD5C4536B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AD7C681-ADED-4104-BC7A-AEACD5C4536B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA33D86D-F354-41B1-A38C-4E64C312BD0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA33D86D-F354-41B1-A38C-4E64C312BD0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA33D86D-F354-41B1-A38C-4E64C312BD0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA33D86D-F354-41B1-A38C-4E64C312BD0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
