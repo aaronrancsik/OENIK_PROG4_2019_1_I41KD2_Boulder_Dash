@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NIK.BoulderDash.Logic\NIK.BoulderDash.Logic.csproj">
+      <Project>{ca33d86d-f354-41b1-a38c-4e64c312bd0d}</Project>
+      <Name>NIK.BoulderDash.Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -42,5 +42,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NIK.BoulderDash.Data\NIK.BoulderDash.Data.csproj">
+      <Project>{8e21db28-fd4a-42c7-88a4-22c084ec8ddb}</Project>
+      <Name>NIK.BoulderDash.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
