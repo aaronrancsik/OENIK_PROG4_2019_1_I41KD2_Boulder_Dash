@@ -40,6 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StaticBlock.cs" />
+    <Compile Include="ICamera.cs" />
+    <Compile Include="IEnemie.cs" />
+    <Compile Include="IGameLogic.cs" />
+    <Compile Include="IGameModel.cs" />
+    <Compile Include="IMap.cs" />
+    <Compile Include="IPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
