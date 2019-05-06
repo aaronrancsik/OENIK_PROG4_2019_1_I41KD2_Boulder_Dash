@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using NIK.BoulderDash.Logic;
 
-namespace NIK.BoulderDash.VM
+namespace NIK.BoulderDash.UI
 {
     public class BoulderControl : FrameworkElement
     {

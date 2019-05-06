@@ -43,14 +43,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-
-    <Compile Include="StaticBlock.cs" />
-    <Compile Include="ICamera.cs" />
-    <Compile Include="IEnemie.cs" />
-    <Compile Include="IGameLogic.cs" />
-    <Compile Include="IGameModel.cs" />
-    <Compile Include="IMap.cs" />
-    <Compile Include="IPlayer.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Enemie.cs" />
     <Compile Include="GameItem.cs" />
@@ -60,7 +52,6 @@
     <Compile Include="IGameModel.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Player.cs" />
-
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

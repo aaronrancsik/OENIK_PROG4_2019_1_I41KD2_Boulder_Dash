@@ -63,6 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BoulderControl.cs" />
+    <Compile Include="BoulderDisplay.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -95,9 +97,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NIK.BoulderDash.VM\NIK.BoulderDash.VM.csproj">
-      <Project>{a8f128c1-dd05-4eb1-ad44-2e8c7cb858a3}</Project>
-      <Name>NIK.BoulderDash.VM</Name>
+    <ProjectReference Include="..\NIK.BoulderDash.Logic\NIK.BoulderDash.Logic.csproj">
+      <Project>{ca33d86d-f354-41b1-a38c-4e64c312bd0d}</Project>
+      <Name>NIK.BoulderDash.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
