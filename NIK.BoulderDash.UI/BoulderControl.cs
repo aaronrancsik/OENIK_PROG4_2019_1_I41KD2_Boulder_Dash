@@ -12,11 +12,14 @@ namespace NIK.BoulderDash.UI
 {
     public class BoulderControl : FrameworkElement
     {
-        IGameLogic logic;
-        IGameModel model;
-        BoulderDisplay display;
+        const int MOVETIME = 125;
         DispatcherTimer timer;
-
+        VisualBrush diamonvb;
+        VisualBrush rockfordvb;
+        IGameLogic logic;
+        BoulderDisplay display;
+        GameModel model;
+        
         public BoulderControl()
         {
             Loaded += BoulderControl_Loaded;
@@ -24,27 +27,25 @@ namespace NIK.BoulderDash.UI
 
         private void BoulderControl_Loaded(object sender, RoutedEventArgs e)
         {
-
-            model = new GameModel();
-            logic = new GameLogic(model);
-            display = new BoulderDisplay(model, ActualWidth, ActualHeight);
-
             Window win = Window.GetWindow(this);
             if (win != null)
             {
                 timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromMilliseconds(2);
+                timer.Interval = TimeSpan.FromMilliseconds(MOVETIME);
                 timer.Tick += timerTick;
                 timer.Start();
-
-                //win.KeyDown += Win_KeyDown;
             }
-            InvalidateVisual(); //kerek egy ujrarajzolast
+            model = new GameModel();
+            logic = new GameLogic(model,Properties.Resources.AL01);
+            display = new BoulderDisplay(model, ActualWidth, ActualHeight);
+            diamonvb = (FindResource("diamonvb") as VisualBrush);
+            rockfordvb = (FindResource("rockfordvb") as VisualBrush);
+            InvalidateVisual();
         }
 
         private void timerTick(object sender, EventArgs e)
         {
-            logic.OneTick(ActualWidth, ActualHeight);
+            logic.OneTick();
             InvalidateVisual();
         }
 
@@ -54,7 +55,6 @@ namespace NIK.BoulderDash.UI
             {
                 display.BuildDisplay(drawingContext);
             }
-
         }
     }
 }
