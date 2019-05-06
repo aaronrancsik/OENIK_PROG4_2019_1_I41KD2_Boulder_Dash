@@ -4,49 +4,166 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using NIK;
 
 namespace NIK.BoulderDash.Logic
 {
+    public enum Direction { Up, Down, Left, Right };
     public class GameLogic : IGameLogic
     {
+        
         static Random rnd = new Random();
-        IGameModel model;
-        public GameLogic(IGameModel model)
+        GameModel model;
+        public GameLogic(GameModel model, byte[] levelResource)
         {
             this.model = model;
+            LoadLevel(levelResource);
         }
 
-        public void MovePlayerDown()
+        public void LoadLevel(byte[] levelResource)
         {
-            throw new NotImplementedException();
+            string[] lines = Encoding.ASCII.GetString(levelResource).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            int width = int.Parse(lines[0]); //cella szeleseeg, magasseg
+            int height = int.Parse(lines[1]);
+            model.RequireDiamonds = int.Parse(lines[2]);
+            Block.Set = int.Parse(lines[3]);
+
+            model.DirtMatrix = new Dirt[width, height];
+            model.TitaniumMatrix = new bool[width, height];
+            model.WallMatrix = new bool[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    char current = lines[y + 4][x];
+                    var point = new Point(x, y);
+                    var initPrev = new Point(-1, -1);
+                    switch (current)
+                    {
+                        case 'w':
+                            model.WallMatrix[x, y] = true;
+                            break;
+                        case 'X':
+                            model.Player.tilePosition = point;
+                            model.Player.tileOldPosition = initPrev;
+                            break;
+                        case 'P':
+                            model.ExitPistition = new Point(x, y);
+                            break;
+                        case 'r':
+                            var b = new Blocks.Boulder();
+                            b.tilePosition = point;
+                            b.tileOldPosition = initPrev;
+                            model.Boulders.Add(b);
+                            break;
+                        case 'd':
+                            var diamond = new Blocks.Diamond();
+                            diamond.tilePosition = point;
+                            diamond.tileOldPosition = initPrev;
+                            break;
+                        case '.':
+                            var dirt = new Dirt();
+                            dirt.Variant = rnd.Next(1, 5);
+                            model.DirtMatrix[x, y] = dirt;
+                            break;
+                        case 'W':
+                            model.TitaniumMatrix[x, y] = true;
+                            break;
+                    }
+                }
+            }
+        }
+        
+        private void Move(Direction dir) //mozgas validalas ha tobbet si tud mozogni akkor bonyi
+        {
+            model.Player.tileOldPosition = model.Player.tilePosition;
+
+            int x = (int)model.Player.tilePosition.X;
+            int y = (int)model.Player.tilePosition.Y;
+
+            if (validatePlayerMove(dir, ref x, ref y))
+            {
+                model.Player.tilePosition.X = x;
+                model.Player.tilePosition.Y = y;
+            }
         }
 
-        public void MovePlayerLeft()
+        private bool validatePlayerMove(Direction dir, ref int x, ref int y)
         {
-            throw new NotImplementedException();
-        }
+            switch (dir)
+            {
+                case Direction.Up:
+                    x += 0;
+                    y += -1;
+                    break;
+                case Direction.Down:
+                    x += 0;
+                    y += 1;
+                    break;
+                case Direction.Left:
+                    x += -1;
+                    y += 0;
+                    break;
+                case Direction.Right:
+                    x += 1;
+                    y += 0;
+                    break;
+            }
 
-        public void MovePlayerRight()
-        {
-            throw new NotImplementedException();
-        }
+            if (x < 0 || x > model.WallMatrix.GetLength(0) || y < 0 || y > model.WallMatrix.GetLength(1))
+                return false;
 
-        public void MovePlayerUp()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OneTick(double w, double h)
-        {
-            //model.Player.Center = new System.Windows.Point(model.Player.Center.X + 1, model.Player.Center.Y);
-            //model.Player.Center.Set(10, 10);
-            model.Player.Center.X++;
-
-
-            //x.PlusX(1);
-            //model.Player.Center = x;
+            if (model.TitaniumMatrix[x, y])
+                return false;
             
+            if (model.WallMatrix[x, y])
+                return false;
+
+            bool[,] boulders = new bool[model.WallMatrix.GetLength(0), model.WallMatrix.GetLength(1)];
+            foreach (var bo in model.Boulders)
+            {
+                boulders[(int)bo.tilePosition.X, (int)bo.tilePosition.Y] = true;
+            }
+
+            if (dir==Direction.Up || dir == Direction.Down && boulders[x,y])
+            {
+                return false;
+            }
+
+            if(dir==Direction.Left || dir==Direction.Right)
+            {
+                if(boulders[(int)model.Player.tilePosition.X+x, (int)model.Player.tilePosition.Y+y] 
+                    &&
+                    boulders[(int)model.Player.tilePosition.X + x + x, (int)model.Player.tilePosition.Y + y])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void OneTick()
+        {
+            if (Keyboard.IsKeyDown(Key.Right))
+            {
+                Move(Direction.Right);
+            }
+            else if (Keyboard.IsKeyDown(Key.Left))
+            {
+                Move(Direction.Left);
+            }
+            else if (Keyboard.IsKeyDown(Key.Up))
+            {
+                Move(Direction.Up);
+            }
+            else if (Keyboard.IsKeyDown(Key.Down))
+            {
+                Move(Direction.Down);
+            }
+
+
         }
     }
 }
