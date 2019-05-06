@@ -4,8 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NIK.BoulderDash.UI"
-        xmlns:vm="clr-namespace:NIK.BoulderDash.VM;assembly=NIK.BoulderDash.VM"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <vm:BoulderControl></vm:BoulderControl>
+    <local:BoulderControl></local:BoulderControl>
 </Window>
