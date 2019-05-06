@@ -102,5 +102,6 @@
       <Name>NIK.BoulderDash.Logic</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
