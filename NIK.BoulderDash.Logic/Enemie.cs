@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic
 {
-    class StaticBlock
+    public class Enemie
     {
-        int posX;
-        int posY;
     }
 }

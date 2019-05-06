@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic
 {
-    interface IMap
+    public class Camera
     {
-        StaticBlock[] StaticBlocks { get; }
-
     }
 }

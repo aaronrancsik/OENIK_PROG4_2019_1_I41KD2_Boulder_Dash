@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -94,9 +95,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NIK.BoulderDash.Logic\NIK.BoulderDash.Logic.csproj">
-      <Project>{ca33d86d-f354-41b1-a38c-4e64c312bd0d}</Project>
-      <Name>NIK.BoulderDash.Logic</Name>
+    <ProjectReference Include="..\NIK.BoulderDash.VM\NIK.BoulderDash.VM.csproj">
+      <Project>{a8f128c1-dd05-4eb1-ad44-2e8c7cb858a3}</Project>
+      <Name>NIK.BoulderDash.VM</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

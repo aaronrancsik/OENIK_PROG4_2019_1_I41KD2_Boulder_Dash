@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic
 {
-    interface IGameModel
+    public interface IGameModel
     {
         int Time { get; }
-        IPlayer Player { get; }
-        IMap Map { get; }
-        ICamera Camera { get; }
-        ObservableCollection<IEnemie> Enemies { get; }
+        Player Player { get; }
+        Map Map { get; }
+        Camera Camera { get; }
+        List<Enemie> Enemies { get; }
     }
 }

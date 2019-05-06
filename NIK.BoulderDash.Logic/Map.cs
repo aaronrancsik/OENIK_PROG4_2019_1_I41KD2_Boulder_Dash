@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic
 {
-    interface IEnemie
+    public class Map
     {
+        public bool[,] walls;
+        public bool[,] dirt;
     }
 }

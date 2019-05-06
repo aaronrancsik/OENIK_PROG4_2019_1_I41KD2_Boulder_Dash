@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic
 {
-    interface IGameLogic
+    public interface IGameLogic
     {
-        void OneTick();
+        void OneTick(double w, double h);
 
         void MovePlayerLeft();
         void MovePlayerRight();
