@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\IVariable.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Enemie.cs" />
     <Compile Include="GameItem.cs" />
