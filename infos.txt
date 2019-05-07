@@ -1,0 +1,6 @@
+birth 110
+rockford 40
+explode 80
+firefly 60
+DiamondBirth 60
+Diamond 40
