@@ -133,44 +133,123 @@ namespace NIK.BoulderDash.Logic
             bool[,] boulders = new bool[model.WallMatrix.GetLength(0), model.WallMatrix.GetLength(1)];
             foreach (var bo in model.Boulders)
             {
-                boulders[(int)bo.tilePosition.X, (int)bo.tilePosition.Y] = true;
+                boulders[(int)bo.TilePosition.X, (int)bo.TilePosition.Y] = true;
             }
 
-            if (dir==Direction.Up || dir == Direction.Down && boulders[x,y])
+            if ((dir==Direction.Up || dir == Direction.Down) && boulders[x,y])
             {
                 return false;
             }
 
-            if(dir==Direction.Left || dir==Direction.Right)
+            if(dir==Direction.Left)
             {
-                if(boulders[(int)model.Player.tilePosition.X+x, (int)model.Player.tilePosition.Y+y] 
-                    &&
-                    boulders[(int)model.Player.tilePosition.X + x + x, (int)model.Player.tilePosition.Y + y])
+                if (boulders[x, y]
+                     &&
+                     (boulders[x - 1, y]|| model.WallMatrix[x - 1, y] || model.TitaniumMatrix[x - 1, y]))
                 {
                     return false;
                 }
             }
 
+            if(dir == Direction.Right)
+            {
+                if (boulders[x, y]
+                   &&
+                   boulders[x + 1, y])
+                {
+                    return false;
+                }
+            }
+
+            if(dir == Direction.Right)
+            {
+                if (boulders[x, y] && !checkAny(x+1, y))
+                {
+                    return false;
+                }
+            }
+
+            if (dir == Direction.Left)
+            {
+                if (boulders[x, y] && !checkAny(x-1, y))
+                {
+                    return false;
+                }
+            }
+
+
+
+
             return true;
         }
 
+        private bool checkAny(int x, int y)
+        {
+            return y  < model.WallMatrix.GetLength(1) && x<model.WallMatrix.GetLength(0) && !model.WallMatrix[x, y] && !model.TitaniumMatrix[x, y] && null == model.DirtMatrix[x, y] && model.Blocks[x, y] == null;
+        }
         public void OneTick()
         {
-            if (Keyboard.IsKeyDown(Key.Right))
+            for (int y = model.WallMatrix.GetLength(1)-1; y >= 0 ; y--)
             {
-                Move(Direction.Right);
+                bool row = false;
+                for (int x = 0; x < model.WallMatrix.GetLength(0); x++)
+                {
+                    if(model.Blocks[x,y] is Player)
+                    {
+                        
+                    }
+                    else if(model.Blocks[x, y] != null && checkAny(x,y+1))
+                    {
+                        var tmp = model.Blocks[x, y];
+                        model.Blocks[x, y] = null;
+                        model.Blocks[x, y+1] = tmp;
+                        tmp.TileOldPosition = tmp.TilePosition;
+                        tmp.TilePosition.Y++;
+                        row = true;
+                    }
+                }
+
             }
-            else if (Keyboard.IsKeyDown(Key.Left))
+
+            model.DirtMatrix[(int)model.Player.TilePosition.X, (int)model.Player.TilePosition.Y] = null;
+
+            if (Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                Move(Direction.Left);
+                //if (Keyboard.IsKeyDown(Key.Right))
+                //{
+                //    Move(Direction.Right);
+                //}
+                //else if (Keyboard.IsKeyDown(Key.Left))
+                //{
+                //    Move(Direction.Left);
+                //}
+                //else if (Keyboard.IsKeyDown(Key.Up))
+                //{
+                //    Move(Direction.Up);
+                //}
+                //else if (Keyboard.IsKeyDown(Key.Down))
+                //{
+                //    Move(Direction.Down);
+                //}
             }
-            else if (Keyboard.IsKeyDown(Key.Up))
+            else
             {
-                Move(Direction.Up);
-            }
-            else if (Keyboard.IsKeyDown(Key.Down))
-            {
-                Move(Direction.Down);
+                if (Keyboard.IsKeyDown(Key.Right))
+                {
+                    Move(Direction.Right);
+                }
+                else if (Keyboard.IsKeyDown(Key.Left))
+                {
+                    Move(Direction.Left);
+                }
+                else if (Keyboard.IsKeyDown(Key.Up))
+                {
+                    Move(Direction.Up);
+                }
+                else if (Keyboard.IsKeyDown(Key.Down))
+                {
+                    Move(Direction.Down);
+                }
             }
 
 
