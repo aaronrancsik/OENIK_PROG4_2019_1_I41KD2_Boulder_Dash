@@ -14,6 +14,7 @@ namespace NIK.BoulderDash.UI
     {
         const int MOVETIME = 125;
         DispatcherTimer timer;
+        DispatcherTimer timer2;
         VisualBrush diamonvb;
         VisualBrush rockfordvb;
         IGameLogic logic;
@@ -31,29 +32,47 @@ namespace NIK.BoulderDash.UI
             if (win != null)
             {
                 timer = new DispatcherTimer();
+                timer2 = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromMilliseconds(MOVETIME);
+                timer2.Interval = TimeSpan.FromMilliseconds(MOVETIME);
                 timer.Tick += timerTick;
-                timer.Start();
+                timer2.Tick += timerTick2;
+
+               
+                Task.Delay(MOVETIME*2).ContinueWith(_ =>
+                {
+                    timer.Start();
+                });
+                Task.Delay(MOVETIME*3).ContinueWith(_ =>
+                {
+                    timer2.Start();
+                });
             }
             model = new GameModel();
             logic = new GameLogic(model,Properties.Resources.AL01);
-            display = new BoulderDisplay(model, ActualWidth, ActualHeight);
+            display = new BoulderDisplay(model, ActualWidth, ActualHeight, MOVETIME);
             diamonvb = (FindResource("diamonvb") as VisualBrush);
             rockfordvb = (FindResource("rockfordvb") as VisualBrush);
             InvalidateVisual();
+        }
+
+        private void timerTick2(object sender, EventArgs e)
+        {
+            
         }
 
         private void timerTick(object sender, EventArgs e)
         {
             logic.OneTick();
             InvalidateVisual();
+
         }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
             if (display != null)
             {
-                display.BuildDisplay(drawingContext);
+                drawingContext.DrawDrawing(display.BuildDrawing(diamonvb, rockfordvb));
             }
         }
     }
