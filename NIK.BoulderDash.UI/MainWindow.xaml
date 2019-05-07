@@ -4,7 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NIK.BoulderDash.UI"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <local:BoulderControl></local:BoulderControl>
+        Title="MainWindow" Height="768" Width="1290"
+        SnapsToDevicePixels="True" UseLayoutRounding="True"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <!--WindowState="Maximized"-->
+    <Grid>
+        <local:BoulderControl>
+            <local:BoulderControl.Resources>
+                <VisualBrush x:Key="diamonvb">
+                    <VisualBrush.Visual>
+                        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond1.gif"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+                <VisualBrush x:Key="rockfordvb">
+                    <VisualBrush.Visual>
+                        <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordTap.gif"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </local:BoulderControl.Resources>
+        </local:BoulderControl>
+    </Grid>
+
 </Window>
