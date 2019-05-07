@@ -9,7 +9,11 @@ namespace NIK.BoulderDash.Logic
 {
     public class DynamicBlock: Block
     {
-        public ref Point tileOldPosition { get => ref tilePosition; }
+        private Point tilePosition;
+        public ref Point TilePosition { get => ref tilePosition; }
+
+        private Point tileOldPosition;
+        public ref Point TileOldPosition { get => ref tileOldPosition; }
 
     }
 }

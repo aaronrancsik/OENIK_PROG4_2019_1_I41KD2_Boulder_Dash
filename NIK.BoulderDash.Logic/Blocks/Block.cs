@@ -8,10 +8,7 @@ using System.Windows;
 
 namespace NIK.BoulderDash.Logic
 {
-    public class Block : IVariable
+    public class Block
     {
-        public ref Point tilePosition { get => ref tilePosition; }
-        public static int Set { get; set; }
-        public int Variant { get; set; }
     }
 }

@@ -9,9 +9,7 @@ using NIK;
 
 namespace NIK.BoulderDash.Logic
 {
-    public class Player 
+    public class Player : DynamicBlock
     {
-        public ref Point tilePosition { get => ref tilePosition; }
-        public ref Point tileOldPosition { get => ref tilePosition; }
     }
 }

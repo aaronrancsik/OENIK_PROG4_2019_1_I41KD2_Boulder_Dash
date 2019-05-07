@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic
 {
-    public class Dirt : IVariable
+    public class Dirt : Block, IVariable
     {
         public int Variant { get; set; }
     }
