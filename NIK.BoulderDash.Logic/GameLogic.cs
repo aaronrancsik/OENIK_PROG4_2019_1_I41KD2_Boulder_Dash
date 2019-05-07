@@ -27,11 +27,14 @@ namespace NIK.BoulderDash.Logic
             int width = int.Parse(lines[0]); //cella szeleseeg, magasseg
             int height = int.Parse(lines[1]);
             model.RequireDiamonds = int.Parse(lines[2]);
-            Block.Set = int.Parse(lines[3]);
+            int textureSet = int.Parse(lines[3]);
 
             model.DirtMatrix = new Dirt[width, height];
             model.TitaniumMatrix = new bool[width, height];
             model.WallMatrix = new bool[width, height];
+
+            model.Blocks = new DynamicBlock[width, height];
+
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -45,22 +48,27 @@ namespace NIK.BoulderDash.Logic
                             model.WallMatrix[x, y] = true;
                             break;
                         case 'X':
-                            model.Player.tilePosition = point;
-                            model.Player.tileOldPosition = initPrev;
+                            model.Player = new Player();
+                            model.Player.TilePosition = point;
+                            model.Player.TileOldPosition = initPrev;
+                            model.Blocks[x, y] = model.Player;
                             break;
                         case 'P':
                             model.ExitPistition = new Point(x, y);
                             break;
                         case 'r':
-                            var b = new Blocks.Boulder();
-                            b.tilePosition = point;
-                            b.tileOldPosition = initPrev;
-                            model.Boulders.Add(b);
+                            var boulder = new Blocks.Boulder();
+                            boulder.TilePosition = point;
+                            boulder.TileOldPosition = initPrev;
+                            model.Boulders.Add(boulder);
+                            model.Blocks[x, y] = boulder;
                             break;
                         case 'd':
                             var diamond = new Blocks.Diamond();
-                            diamond.tilePosition = point;
-                            diamond.tileOldPosition = initPrev;
+                            diamond.TilePosition = point;
+                            diamond.TileOldPosition = initPrev;
+                            model.Diamonds.Add(diamond);
+                            model.Blocks[x, y] = diamond;
                             break;
                         case '.':
                             var dirt = new Dirt();
