@@ -85,15 +85,17 @@ namespace NIK.BoulderDash.Logic
         
         private void Move(Direction dir) //mozgas validalas ha tobbet si tud mozogni akkor bonyi
         {
-            model.Player.tileOldPosition = model.Player.tilePosition;
+            model.Player.TileOldPosition = model.Player.TilePosition;
 
-            int x = (int)model.Player.tilePosition.X;
-            int y = (int)model.Player.tilePosition.Y;
+            int x = (int)model.Player.TilePosition.X;
+            int y = (int)model.Player.TilePosition.Y;
 
             if (validatePlayerMove(dir, ref x, ref y))
             {
-                model.Player.tilePosition.X = x;
-                model.Player.tilePosition.Y = y;
+                model.Blocks[(int)model.Player.TileOldPosition.X, (int)model.Player.TileOldPosition.Y] = null;
+                model.Player.TilePosition.X = x;
+                model.Player.TilePosition.Y = y;
+                model.Blocks[(int)model.Player.TilePosition.X, (int)model.Player.TilePosition.Y] = model.Player;
             }
         }
 
