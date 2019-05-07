@@ -252,7 +252,8 @@ namespace NIK.BoulderDash.Logic
                 }
             }
 
-
+            model.Camera.Follow(model.Player.TilePosition);
+           
         }
     }
 }
