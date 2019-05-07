@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -49,6 +50,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.18.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.18\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -88,6 +92,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Levels\AL01.lvl" />
+    <None Include="Levels\AL02.lvl" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,6 +109,84 @@
       <Name>NIK.BoulderDash.Logic</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\097.bmp" />
+    <Resource Include="Images\098.bmp" />
+    <Resource Include="Images\099.bmp" />
+    <Resource Include="Images\100.bmp" />
+    <Resource Include="Images\101.bmp" />
+    <Resource Include="Images\102.bmp" />
+    <Resource Include="Images\103.bmp" />
+    <Resource Include="Images\104.bmp" />
+    <Resource Include="Images\105.bmp" />
+    <Resource Include="Images\106.bmp" />
+    <Resource Include="Images\107.bmp" />
+    <Resource Include="Images\108.bmp" />
+    <Resource Include="Images\109.bmp" />
+    <Resource Include="Images\110.bmp" />
+    <Resource Include="Images\111.bmp" />
+    <Resource Include="Images\112.bmp" />
+    <Resource Include="Images\113.bmp" />
+    <Resource Include="Images\114.bmp" />
+    <Resource Include="Images\115.bmp" />
+    <Resource Include="Images\116.bmp" />
+    <Resource Include="Images\117.bmp" />
+    <Resource Include="Images\118.bmp" />
+    <Resource Include="Images\119.bmp" />
+    <Resource Include="Images\120.bmp" />
+    <Resource Include="Images\121.bmp" />
+    <Resource Include="Images\122.bmp" />
+    <Resource Include="Images\123.bmp" />
+    <Resource Include="Images\124.bmp" />
+    <Resource Include="Images\125.bmp" />
+    <Resource Include="Images\126.bmp" />
+    <Resource Include="Images\127.bmp" />
+    <Resource Include="Images\128.bmp" />
+    <Resource Include="Images\129.bmp" />
+    <Resource Include="Images\130.bmp" />
+    <Resource Include="Images\131.bmp" />
+    <Resource Include="Images\132.bmp" />
+    <Resource Include="Images\Boulder1.bmp" />
+    <Resource Include="Images\Boulder2.bmp" />
+    <Resource Include="Images\Boulder3.bmp" />
+    <Resource Include="Images\Boulder4.bmp" />
+    <Resource Include="Images\Butterfly1.gif" />
+    <Resource Include="Images\Butterfly2.gif" />
+    <Resource Include="Images\Butterfly3.gif" />
+    <Resource Include="Images\Butterfly4.gif" />
+    <Resource Include="Images\Diamond1.gif" />
+    <Resource Include="Images\Diamond2.gif" />
+    <Resource Include="Images\Diamond3.gif" />
+    <Resource Include="Images\Diamond4.gif" />
+    <Resource Include="Images\DiamondBirth1.gif" />
+    <Resource Include="Images\DiamondBirth2.gif" />
+    <Resource Include="Images\DiamondBirth3.gif" />
+    <Resource Include="Images\DiamondBirth4.gif" />
+    <Resource Include="Images\ExitClose1.bmp" />
+    <Resource Include="Images\ExitClose2.bmp" />
+    <Resource Include="Images\ExitClose3.bmp" />
+    <Resource Include="Images\ExitClose4.bmp" />
+    <Resource Include="Images\ExitOpen1.bmp" />
+    <Resource Include="Images\ExitOpen2.bmp" />
+    <Resource Include="Images\ExitOpen3.bmp" />
+    <Resource Include="Images\ExitOpen4.bmp" />
+    <Resource Include="Images\Explode.gif" />
+    <Resource Include="Images\Firefly1.gif" />
+    <Resource Include="Images\Firefly2.gif" />
+    <Resource Include="Images\Firefly3.gif" />
+    <Resource Include="Images\Firefly4.gif" />
+    <Resource Include="Images\Rockford.bmp" />
+    <Resource Include="Images\RockfordBirth.gif" />
+    <Resource Include="Images\RockfordBlink.gif" />
+    <Resource Include="Images\RockfordBlinkNTap.gif" />
+    <Resource Include="Images\RockfordLeft.gif" />
+    <Resource Include="Images\RockfordRight.gif" />
+    <Resource Include="Images\RockfordTap.gif" />
+    <Resource Include="Images\TitanWall1.bmp" />
+    <Resource Include="Images\TitanWall2.bmp" />
+    <Resource Include="Images\TitanWall3.bmp" />
+    <Resource Include="Images\TitanWall4.bmp" />
+    <Resource Include="Images\Wall .bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
