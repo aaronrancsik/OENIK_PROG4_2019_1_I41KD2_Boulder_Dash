@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,13 +14,12 @@ namespace NIK.BoulderDash.UI
 {
     public class BoulderControl : FrameworkElement
     {
-        VisualBrush diamonvb;
-        VisualBrush rockfordvb;
         
         DispatcherTimer logicCalcTimer;
         GameLogic logic;
         BoulderDisplay display;
         GameModel model;
+        Dictionary<string, VisualBrush> animatedVisualBrushes = new Dictionary<string, VisualBrush>();
         
         public BoulderControl()
         {
@@ -28,17 +29,8 @@ namespace NIK.BoulderDash.UI
         private void BoulderControl_Loaded(object sender, RoutedEventArgs e)
         {
             Window win = Window.GetWindow(this);
-            if (win != null)
+            if (true)
             {
-                timer = new DispatcherTimer();
-                timer2 = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromMilliseconds(MOVETIME);
-                timer2.Interval = TimeSpan.FromMilliseconds(MOVETIME);
-                timer.Tick += timerTick;
-                timer2.Tick += timerTick2;
-
-               
-                Task.Delay(MOVETIME*2).ContinueWith(_ =>
                 logicCalcTimer = new DispatcherTimer();      
                 logicCalcTimer.Interval = TimeSpan.FromMilliseconds(GameModel.MOVETIME);
                 logicCalcTimer.Tick += timerTick;
@@ -46,29 +38,29 @@ namespace NIK.BoulderDash.UI
                 {
                     logicCalcTimer.Start();
                 });
-                Task.Delay(MOVETIME*3).ContinueWith(_ =>
-                {
-                    timer2.Start();
-                });
             }
-            model = new GameModel();
-            logic = new GameLogic(model,Properties.Resources.AL01);
-            display = new BoulderDisplay(model, ActualWidth, ActualHeight, MOVETIME);
-            diamonvb = (FindResource("diamonvb") as VisualBrush);
-            rockfordvb = (FindResource("rockfordvb") as VisualBrush);
-            InvalidateVisual();
-        }
 
-        private void timerTick2(object sender, EventArgs e)
-        {
-            
+            foreach (DictionaryEntry item in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true))
+            {
+                if ((item.Value as System.Drawing.Bitmap) != null)
+                {
+                    var brush = TryFindResource(item.Key.ToString());
+                    if (brush is VisualBrush)
+                    {
+                        animatedVisualBrushes[item.Key.ToString()] = brush as VisualBrush;
+                    }
+                }
+            }
+
+            logic = new GameLogic();
+            model = logic.LoadLevel(Properties.Resources.AL03);
+            InvalidateVisual();
         }
 
         private void timerTick(object sender, EventArgs e)
         {
             logic.OneTick();
             InvalidateVisual();
-
         }
 
         protected override void OnRender(DrawingContext drawingContext)
