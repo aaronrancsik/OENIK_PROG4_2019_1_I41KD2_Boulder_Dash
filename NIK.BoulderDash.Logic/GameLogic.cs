@@ -15,77 +15,79 @@ namespace NIK.BoulderDash.Logic
         
         static Random rnd = new Random();
         GameModel model;
-        public GameLogic(GameModel model, byte[] levelResource)
+        int width;
+        int height;
+        
+        public GameLogic()
         {
-            this.model = model;
-            LoadLevel(levelResource);
         }
 
-        public void LoadLevel(byte[] levelResource)
+        public GameModel LoadLevel(byte[] levelResource)
         {
-            string[] lines = Encoding.ASCII.GetString(levelResource).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-            int width = int.Parse(lines[0]); //cella szeleseeg, magasseg
-            int height = int.Parse(lines[1]);
+            string[] lines = LoadFileLinesFromResource(levelResource);
+            width = int.Parse(lines[0]); //cella szeleseeg, magasseg
+            height = int.Parse(lines[1]);
+            GameModel model = new GameModel(width, height);
+            this.model = model;
             model.RequireDiamonds = int.Parse(lines[2]);
-            int textureSet = int.Parse(lines[3]);
-
-            model.DirtMatrix = new Dirt[width, height];
-            model.TitaniumMatrix = new bool[width, height];
-            model.WallMatrix = new bool[width, height];
-
-            model.Blocks = new DynamicBlock[width, height];
-
+            model.TextureSet = int.Parse(lines[3]);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    char current = lines[y + 4][x];
+                    char current = lines[y+4][x];
                     var point = new Point(x, y);
-                    var initPrev = new Point(-1, -1);
+                    var initPrev = new Point(x, y);
                     switch (current)
                     {
                         case 'w':
                             model.WallMatrix[x, y] = true;
                             break;
                         case 'X':
-                            model.Player = new Player();
-                            model.Player.TilePosition = point;
-                            model.Player.TileOldPosition = initPrev;
-                            model.Blocks[x, y] = model.Player;
+                            model.Rockford = new Rockford();
+                            model.Rockford.TilePosition = point;
+                            model.Rockford.TileOldPosition = initPrev;
                             break;
                         case 'P':
-                            model.ExitPistition = new Point(x, y);
+                            
+                            model.Exit.TilePosition = new Point(x, y);
                             break;
                         case 'r':
                             var boulder = new Blocks.Boulder();
                             boulder.TilePosition = point;
                             boulder.TileOldPosition = initPrev;
-                            model.Boulders.Add(boulder);
-                            model.Blocks[x, y] = boulder;
+                            boulder.Variant= rnd.Next(1, 5);
+                            model.Boulders[x,y]=boulder;
                             break;
                         case 'd':
                             var diamond = new Blocks.Diamond();
                             diamond.TilePosition = point;
                             diamond.TileOldPosition = initPrev;
-                            model.Diamonds.Add(diamond);
-                            model.Blocks[x, y] = diamond;
+                            model.Diamonds[x,y] = diamond;
                             break;
                         case '.':
-                            var dirt = new Dirt();
+                            var dirt = new Blocks.Dirt();
                             dirt.Variant = rnd.Next(1, 5);
                             model.DirtMatrix[x, y] = dirt;
                             break;
                         case 'W':
                             model.TitaniumMatrix[x, y] = true;
                             break;
+                        case 'q':
+                            model.Fireflies[x, y] = new Firefly(point);
+                            break;
                     }
                 }
             }
+            CameraFollowRockford();
+            model.Rockford.Direaction = State.Birth;
+            return model;
         }
-        
-        private void Move(Direction dir) //mozgas validalas ha tobbet si tud mozogni akkor bonyi
+
+        private string[] LoadFileLinesFromResource(byte[] levelResource)
         {
-            model.Player.TileOldPosition = model.Player.TilePosition;
+            return Encoding.ASCII.GetString(levelResource).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+        }
 
             int x = (int)model.Player.TilePosition.X;
             int y = (int)model.Player.TilePosition.Y;
