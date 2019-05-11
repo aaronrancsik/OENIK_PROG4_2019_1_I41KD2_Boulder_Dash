@@ -10,7 +10,7 @@ using NIK;
 namespace NIK.BoulderDash.Logic
 {
     public enum Direction { Up, Down, Left, Right };
-    public class GameLogic : IGameLogic
+    public class GameLogic
     {
         
         static Random rnd = new Random();

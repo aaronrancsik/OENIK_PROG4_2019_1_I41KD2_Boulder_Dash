@@ -17,7 +17,7 @@ namespace NIK.BoulderDash.UI
         DispatcherTimer timer2;
         VisualBrush diamonvb;
         VisualBrush rockfordvb;
-        IGameLogic logic;
+        GameLogic logic;
         BoulderDisplay display;
         GameModel model;
         
