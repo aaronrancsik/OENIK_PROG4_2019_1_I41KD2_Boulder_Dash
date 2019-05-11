@@ -333,6 +333,41 @@ namespace NIK.BoulderDash.UI
             return dg; //TODO minimalize new calls
         }
 
+        GeometryGroup explodeGG = new GeometryGroup();
+        private Drawing getExplodeDrawing(VisualBrush visualBrush)
+        {
+            visualBrush.TileMode = TileMode.Tile;
+            visualBrush.Viewport = new Rect(0, 0, TileSize, TileSize);
+            visualBrush.ViewportUnits = BrushMappingMode.Absolute;
 
+            List<Geometry> marked = new List<Geometry>();
+            foreach (var item in explodeGG.Children)
+            {
+                int y = (int)((item as RectangleGeometry).Rect.Y/TileSize);
+                int x = (int)((item as RectangleGeometry).Rect.X/TileSize);
+                if (model.Explosion[x,y] == 0)
+                {
+                    marked.Add(item);
+                } 
+            }
+            foreach (var item in marked)
+            {
+                explodeGG.Children.Remove(item);
+            }
+
+            for (int x = 0; x < model.Width; x++)
+            {
+                for (int y = 0; y < model.Height; y++)
+                {
+                    if(model.Explosion[x,y]>0)
+                        explodeGG.Children.Add(new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize)));
+                    else if (model.Explosion[x, y] == 0)
+                    {
+                    
+                    }
+                }
+            }
+            return new GeometryDrawing(visualBrush, null, explodeGG);
+        }
     }
 }
