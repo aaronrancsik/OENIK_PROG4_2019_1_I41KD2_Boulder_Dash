@@ -67,7 +67,6 @@
     <Compile Include="Blocks\DynamicBlock.cs" />
     <Compile Include="Blocks\Block.cs" />
     <Compile Include="Blocks\Exit.cs" />
-    <Compile Include="Blocks\Firefly.cs" />
     <Compile Include="Blocks\IVariable.cs" />
     <Compile Include="Blocks\Titanium.cs" />
     <Compile Include="Blocks\Wall.cs" />
