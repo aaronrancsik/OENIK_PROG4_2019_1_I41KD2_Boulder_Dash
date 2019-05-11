@@ -179,21 +179,28 @@ namespace NIK.BoulderDash.UI
             }
             return ggg;
         }
-        private Drawing GetDirts()
+
+        DrawingGroup dirtGeoDraw = new DrawingGroup();
+        private Drawing getDirtsDrawing()
         {
-            GeometryGroup gg = new GeometryGroup();
+            dirtGeoDraw = new DrawingGroup();
             for (int x = 0; x < model.DirtMatrix.GetLength(0); x++)
             {
                 for (int y = 0; y < model.DirtMatrix.GetLength(1); y++)
                 {
                     if (model.DirtMatrix[x, y]!=null)
                     {
-                        Geometry box = new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize));
-                        gg.Children.Add(box);
+                        Brush a;
+                        a = assetBrushes["_" + (93 + (model.TextureSet * 4) + (model.DirtMatrix[x, y].Variant - 1)).ToString("000")];
+                        dirtGeoDraw.Children.Add(new GeometryDrawing(a, null, new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize))));
                     }
                 }
             }
-            return new GeometryDrawing(dirtBrush, null, gg);
+
+            
+            
+           
+            return dirtGeoDraw;
         }
         private Drawing GetWalls()
         {
