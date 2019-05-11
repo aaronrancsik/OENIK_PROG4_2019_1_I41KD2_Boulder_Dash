@@ -105,7 +105,7 @@ namespace NIK.BoulderDash.Logic
             
         }
 
-        private bool validatePlayerMove(Direction dir, ref int x, ref int y)
+        private bool tryMove(Direction dir, ref int x, ref int y)
         {
             switch (dir)
             {
@@ -136,57 +136,142 @@ namespace NIK.BoulderDash.Logic
             if (model.WallMatrix[x, y])
                 return false;
 
-            bool[,] boulders = new bool[model.WallMatrix.GetLength(0), model.WallMatrix.GetLength(1)];
-            foreach (var bo in model.Boulders)
-            {
-                boulders[(int)bo.TilePosition.X, (int)bo.TilePosition.Y] = true;
-            }
+            if (!model.Exit.IsOpen && model.Exit.TilePosition.Equals(new Point(x, y)))
+                return false;
 
-            if ((dir==Direction.Up || dir == Direction.Down) && boulders[x,y])
+
+            if ((dir==Direction.Up || dir == Direction.Down) && model.Boulders[x,y]!=null)
             {
                 return false;
             }
-
-            if(dir==Direction.Left)
+            bool rollLuck = rnd.Next(100) < 30;
+            if (dir==Direction.Left)
             {
-                if (boulders[x, y]
-                     &&
-                     (boulders[x - 1, y]|| model.WallMatrix[x - 1, y] || model.TitaniumMatrix[x - 1, y]))
+                if (model.Boulders[x, y]!=null)
                 {
-                    return false;
+                    if (!nothingHere(x-1,y))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        if (rollLuck) //rnd.Next(100) < 20
+                        {
+                            model.Boulders[x, y].TileOldPosition = model.Boulders[x, y].TilePosition;
+                            model.Boulders[x, y].TilePosition.X -= 1;
+
+                            model.Boulders[x - 1, y] = model.Boulders[x, y];
+                            model.Boulders[x, y] = null;
+
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
+
 
             if(dir == Direction.Right)
             {
-                if (boulders[x, y]
-                   &&
-                   boulders[x + 1, y])
+                if (model.Boulders[x, y]!=null)
                 {
-                    return false;
-                }
+                    if(!nothingHere(x+1, y))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        if (rollLuck)
+                        {
+                            model.Boulders[x, y].TileOldPosition = model.Boulders[x, y].TilePosition;
+                            model.Boulders[x, y].TilePosition.X += 1;
+
+                            model.Boulders[x + 1, y] = model.Boulders[x, y];
+                            model.Boulders[x, y] = null;
+
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }  
             }
-
-            if(dir == Direction.Right)
-            {
-                if (boulders[x, y] && !checkAny(x+1, y))
-                {
-                    return false;
-                }
-            }
-
-            if (dir == Direction.Left)
-            {
-                if (boulders[x, y] && !checkAny(x-1, y))
-                {
-                    return false;
-                }
-            }
-
-
 
 
             return true;
+        }
+
+        private bool nothingHere(int x, int y)
+        {
+            if (y >= model.Height)
+                return true;
+            if (x >= model.Width)
+                return true;
+
+            if (model.Rockford!=null && (x == model.Rockford.TilePosition.X && y == model.Rockford.TilePosition.Y))
+                return false;
+
+            if (model.WallMatrix[x, y])
+                return false;
+
+            if (model.TitaniumMatrix[x, y])
+                return false;
+
+            if (null != model.DirtMatrix[x, y])
+                return false;
+
+            if ((x == model.Exit.TilePosition.X && y == model.Exit.TilePosition.Y))
+                return false;
+
+            if (model.Boulders[x, y] != null)
+                return false;
+
+            if (model.Diamonds[x, y] != null)
+                return false;
+
+            return true;
+
+        }
+
+        public void OneTick()
+        {
+            ReduceAllExplodes();
+
+            CheckExit();
+
+            DoFallings();
+
+            DoLeftRolls();
+
+            DoRightRolls();
+           
+
+            if (model.GameOver)
+            {
+                return;
+            }
+
+            DeleteDirtUnderRockford();
+
+
+            //foreach (var f in model.Fireflies)
+            //{
+            //    for (int i = 0; i < length; i++)
+            //    {
+
+            //    }
+            //    f.Step()
+            //}
+
+            UserInput();
+
+            CollectDiamondUnderRockford();
+
+            CameraFollowRockford();
+
         }
 
         private bool checkAny(int x, int y)
