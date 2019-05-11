@@ -52,65 +52,22 @@ namespace NIK.BoulderDash.UI
                 item.Value.Viewport = new Rect(0, 0, TileSize, TileSize);
             }
 
-            dirtBrush = GetDirtBrush();
-            rockBrush = GetRockBrush();
-            wallBrush = GetWallBrush();
-
-            exit = GetExit();
-            bg = GetBackground();
-            walls = GetWalls();
-            titaniums = GetTitaniums();
-            playerGeo = new RectangleGeometry(new Rect(0, 0, TileSize, TileSize));
+            
+            titaniums = createTitaniumDrawing();
         }
-
-        Brush GetBrush(ImageSource image)
-        {
-
-            ImageBrush i = new ImageBrush();
-            ImageBrush ib = new ImageBrush(image);
-
-            ib.TileMode = TileMode.Tile;
-            //ib.Viewbox  //Only if multiple textures, atlasnak kell
-            ib.Viewport = new Rect(0, 0, TileSize, TileSize);
-            ib.ViewportUnits = BrushMappingMode.Absolute; //view box;
-            return ib;
-        }
-        private Brush GetRockBrush()
-        {
-            var p = Properties.Resources.Boulder1;
-            return GetBrush(Bitmap2BitmapImageSource(p));
-        }
-        private Brush GetDirtBrush()
-        {
-            var p = Properties.Resources._105;
-            return GetBrush(Bitmap2BitmapImageSource(p));
-        }
-        private Brush GetWallBrush()
-        {
-            var p = Properties.Resources.Wall;
-            return GetBrush(Bitmap2BitmapImageSource(p));
-        }
-        private Brush GetExitBrush()
-        {
-            var p = Properties.Resources.ExitClose1;
-            return GetBrush(Bitmap2BitmapImageSource(p));
-        }
-        private Brush getTitanimBrush()
-        {
-            var p = Properties.Resources.TitanWall1;
-            return GetBrush(Bitmap2BitmapImageSource(p));
-        }
-
         private ImageSource Bitmap2BitmapImageSource(System.Drawing.Bitmap bitmap)
         {
-            System.Windows.Media.Imaging.BitmapSource i =
+            var i =
                 System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                            bitmap.GetHbitmap(),
                            IntPtr.Zero,
                            Int32Rect.Empty,
                            System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions()
                 );
+            bitmap.Dispose();
+            
             return i;
+
         }
 
         Dictionary<Logic.Blocks.Boulder, Brush> boulderBrushCache = new Dictionary<Logic.Blocks.Boulder, Brush>();
@@ -216,16 +173,12 @@ namespace NIK.BoulderDash.UI
                     }
                 }
             }
-            var ret = new GeometryDrawing(wallBrush, null, wallgeo);
-            
+            var ret = new GeometryDrawing(assetBrushes[nameof(Properties.Resources.Wall)], null, wallgeo);
             return ret;
         }
-        private Drawing GetExit()
-        {
-            Geometry g = new RectangleGeometry(new Rect(model.ExitPistition.X * TileSize, model.ExitPistition.Y * TileSize, TileSize, TileSize));
-            return new GeometryDrawing(GetExitBrush(), null, g);
-        }
-        private Drawing GetTitaniums()
+
+        Drawing titaniums;
+        private Drawing createTitaniumDrawing()
         {
             GeometryGroup tianiumGeo = new GeometryGroup();
             for (int x = 0; x < model.TitaniumMatrix.GetLength(0); x++)
