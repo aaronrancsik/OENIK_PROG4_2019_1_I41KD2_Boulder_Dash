@@ -27,6 +27,7 @@ namespace NIK.BoulderDash.Logic
         public bool GameOver { get; set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public const int MOVETIME = 130;
         public int TextureSet { get; set; }
         public Camera Camera { get; set; }
         public int CollectedDiamonds { get; set; }
