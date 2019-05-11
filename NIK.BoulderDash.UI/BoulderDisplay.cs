@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using NIK.BoulderDash.Logic;
+using NIK.BoulderDash.Logic.Blocks;
 
 namespace NIK.BoulderDash.UI
 {
@@ -18,31 +20,37 @@ namespace NIK.BoulderDash.UI
         double width;
         double height;
         public double TileSize { get; private set; }
+        Dictionary<string, Brush> assetBrushes = new Dictionary<string, Brush>();
+        Dictionary<string, VisualBrush> animatedVisualBrushes = new Dictionary<string, VisualBrush>();
 
-        Brush dirtBrush;
-        Brush rockBrush;
-        Brush wallBrush;
-        Brush blackBrush = Brushes.Black;
-
-        Drawing bg;
-        Drawing walls;
-        Drawing titaniums;
-        Drawing exit;
-
-        Geometry playerGeo;
-
-        public BoulderDisplay(GameModel model, double w, double h, int MOVETIME)
+        public BoulderDisplay(GameModel model, double w, double h, int MOVETIME, Dictionary<string, VisualBrush> animatedVisualBrushes)
         {
-            this.MOVETIME = MOVETIME;
+            this.animatedVisualBrushes = animatedVisualBrushes;
+            this.MOVETIME = (int)MOVETIME;
             this.model = model;
             this.width = w;
             this.height = h;
 
             TileSize = Math.Min(
-                w / model.Camera.Width,
-                h / model.Camera.Height
+                w / model.Camera.AngleWidthTile,
+                h / model.Camera.AngleHeightTile
             );
 
+            foreach (DictionaryEntry item in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true))
+            {
+                if ((item.Value as System.Drawing.Bitmap) != null)
+                {
+                    ImageBrush ib = new ImageBrush(Bitmap2BitmapImageSource(item.Value as System.Drawing.Bitmap));
+                    ib.TileMode = TileMode.Tile;
+                    ib.Viewport = new Rect(0, 0, TileSize, TileSize);
+                    ib.ViewportUnits = BrushMappingMode.Absolute;
+                    assetBrushes[item.Key.ToString()] = ib;
+                }
+            }
+            foreach (var item in animatedVisualBrushes)
+            {
+                item.Value.Viewport = new Rect(0, 0, TileSize, TileSize);
+            }
 
             dirtBrush = GetDirtBrush();
             rockBrush = GetRockBrush();

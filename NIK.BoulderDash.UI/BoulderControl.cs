@@ -54,6 +54,7 @@ namespace NIK.BoulderDash.UI
 
             logic = new GameLogic();
             model = logic.LoadLevel(Properties.Resources.AL03);
+            display = new BoulderDisplay(model, ActualWidth, ActualHeight, GameModel.MOVETIME, animatedVisualBrushes);
             InvalidateVisual();
         }
 
@@ -67,7 +68,7 @@ namespace NIK.BoulderDash.UI
         {
             if (display != null)
             {
-                drawingContext.DrawDrawing(display.BuildDrawing(diamonvb, rockfordvb));
+                drawingContext.DrawDrawing(display.BuildDrawing());
             }
         }
     }
