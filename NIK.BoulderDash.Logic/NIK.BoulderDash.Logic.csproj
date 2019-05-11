@@ -70,6 +70,7 @@
     <Compile Include="Blocks\IVariable.cs" />
     <Compile Include="Blocks\Titanium.cs" />
     <Compile Include="Blocks\Wall.cs" />
+    <Compile Include="Butterfly.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Blocks\Dirt.cs" />
     <Compile Include="Enemie.cs" />

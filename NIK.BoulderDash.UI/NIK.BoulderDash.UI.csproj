@@ -118,6 +118,7 @@
     <None Include="Levels\AL03.lvl" />
     <None Include="Levels\AL10.lvl" />
     <None Include="Levels\AL10test.lvl" />
+    <None Include="Levels\AL14.lvl" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
