@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic.Blocks
 {
-    class Wall : Block, IVariable
+    public class Wall : Block, IVariable
     {
         public Wall() : base(true) { }
         public int Variant { get; set; }
