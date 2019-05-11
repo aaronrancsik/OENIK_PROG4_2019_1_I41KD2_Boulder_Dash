@@ -15,7 +15,7 @@ namespace NIK.BoulderDash.Logic
             TilePosition = initPosition;
             TileOldPosition = initPosition;
         }
-        Direction moveDirection= Direction.Left;
+
         Direction faceDirection= Direction.Down;
         private Direction GetLeft()
         {
@@ -41,18 +41,6 @@ namespace NIK.BoulderDash.Logic
                 return Direction.Right;
             throw new Exception("Bad direction");
         }
-        public Direction Direction
-        {
-            get
-            {
-                return moveDirection;
-            }
-
-            set
-            {
-                moveDirection = value;
-            }
-        }
 
         public Point unit(Direction dir)
         {
@@ -62,15 +50,15 @@ namespace NIK.BoulderDash.Logic
                 {
                     return new Point(TilePosition.X - 1, TilePosition.Y);
                 }
-                else if(faceDirection == Direction.Right)
+                else if(dir == Direction.Right)
                 {
                     return new Point(TilePosition.X + 1, TilePosition.Y);
                 }
-                else if (faceDirection == Direction.Up)
+                else if (dir == Direction.Up)
                 {
                     return new Point(TilePosition.X, TilePosition.Y-1);
                 }
-                else if (faceDirection == Direction.Down)
+                else if (dir == Direction.Down)
                 {
                     return new Point(TilePosition.X, TilePosition.Y+1);
                 }
@@ -82,15 +70,15 @@ namespace NIK.BoulderDash.Logic
                     return new Point(TilePosition.X + 1, TilePosition.Y);
                     
                 }
-                else if (faceDirection == Direction.Right)
+                else if (dir == Direction.Right)
                 {
                     return new Point(TilePosition.X - 1, TilePosition.Y);
                 }
-                else if (faceDirection == Direction.Up)
+                else if (dir == Direction.Up)
                 {
                     return new Point(TilePosition.X, TilePosition.Y + 1);
                 }
-                else if (faceDirection == Direction.Down)
+                else if (dir == Direction.Down)
                 {
                     return new Point(TilePosition.X, TilePosition.Y - 1);
                 }
@@ -101,17 +89,17 @@ namespace NIK.BoulderDash.Logic
                 {
                     return new Point(TilePosition.X, TilePosition.Y + 1);
                 }
-                else if (faceDirection == Direction.Right)
+                else if (dir == Direction.Right)
                 {
                     return new Point(TilePosition.X, TilePosition.Y - 1);
                     
                 }
-                else if (faceDirection == Direction.Up)
+                else if (dir == Direction.Up)
                 {
                     return new Point(TilePosition.X - 1, TilePosition.Y);
                     
                 }
-                else if (faceDirection == Direction.Down)
+                else if (dir == Direction.Down)
                 {
                     return new Point(TilePosition.X + 1, TilePosition.Y);
                 }
@@ -122,15 +110,15 @@ namespace NIK.BoulderDash.Logic
                 {
                     return new Point(TilePosition.X, TilePosition.Y - 1);
                 }
-                else if (faceDirection == Direction.Right)
+                else if (dir == Direction.Right)
                 {
                     return new Point(TilePosition.X, TilePosition.Y + 1);
                 }
-                else if (faceDirection == Direction.Up)
+                else if (dir == Direction.Up)
                 {
                     return new Point(TilePosition.X + 1, TilePosition.Y);
                 }
-                else if (faceDirection == Direction.Down)
+                else if (dir == Direction.Down)
                 {
                     return new Point(TilePosition.X - 1, TilePosition.Y);
                 }
@@ -142,11 +130,12 @@ namespace NIK.BoulderDash.Logic
         {
             var primTarget = unit(Direction.Left);
             var secTarget = unit(Direction.Up);
-            if (!obstacle[(int)(TilePosition.X+primTarget.X), (int)(TilePosition.Y+primTarget.Y)])
+            if (!obstacle[(int)primTarget.X, (int)primTarget.Y])
             {
+                faceDirection = GetLeft();
                 move(primTarget);
             }
-            else if(!obstacle[(int)(TilePosition.X + secTarget.X), (int)(TilePosition.Y + secTarget.Y)])
+            else if(!obstacle[(int)secTarget.X, (int)secTarget.Y])
             {
                 move(secTarget);
             }
@@ -158,8 +147,10 @@ namespace NIK.BoulderDash.Logic
 
         private void move(Point p)
         {
-            TileOldPosition.X += p.X;
-            TileOldPosition.Y += p.Y;
+            TileOldPosition = TilePosition;
+            TilePosition.X = p.X;
+            TilePosition.Y = p.Y;
+            
         } 
     }
 }
