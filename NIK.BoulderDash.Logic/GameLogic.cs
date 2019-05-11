@@ -583,5 +583,10 @@ namespace NIK.BoulderDash.Logic
             }
            
         }
+
+        public bool CollectedEnought()
+        {
+            return model.RequireDiamonds <= model.CollectedDiamonds;
+        }
     }
 }
