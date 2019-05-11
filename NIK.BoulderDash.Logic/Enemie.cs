@@ -131,5 +131,8 @@ namespace NIK.BoulderDash.Logic
             return new Point(0, 0);
 
         }
+
+
+
     }
 }
