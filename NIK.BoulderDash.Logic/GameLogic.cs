@@ -232,6 +232,9 @@ namespace NIK.BoulderDash.Logic
             if (model.Diamonds[x, y] != null)
                 return false;
 
+            if (model.Fireflies[x, y] != null)
+                return false;
+
             return true;
 
         }
@@ -256,15 +259,29 @@ namespace NIK.BoulderDash.Logic
 
             DeleteDirtUnderRockford();
 
+            List<Logic.Firefly> moved = new List<Firefly>();
+            foreach (var f in model.Fireflies)
+            {
+                if (f != null && !moved.Contains(f))
+                {
+                    bool[,] obs = new bool[width, height];
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            obs[x, y] = !nothingHere(x, y);
+                        }
+                    }
+                    int xx = (int)f.TilePosition.X;
+                    int yy = (int)f.TilePosition.Y;
+                    f.Step(obs);
+                    moved.Add(f);
+                    model.Fireflies[xx, yy] = null;
+                    model.Fireflies[(int)f.TilePosition.X, (int)f.TilePosition.Y] = f;
 
-            //foreach (var f in model.Fireflies)
-            //{
-            //    for (int i = 0; i < length; i++)
-            //    {
+                }
 
-            //    }
-            //    f.Step()
-            //}
+            }
 
             UserInput();
 
