@@ -8,5 +8,8 @@ namespace NIK.BoulderDash.Logic.Blocks
 {
     public class Diamond : DynamicBlock
     {
+        public Diamond() : base(false, true)
+        {
+        }
     }
 }

@@ -8,5 +8,8 @@ namespace NIK.BoulderDash.Logic
 {
     public class Enemie
     {
+        public Enemie() : base(true, false)
+        {
+        }
     }
 }

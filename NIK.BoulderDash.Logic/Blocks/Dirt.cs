@@ -9,6 +9,10 @@ namespace NIK.BoulderDash.Logic.Blocks
 {
     public class Dirt : Block, IVariable
     {
+        public Dirt():base(false)
+        {
+
+        }
         public int Variant { get; set; }
     }
 }

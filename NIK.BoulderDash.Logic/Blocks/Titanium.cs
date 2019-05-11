@@ -8,6 +8,7 @@ namespace NIK.BoulderDash.Logic.Blocks
 {
     class Titanium: Block, IVariable
     {
+        public Titanium():base(false) { }
         public int Variant { get; set; }
     }
 }

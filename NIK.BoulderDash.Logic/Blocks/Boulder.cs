@@ -8,5 +8,9 @@ namespace NIK.BoulderDash.Logic.Blocks
 {
     public class Boulder: DynamicBlock
     {
+        public Boulder():base(false, true)
+        {
+        }
+
     }
 }

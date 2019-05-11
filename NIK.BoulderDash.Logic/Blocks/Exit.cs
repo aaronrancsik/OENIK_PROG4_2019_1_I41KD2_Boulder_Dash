@@ -9,5 +9,6 @@ namespace NIK.BoulderDash.Logic.Blocks
     class Exit: Block, IVariable
     {
         public int Variant { get; set; }
+        public Exit() : base(false, false) { }
     }
 }
