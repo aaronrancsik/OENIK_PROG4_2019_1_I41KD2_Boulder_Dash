@@ -11,4 +11,3 @@ explode 120
 
 kamera kezdeti pozi fontos sajnos
 
-'nothngHere' need update for enemies
