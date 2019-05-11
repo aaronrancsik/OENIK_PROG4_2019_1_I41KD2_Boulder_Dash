@@ -25,6 +25,6 @@ namespace NIK.BoulderDash.Logic
         public Dirt[,] DirtMatrix { get; set; }
         public bool[,] TitaniumMatrix { get; set; }
         public bool[,] WallMatrix { get; set; }
-        public Player Player { get; set; }
+        public Rockford Rockford { get; set; }
     }
 }
