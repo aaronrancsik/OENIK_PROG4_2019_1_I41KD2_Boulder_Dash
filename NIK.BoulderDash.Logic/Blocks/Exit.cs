@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic.Blocks
 {
-    class Exit: Block, IVariable
+    public class Exit: DynamicBlock
     {
-        public int Variant { get; set; }
         public Exit() : base(false, false) { }
     }
 }
