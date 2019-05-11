@@ -355,6 +355,7 @@ namespace NIK.BoulderDash.UI
             mainDrGr.Children.Add(getWallsDrawing());
             mainDrGr.Children.Add(getDirtsDrawing());
             mainDrGr.Children.Add(getFirefliesDrawing());
+            mainDrGr.Children.Add(getButterfliesDrawing());
             mainDrGr.Children.Add(getDiamondsDrawing());
            
             
@@ -452,7 +453,7 @@ namespace NIK.BoulderDash.UI
             return new GeometryDrawing(visualBrush, null, explodeGG);
         }
 
-        Dictionary<Logic.Firefly, VisualBrush> visualBrushFirefliesCache = new Dictionary<Logic.Firefly, VisualBrush>();
+        Dictionary<Firefly, VisualBrush> visualBrushFirefliesCache = new Dictionary<Firefly, VisualBrush>();
         private Drawing getFirefliesDrawing()
         {
             Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
@@ -501,6 +502,61 @@ namespace NIK.BoulderDash.UI
                         brush.Viewport = new Rect(0, 0, TileSize, TileSize);
                         brush.ViewportUnits = BrushMappingMode.Absolute;
                         brush.Transform = fireFlyTrans;
+                    }
+                }
+            }
+            return ggg;
+        }
+
+        Dictionary<Butterfly, VisualBrush> visualBrushButterfliesCache = new Dictionary<Butterfly, VisualBrush>();
+        private Drawing getButterfliesDrawing()
+        {
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
+            var ggg = new DrawingGroup();
+            foreach (var d in model.Butterflies)
+            {
+                if (d != null)
+                {
+                    TranslateTransform butterflyTrans = new TranslateTransform(d.TilePosition.X * TileSize, d.TilePosition.Y * TileSize);
+                    if (!d.TilePosition.Equals(d.TileOldPosition) && model.Camera.isInStage(d.TilePosition))
+                    {
+
+                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * TileSize, d.TilePosition.X * TileSize, duration);
+                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * TileSize, d.TilePosition.Y * TileSize, duration);
+                        animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                        animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+
+                        butterflyTrans.BeginAnimation(TranslateTransform.XProperty, animX);
+                        butterflyTrans.BeginAnimation(TranslateTransform.YProperty, animY);
+
+                    }
+
+
+                    Geometry butterflyGeo = new RectangleGeometry(new Rect(0, 0, TileSize, TileSize));
+                    butterflyGeo.Transform = butterflyTrans;
+                    d.TileOldPosition = d.TilePosition;
+                    if (model.Camera.isInStage(d.TilePosition))
+                    {
+                        VisualBrush brush;
+                        if (visualBrushButterfliesCache.ContainsKey(d))
+                        {
+                            brush = visualBrushButterfliesCache[d];
+
+                            ggg.Children.Add(new GeometryDrawing(brush, null, butterflyGeo));
+                        }
+                        else
+                        {
+
+                            brush = animatedVisualBrushes["Butterfly" + model.TextureSet].Clone();
+                            RenderOptions.SetCachingHint(brush, CachingHint.Cache);
+                            visualBrushButterfliesCache[d] = brush;
+
+                            ggg.Children.Add(new GeometryDrawing(brush, null, butterflyGeo));
+                        }
+                        brush.TileMode = TileMode.None;
+                        brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                        brush.ViewportUnits = BrushMappingMode.Absolute;
+                        brush.Transform = butterflyTrans;
                     }
                 }
             }
