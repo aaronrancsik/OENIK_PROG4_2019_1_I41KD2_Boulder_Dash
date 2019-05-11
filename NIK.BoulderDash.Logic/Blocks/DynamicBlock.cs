@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace NIK.BoulderDash.Logic
+namespace NIK.BoulderDash.Logic.Blocks
 {
     public class DynamicBlock: Block
     {
