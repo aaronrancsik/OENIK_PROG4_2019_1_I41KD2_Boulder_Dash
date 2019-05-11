@@ -304,6 +304,58 @@ namespace NIK.BoulderDash.UI
             return ggg;
             
         }
+
+        DrawingGroup mainDrGr = new DrawingGroup();
+        TranslateTransform cropTrans;
+        AnimationClock clockX;
+        AnimationClock clockY;
+        public Drawing BuildDrawing()
+        {
+            double toOffsetX = (1 - model.Camera.Center.X * TileSize) + TileSize * model.Camera.AngleWidthTile / 2;
+            double toOffsetY = (1 - model.Camera.Center.Y * TileSize) + TileSize * model.Camera.AngleHeightTile / 2;
+            double fromOffsetX = (1 - model.Camera.CenterOld.X * TileSize) + TileSize * model.Camera.AngleWidthTile / 2;
+            double fromOffsetY = (1 - model.Camera.CenterOld.Y * TileSize) + TileSize * model.Camera.AngleHeightTile / 2;
+            if (cropTrans == null)
+                cropTrans = new TranslateTransform(toOffsetX, toOffsetY);
+            RenderOptions.SetBitmapScalingMode(mainDrGr, BitmapScalingMode.NearestNeighbor);
+
+            
+            if (!model.Camera.Center.Equals(model.Camera.CenterOld))
+            {
+                Duration durX = new Duration(TimeSpan.FromMilliseconds(MOVETIME*5));
+                Duration durY = new Duration(TimeSpan.FromMilliseconds(MOVETIME*2));
+                DoubleAnimation cropAnimX = new DoubleAnimation(fromOffsetX, toOffsetX , durX);
+                DoubleAnimation cropAnimY = new DoubleAnimation(fromOffsetY, toOffsetY , durY);
+                cropAnimX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.3 };
+                //cropAnimY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                clockX = cropAnimX.CreateClock();
+                clockY = cropAnimY.CreateClock();
+                cropTrans.ApplyAnimationClock(TranslateTransform.XProperty, clockX);
+                cropTrans.ApplyAnimationClock(TranslateTransform.YProperty, clockY);
+                
+            }
+            mainDrGr.Transform = cropTrans;
+            mainDrGr.Children = new DrawingCollection();
+            mainDrGr.Children.Add(getBackGroundDrawing());
+            mainDrGr.Children.Add(titaniums);
+            mainDrGr.Children.Add(getWallsDrawing());
+            mainDrGr.Children.Add(getDirtsDrawing());
+            mainDrGr.Children.Add(getFirefliesDrawing());
+            mainDrGr.Children.Add(getDiamondsDrawing());
+           
+            
+            mainDrGr.Children.Add(getExitDrawing());
+            mainDrGr.Children.Add(getBouldersDrawing());
+            if (!model.GameOver)
+            {
+                mainDrGr.Children.Add(getRockfordDrawing());
+            }
+
+            mainDrGr.Children.Add(getExplodeDrawing(animatedVisualBrushes[nameof(Properties.Resources.Explode)]));
+
+            return mainDrGr; //TODO minimalize new calls
+        }
+
         bool exitCache = false;
         Drawing exit;
         private Drawing getExitDrawing()
@@ -327,30 +379,26 @@ namespace NIK.BoulderDash.UI
             return exit;
            
         }
-        public Drawing BuildDrawing(VisualBrush diamondvb, VisualBrush rockfordvb)
+
+        Drawing bg;
+        private Drawing getBackGroundDrawing()
         {
-            DrawingGroup dg = new DrawingGroup();
-            RenderOptions.SetBitmapScalingMode(dg, BitmapScalingMode.NearestNeighbor);
+            if (model.RequireDiamonds <= model.CollectedDiamonds && model.WhiteBgCount > 0)
+            {
+                bg = new GeometryDrawing(Brushes.White, null, new RectangleGeometry(new Rect(0, 0, model.WallMatrix.GetLength(0) * TileSize, model.WallMatrix.GetLength(1) * TileSize)));
+                model.WhiteBgCount--;
+                if (model.WhiteBgCount == 0)
+                {
+                    bg = null;
+                }  
+            }
+            if (bg == null)
+            {
+                bg = new GeometryDrawing(Brushes.Black, null, new RectangleGeometry(new Rect(0, 0, model.WallMatrix.GetLength(0) * TileSize, model.WallMatrix.GetLength(1) * TileSize)));
+            }
 
-            Duration dur = new Duration(TimeSpan.FromMilliseconds(MOVETIME));
-            DoubleAnimation animX = new DoubleAnimation(-(int)model.Camera.CenterOld.X / 2 * TileSize, -(int)model.Camera.Center.X / 2 * TileSize, dur);
-            DoubleAnimation animY = new DoubleAnimation(-(int)model.Camera.CenterOld.Y / 2 * TileSize, -(int)model.Camera.Center.Y / 2 * TileSize, dur);
-            var trans = new TranslateTransform();
-            trans.BeginAnimation(TranslateTransform.XProperty, animX);
-            trans.BeginAnimation(TranslateTransform.YProperty, animY);
 
-            dg.Children.Add(bg);
-            dg.Children.Add(titaniums);
-            dg.Children.Add(walls);
-            dg.Children.Add(GetDirts());
-            dg.Children.Add(GetDiamonds(diamondvb));
-            dg.Children.Add(GetExit());
-            dg.Children.Add(GetBoulders());
-            dg.Children.Add(GetPlayer(rockfordvb));
-            //dg.ClipGeometry =new RectangleGeometry(new Rect((int)model.Camera.Center.X / 2*TileSize, (int)model.Camera.Center.Y / 2*TileSize, (model.Camera.Width+1)*(TileSize), model.Camera.Height*TileSize));
-            dg.Transform = trans;
-
-            return dg; //TODO minimalize new calls
+            return bg;
         }
 
         GeometryGroup explodeGG = new GeometryGroup();
