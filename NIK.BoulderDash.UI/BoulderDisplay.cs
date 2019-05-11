@@ -202,7 +202,7 @@ namespace NIK.BoulderDash.UI
            
             return dirtGeoDraw;
         }
-        private Drawing GetWalls()
+        private Drawing getWallsDrawing()
         {
             GeometryGroup wallgeo = new GeometryGroup();
             for (int x = 0; x < model.WallMatrix.GetLength(0); x++)
