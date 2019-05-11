@@ -13,6 +13,9 @@ namespace NIK.BoulderDash.Logic
         {
             Width = width;
             Height = height;
+            DirtMatrix = new Dirt[width, height];
+            TitaniumMatrix = new bool[width, height];
+            WallMatrix = new bool[width, height];
             Boulders = new Boulder[width, height];
             Diamonds = new Diamond[width, height];
             Camera = new Camera();
