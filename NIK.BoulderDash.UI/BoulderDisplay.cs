@@ -13,6 +13,11 @@ using NIK.BoulderDash.Logic.Blocks;
 
 namespace NIK.BoulderDash.UI
 {
+    struct Coord
+    {
+        public double x;
+        public double y;
+    }
     public class BoulderDisplay
     {
         int MOVETIME;
@@ -137,19 +142,29 @@ namespace NIK.BoulderDash.UI
             return ggg;
         }
 
-        DrawingGroup dirtGeoDraw = new DrawingGroup();
+        DrawingGroup firtGeoDrawGroup = new DrawingGroup();
+        Dictionary<Coord, GeometryDrawing> dirtGeoDraw = new Dictionary<Coord, GeometryDrawing>();
         private Drawing getDirtsDrawing()
         {
-            dirtGeoDraw = new DrawingGroup();
+            firtGeoDrawGroup = new DrawingGroup();
             for (int x = 0; x < model.DirtMatrix.GetLength(0); x++)
             {
                 for (int y = 0; y < model.DirtMatrix.GetLength(1); y++)
                 {
-                    if (model.DirtMatrix[x, y]!=null)
+                    if (model.DirtMatrix[x, y]!=null && model.Camera.isInStage(new Point(x,y)))
                     {
-                        Brush a;
-                        a = assetBrushes["_" + (93 + (model.TextureSet * 4) + (model.DirtMatrix[x, y].Variant - 1)).ToString("000")];
-                        dirtGeoDraw.Children.Add(new GeometryDrawing(a, null, new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize))));
+                        Brush brush;
+                        brush = assetBrushes["_" + (93 + (model.TextureSet * 4) + (model.DirtMatrix[x, y].Variant - 1)).ToString("000")];
+                        var c = new Coord() { x = x * TileSize, y = y * TileSize };
+                        if (!dirtGeoDraw.ContainsKey(c))
+                        {
+                            dirtGeoDraw[c] = new GeometryDrawing(brush, null, new RectangleGeometry(new Rect(c.x, c.y, TileSize, TileSize)));
+                        }
+                        else
+                        {
+                            firtGeoDrawGroup.Children.Add(dirtGeoDraw[c]);
+                        }
+                        
                     }
                 }
             }
@@ -157,7 +172,7 @@ namespace NIK.BoulderDash.UI
             
             
            
-            return dirtGeoDraw;
+            return firtGeoDrawGroup;
         }
         private Drawing getWallsDrawing()
         {
