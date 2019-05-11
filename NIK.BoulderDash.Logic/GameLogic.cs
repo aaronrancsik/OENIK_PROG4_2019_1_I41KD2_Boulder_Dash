@@ -89,16 +89,20 @@ namespace NIK.BoulderDash.Logic
             return Encoding.ASCII.GetString(levelResource).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-            int x = (int)model.Player.TilePosition.X;
-            int y = (int)model.Player.TilePosition.Y;
+        private void Move(Direction dir)
+        {
+            
+            int x = (int)model.Rockford.TilePosition.X;
+            int y = (int)model.Rockford.TilePosition.Y;
+            
 
-            if (validatePlayerMove(dir, ref x, ref y))
+            model.Rockford.TileOldPosition = model.Rockford.TilePosition;
+            if (tryMove(dir, ref x, ref y))
             {
-                model.Blocks[(int)model.Player.TileOldPosition.X, (int)model.Player.TileOldPosition.Y] = null;
-                model.Player.TilePosition.X = x;
-                model.Player.TilePosition.Y = y;
-                model.Blocks[(int)model.Player.TilePosition.X, (int)model.Player.TilePosition.Y] = model.Player;
+                model.Rockford.TilePosition.X = x;
+                model.Rockford.TilePosition.Y = y;
             }
+            
         }
 
         private bool validatePlayerMove(Direction dir, ref int x, ref int y)
