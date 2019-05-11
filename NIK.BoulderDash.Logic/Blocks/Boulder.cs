@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic.Blocks
 {
-    public class Boulder: DynamicBlock
+    public class Boulder: DynamicBlock, IVariable
     {
         public Boulder():base(false, true)
         {
         }
 
+        public int Variant { get; set; }
     }
 }
