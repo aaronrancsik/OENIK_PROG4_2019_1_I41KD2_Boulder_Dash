@@ -389,5 +389,60 @@ namespace NIK.BoulderDash.UI
             }
             return new GeometryDrawing(visualBrush, null, explodeGG);
         }
+
+        Dictionary<Logic.Firefly, VisualBrush> visualBrushFirefliesCache = new Dictionary<Logic.Firefly, VisualBrush>();
+        private Drawing getFirefliesDrawing()
+        {
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
+            var ggg = new DrawingGroup();
+            foreach (var d in model.Fireflies)
+            {
+                if (d != null)
+                {
+                    TranslateTransform fireFlyTrans = new TranslateTransform(d.TilePosition.X * TileSize, d.TilePosition.Y * TileSize);
+                    if (!d.TilePosition.Equals(d.TileOldPosition) && model.Camera.isInStage(d.TilePosition))
+                    {
+
+                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * TileSize, d.TilePosition.X * TileSize, duration);
+                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * TileSize, d.TilePosition.Y * TileSize, duration);
+                        animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                        animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+
+                        fireFlyTrans.BeginAnimation(TranslateTransform.XProperty, animX);
+                        fireFlyTrans.BeginAnimation(TranslateTransform.YProperty, animY);
+
+                    }
+
+
+                    Geometry fireflyGeo = new RectangleGeometry(new Rect(0, 0, TileSize, TileSize));
+                    fireflyGeo.Transform = fireFlyTrans;
+                    d.TileOldPosition = d.TilePosition;
+                    if (model.Camera.isInStage(d.TilePosition))
+                    {
+                        VisualBrush brush;
+                        if (visualBrushFirefliesCache.ContainsKey(d))
+                        {
+                            brush = visualBrushFirefliesCache[d];
+                            
+                            ggg.Children.Add(new GeometryDrawing(brush, null, fireflyGeo));
+                        }
+                        else
+                        {
+
+                            brush = animatedVisualBrushes["Firefly" + model.TextureSet].Clone();
+                            RenderOptions.SetCachingHint(brush, CachingHint.Cache);
+                            visualBrushFirefliesCache[d] = brush;
+                            
+                            ggg.Children.Add(new GeometryDrawing(brush, null, fireflyGeo));
+                        }
+                        brush.TileMode = TileMode.None;
+                        brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                        brush.ViewportUnits = BrushMappingMode.Absolute;
+                        brush.Transform = fireFlyTrans;
+                    }
+                }
+            }
+            return ggg;
+        }
     }
 }
