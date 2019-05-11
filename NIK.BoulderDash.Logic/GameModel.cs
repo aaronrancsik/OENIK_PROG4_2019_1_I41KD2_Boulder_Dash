@@ -23,7 +23,7 @@ namespace NIK.BoulderDash.Logic
         public Camera Camera { get; set; }
         public int CollectedDiamonds { get; set; }
         public int RequireDiamonds { get; set; }
-        public Point ExitPistition { get; set; }
+        public Exit Exit { get; set; }
         public Diamond[,] Diamonds { get; set; }
         public Boulder[,] Boulders { get; private set; }
         public Dirt[,] DirtMatrix { get; set; }
