@@ -239,13 +239,7 @@ namespace NIK.BoulderDash.UI
                     }
                 }
             }
-            return new GeometryDrawing(getTitanimBrush(), null, tianiumGeo);
-        }
-        private Drawing GetBackground()
-        {
-            Geometry g = new RectangleGeometry(new Rect(0, 0, model.WallMatrix.GetLength(0)*TileSize, model.WallMatrix.GetLength(1) * TileSize));
-
-            return new GeometryDrawing(blackBrush, null, g);
+            return new GeometryDrawing(assetBrushes["TitanWall"+model.TextureSet], null, tianiumGeo);
         }
 
         TranslateTransform rockfordTranslate;
