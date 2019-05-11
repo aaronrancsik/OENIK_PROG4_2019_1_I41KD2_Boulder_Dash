@@ -21,9 +21,21 @@ namespace NIK.BoulderDash.Logic
         public override void Step(bool[,] obstacle)
         {
             var primTarget = calcUnit(Direction.Left);
-            stepping(obstacle, primTarget);
-        }
-        
+            var secTarget = calcUnit(Direction.Up);
+            if (!obstacle[(int)primTarget.X, (int)primTarget.Y])
+            {
+                FaceDirection = GetLeft();
+                move(primTarget);
+            }
+            else if (!obstacle[(int)secTarget.X, (int)secTarget.Y])
+            {
+                move(secTarget);
+            }
+            else
+            {
+                FaceDirection = GetRight();
+            }
 
+        }
     }
 }
