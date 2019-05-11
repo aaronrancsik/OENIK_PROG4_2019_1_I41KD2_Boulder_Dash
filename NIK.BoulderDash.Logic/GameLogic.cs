@@ -342,6 +342,104 @@ namespace NIK.BoulderDash.Logic
                     Move(Direction.Down);
                 }
             }
+        private void DoRightRolls()
+        {
+            List<Blocks.DynamicBlock> markedRollingRight = new List<Blocks.DynamicBlock>();
+            for (int y = model.Height - 1; y >= 0; y--)
+            {
+                for (int x = 0; x < model.Width; x++)
+                {
+                    if (model.Diamonds[x, y] != null)
+                    {
+                        if (isRoundHere(x, y + 1))
+                        {
+
+                            if (nothingHere(x + 1, y + 1) && nothingHere(x + 1, y))
+                            {
+                                markedRollingRight.Add(model.Diamonds[x, y]);
+                            }
+                        }
+                    }
+                    else if (model.Boulders[x, y] != null)
+                    {
+                        if (isRoundHere(x, y + 1))
+                        {
+
+                            if (nothingHere(x + 1, y + 1) && nothingHere(x + 1, y))
+                            {
+                                markedRollingRight.Add(model.Boulders[x, y]);
+                            }
+
+                        }
+                    }
+                }
+            }
+            foreach (var item in markedRollingRight)
+            {
+                if (item is Blocks.Diamond)
+                {
+                    model.Diamonds[(int)item.TilePosition.X, (int)item.TilePosition.Y] = null;
+                    model.Diamonds[(int)item.TilePosition.X + 1, (int)item.TilePosition.Y] = item as Blocks.Diamond;
+
+                }
+                else if (item is Blocks.Boulder)
+                {
+                    model.Boulders[(int)item.TilePosition.X, (int)item.TilePosition.Y] = null;
+                    model.Boulders[(int)item.TilePosition.X + 1, (int)item.TilePosition.Y] = item as Blocks.Boulder;
+                }
+                item.TileOldPosition = item.TilePosition;
+                item.TilePosition.X += 1;
+            }
+        }
+
+        private void DoLeftRolls()
+        {
+            List<Blocks.DynamicBlock> markedRollingLeft = new List<Blocks.DynamicBlock>();
+
+            for (int y = model.Height - 1; y >= 0; y--)
+            {
+                for (int x = 0; x < model.Width; x++)
+                {
+                    if (model.Diamonds[x, y] != null)
+                    {
+                        if (isRoundHere(x, y + 1))
+                        {
+                            if (nothingHere(x - 1, y + 1) && nothingHere(x - 1, y))
+                            {
+                                markedRollingLeft.Add(model.Diamonds[x, y]);
+
+                            }
+                        }
+                    }
+                    else if (model.Boulders[x, y] != null)
+                    {
+                        if (isRoundHere(x, y + 1))
+                        {
+                            if (nothingHere(x - 1, y + 1) && nothingHere(x - 1, y))
+                            {
+                                markedRollingLeft.Add(model.Boulders[x, y]);
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (var item in markedRollingLeft)
+            {
+                if (item is Blocks.Diamond)
+                {
+                    model.Diamonds[(int)item.TilePosition.X, (int)item.TilePosition.Y] = null;
+                    model.Diamonds[(int)item.TilePosition.X - 1, (int)item.TilePosition.Y] = item as Blocks.Diamond;
+
+                }
+                else if (item is Blocks.Boulder)
+                {
+                    model.Boulders[(int)item.TilePosition.X, (int)item.TilePosition.Y] = null;
+                    model.Boulders[(int)item.TilePosition.X - 1, (int)item.TilePosition.Y] = item as Blocks.Boulder;
+                }
+                item.TileOldPosition = item.TilePosition;
+                item.TilePosition.X -= 1;
+            }
+        }
 
             model.Camera.Follow(model.Player.TilePosition);
            
