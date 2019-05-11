@@ -13,6 +13,7 @@ namespace NIK.BoulderDash.Logic.Blocks
         {
             this.Explosive = explosive;
         }
+        public bool Explosive { get; private set; }
         private Point tileOldPosition;
         public ref Point TileOldPosition { get => ref tileOldPosition; }
         private Point tilePosition;
