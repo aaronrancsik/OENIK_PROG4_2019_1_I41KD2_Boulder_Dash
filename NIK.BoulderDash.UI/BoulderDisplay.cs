@@ -248,30 +248,56 @@ namespace NIK.BoulderDash.UI
             return new GeometryDrawing(blackBrush, null, g);
         }
 
-        TranslateTransform myTranslate = new TranslateTransform();
-        private Drawing GetPlayer(VisualBrush rockfordvb)
+        TranslateTransform rockfordTranslate;
+        VisualBrush rockfordVisualBrush;
+        Geometry rockfordGeo;
+        private Drawing getRockfordDrawing()
         {
+            if(rockfordGeo==null)
+                rockfordGeo = new RectangleGeometry(new Rect(0, 0, TileSize, TileSize));
+            if(rockfordTranslate==null)
+                rockfordTranslate = new TranslateTransform(model.Rockford.TilePosition.X * TileSize, model.Rockford.TilePosition.Y*TileSize);
 
-            if (!model.Player.TileOldPosition.Equals(model.Player.TilePosition))
+            if (!model.Rockford.TileOldPosition.Equals(model.Rockford.TilePosition))
             {
                 Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
-                DoubleAnimation animX = new DoubleAnimation(model.Player.TileOldPosition.X * TileSize, model.Player.TilePosition.X * TileSize, duration);
-                DoubleAnimation animY = new DoubleAnimation(model.Player.TileOldPosition.Y * TileSize, model.Player.TilePosition.Y * TileSize, duration);
-                animX.EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseInOut };
-                animY.EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseInOut };
+                DoubleAnimation animX = new DoubleAnimation(model.Rockford.TileOldPosition.X * TileSize, model.Rockford.TilePosition.X * TileSize, duration);
+                DoubleAnimation animY = new DoubleAnimation(model.Rockford.TileOldPosition.Y * TileSize, model.Rockford.TilePosition.Y * TileSize, duration);
+                animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power=1.2 };
+                animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power=1.2 };
 
-                myTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
-                myTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
+                rockfordTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
+                rockfordTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
 
             }
-            playerGeo.Transform = myTranslate;
-            var brush = rockfordvb;
+
+            rockfordGeo.Transform = rockfordTranslate;
+
+            switch (model.Rockford.Direaction)
+            {
+                case State.Left:
+                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordLeft)];
+                    break;
+                case State.Right:
+                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordRight)];
+                    break;
+                case State.Stand:
+                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordTap)];
+                    break;
+                case State.Birth:
+                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordBirth)];
+                    break;
+                default :
+                    rockfordVisualBrush = animatedVisualBrushes[model.Rockford.isLastMoveWasRight ? nameof(Properties.Resources.RockfordRight) : nameof(Properties.Resources.RockfordLeft)];
+                    break;
+            }
+            var brush = rockfordVisualBrush;
             brush.TileMode = TileMode.None;
             brush.Viewport = new Rect(0, 0, TileSize, TileSize);
             brush.ViewportUnits = BrushMappingMode.Absolute;
-            brush.Transform = myTranslate;
-            model.Player.TileOldPosition = model.Player.TilePosition;
-            return new GeometryDrawing(brush, null, playerGeo);
+            brush.Transform = rockfordTranslate;
+            model.Rockford.TileOldPosition = model.Rockford.TilePosition;
+            return new GeometryDrawing(brush, null, rockfordGeo);
         }
         private Drawing GetDiamonds(VisualBrush diamondvv)
         {
