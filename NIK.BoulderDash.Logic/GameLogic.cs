@@ -77,6 +77,9 @@ namespace NIK.BoulderDash.Logic
                         case 'q':
                             model.Fireflies[x, y] = new Firefly(point);
                             break;
+                        case 'B':
+                            model.Butterflies[x, y] = new Butterfly(point);
+                            break;
                     }
                 }
             }
@@ -215,6 +218,12 @@ namespace NIK.BoulderDash.Logic
             if (model.Rockford!=null && (x == model.Rockford.TilePosition.X && y == model.Rockford.TilePosition.Y))
                 return false;
 
+            if (model.Fireflies[x, y] != null)
+                return false;
+
+            if (model.Butterflies[x, y] != null)
+                return false;
+
             if (model.WallMatrix[x, y])
                 return false;
 
@@ -233,8 +242,6 @@ namespace NIK.BoulderDash.Logic
             if (model.Diamonds[x, y] != null)
                 return false;
 
-            if (model.Fireflies[x, y] != null)
-                return false;
 
             return true;
 
@@ -252,9 +259,13 @@ namespace NIK.BoulderDash.Logic
 
             DoRightRolls();
 
-            MoveFireFlies();
+            MoveFireflies();
+
+            MoveButterflies();
 
             FirefliesScan();
+
+            ButterfliesScan();
 
             if (model.GameOver)
             {
@@ -307,8 +318,42 @@ namespace NIK.BoulderDash.Logic
                 }
             }
         }
-
-        private void MoveFireFlies()
+        private void ButterfliesScan()
+        {
+            foreach (var item in model.Butterflies)
+            {
+                bool found = false;
+                if (item != null)
+                {
+                    int[,] m = new int[,] {
+                        {0, 1, 0 },
+                        {1, 1, 1 },
+                        {0, 1, 0 },
+                    };
+                    for (double x = item.TilePosition.X - 1; x < item.TilePosition.X + 2 && !found; x++)
+                    {
+                        for (double y = item.TilePosition.Y - 1; y < item.TilePosition.Y + 2 && !found; y++)
+                        {
+                            int xx = (int)(x - (item.TilePosition.X - 1));
+                            int yy = (int)(y - (item.TilePosition.Y - 1));
+                            if (m[xx, yy] == 1)
+                            {
+                                if (model.Rockford != null && (int)model.Rockford.TilePosition.X == x && (int)model.Rockford.TilePosition.Y == y)
+                                {
+                                    found = true;
+                                    explode((int)x, (int)y);
+                                }
+                            }
+                        }
+                    }
+                    if (found)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+        private void MoveFireflies()
         {
             List<Logic.Firefly> moved = new List<Firefly>();
             foreach (var f in model.Fireflies)
@@ -335,7 +380,33 @@ namespace NIK.BoulderDash.Logic
 
             }
         }
+        private void MoveButterflies()
+        {
+            List<Butterfly> moved = new List<Butterfly>();
+            foreach (var f in model.Butterflies)
+            {
+                if (f != null && !moved.Contains(f))
+                {
+                    bool[,] obs = new bool[width, height];
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            obs[x, y] = !nothingHere(x, y);
+                        }
+                    }
+                    int xx = (int)f.TilePosition.X;
+                    int yy = (int)f.TilePosition.Y;
+                    f.Step(obs);
+                    moved.Add(f);
+                    model.Butterflies[xx, yy] = null;
+                    model.Butterflies[(int)f.TilePosition.X, (int)f.TilePosition.Y] = f;
 
+
+                }
+
+            }
+        }
         private void CameraFollowRockford()
         {
             model.Camera.Follow(model.Rockford.TilePosition);
@@ -601,6 +672,7 @@ namespace NIK.BoulderDash.Logic
         {
             var rockford = model.Rockford != null && model.Rockford.TilePosition.X == centerX && model.Rockford.TilePosition.Y == centerY;
             bool fire = false;
+            bool butter = false;
             foreach (var item in model.Fireflies)
             {
                 if(item != null)
@@ -611,9 +683,20 @@ namespace NIK.BoulderDash.Logic
                         break;
                     }
                 }
-                
             }
-            if (rockford || fire)
+            foreach (var item in model.Butterflies)
+            {
+                if (item != null)
+                {
+                    if (item.TilePosition.X == centerX && item.TilePosition.Y == centerY)
+                    {
+                        butter = true;
+                        break;
+                    }
+                }
+
+            }
+            if (rockford || fire || butter)
             {
                 explode(centerX, centerY);
             }

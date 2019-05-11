@@ -19,6 +19,7 @@ namespace NIK.BoulderDash.Logic
             Boulders = new Boulder[width, height];
             Diamonds = new Diamond[width, height];
             Fireflies = new Firefly[width, height];
+            Butterflies = new Butterfly[width, height];
             Explosion = new int[width, height];
             Camera = new Camera();
             Exit = new Exit();
@@ -37,6 +38,7 @@ namespace NIK.BoulderDash.Logic
         public Boulder[,] Boulders { get; private set; }
         public Dirt[,] DirtMatrix { get; set; }
         public Firefly[,] Fireflies { get; set; }
+        public Butterfly[,] Butterflies { get; set; }
         public bool[,] TitaniumMatrix { get; set; }
         public bool[,] WallMatrix { get; set; }
         public int[,] Explosion { get; set; }
