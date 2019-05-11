@@ -20,6 +20,7 @@ namespace NIK.BoulderDash.Logic
         public DynamicBlock[,] Blocks { get; set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public int TextureSet { get; set; }
         public Camera Camera { get; set; }
         public int CollectedDiamonds { get; set; }
         public int RequireDiamonds { get; set; }
