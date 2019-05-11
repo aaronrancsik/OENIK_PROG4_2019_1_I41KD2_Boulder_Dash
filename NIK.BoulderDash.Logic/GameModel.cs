@@ -24,6 +24,7 @@ namespace NIK.BoulderDash.Logic
             Exit = new Exit();
         }
         public int WhiteBgCount { get; set; } = 2;
+        public bool GameOver { get; set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
         public int TextureSet { get; set; }
