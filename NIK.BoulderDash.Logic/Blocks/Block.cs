@@ -10,5 +10,10 @@ namespace NIK.BoulderDash.Logic.Blocks
 {
     public class Block
     {
+        public Block(bool isRounded)
+        {
+            IsRounded = isRounded;
+        }
+        public bool IsRounded { get; private set; }
     }
 }
