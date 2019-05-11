@@ -7,9 +7,9 @@ using System.Windows;
 using NIK.BoulderDash.Logic.Blocks;
 namespace NIK.BoulderDash.Logic
 {
-    public class GameModel 
+    public class GameModel
     {
-        public GameModel()
+        public GameModel(int width, int height)
         {
             Diamonds = new List<Diamond>();
             Boulders = new List<Boulder>();
