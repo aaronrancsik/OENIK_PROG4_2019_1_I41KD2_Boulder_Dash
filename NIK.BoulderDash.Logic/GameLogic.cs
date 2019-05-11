@@ -342,6 +342,12 @@ namespace NIK.BoulderDash.Logic
                     Move(Direction.Down);
                 }
             }
+
+        private void DeleteDirtUnderRockford()
+        {
+            model.DirtMatrix[(int)model.Rockford.TilePosition.X, (int)model.Rockford.TilePosition.Y] = null;
+        }
+
         private void DoRightRolls()
         {
             List<Blocks.DynamicBlock> markedRollingRight = new List<Blocks.DynamicBlock>();
