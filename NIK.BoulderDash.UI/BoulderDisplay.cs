@@ -304,8 +304,28 @@ namespace NIK.BoulderDash.UI
             return ggg;
             
         }
+        bool exitCache = false;
+        Drawing exit;
+        private Drawing getExitDrawing()
+        {
+            if (model.Exit.IsOpen == exitCache && exit!=null)
+            {
+                return exit;
             }
-            return new GeometryDrawing(diamondvv, null, gg);
+            if (!model.Exit.IsOpen)
+            {
+                exitCache = model.Exit.IsOpen;
+
+                
+                exit = new GeometryDrawing(assetBrushes["ExitClose" + model.TextureSet], null, new RectangleGeometry(new Rect(model.Exit.TilePosition.X * TileSize, model.Exit.TilePosition.Y * TileSize, TileSize, TileSize)));
+            }
+            else 
+            {
+                exitCache = model.Exit.IsOpen;
+                exit = new GeometryDrawing(assetBrushes["ExitOpen" + model.TextureSet], null, new RectangleGeometry(new Rect(model.Exit.TilePosition.X * TileSize, model.Exit.TilePosition.Y * TileSize, TileSize, TileSize)));
+            }
+            return exit;
+           
         }
         public Drawing BuildDrawing(VisualBrush diamondvb, VisualBrush rockfordvb)
         {
