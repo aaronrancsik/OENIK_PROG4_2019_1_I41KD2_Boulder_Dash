@@ -127,7 +127,7 @@ namespace NIK.BoulderDash.Logic
                     break;
             }
 
-            if (x < 0 || x > model.WallMatrix.GetLength(0) || y < 0 || y > model.WallMatrix.GetLength(1))
+            if (x < 0 || x >= model.WallMatrix.GetLength(0) || y < 0 || y >= model.WallMatrix.GetLength(1))
                 return false;
 
             if (model.TitaniumMatrix[x, y])
