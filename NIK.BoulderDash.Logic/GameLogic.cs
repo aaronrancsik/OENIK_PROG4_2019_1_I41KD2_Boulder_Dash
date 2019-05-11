@@ -304,11 +304,13 @@ namespace NIK.BoulderDash.Logic
 
             model.DirtMatrix[(int)model.Player.TilePosition.X, (int)model.Player.TilePosition.Y] = null;
 
+        private void UserInput()
+        {
+            model.Rockford.Direaction = State.Stand;
             if (Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                //if (Keyboard.IsKeyDown(Key.Right))
+                //if (Keyboard.IsKeyDown(Key.D) || Keyboard.IsKeyDown(Key.Right))
                 //{
-                //    Move(Direction.Right);
                 //}
                 //else if (Keyboard.IsKeyDown(Key.Left))
                 //{
@@ -325,23 +327,28 @@ namespace NIK.BoulderDash.Logic
             }
             else
             {
-                if (Keyboard.IsKeyDown(Key.Right))
+                if (Keyboard.IsKeyDown(Key.D) || Keyboard.IsKeyDown(Key.Right))
                 {
+                    model.Rockford.Direaction = State.Right;
                     Move(Direction.Right);
                 }
-                else if (Keyboard.IsKeyDown(Key.Left))
+                else if (Keyboard.IsKeyDown(Key.A) || Keyboard.IsKeyDown(Key.Left))
                 {
+                    model.Rockford.Direaction = State.Left;
                     Move(Direction.Left);
                 }
-                else if (Keyboard.IsKeyDown(Key.Up))
+                else if (Keyboard.IsKeyDown(Key.W) || Keyboard.IsKeyDown(Key.Up))
                 {
+                    model.Rockford.Direaction = State.Up;
                     Move(Direction.Up);
                 }
-                else if (Keyboard.IsKeyDown(Key.Down))
+                else if (Keyboard.IsKeyDown(Key.S) || Keyboard.IsKeyDown(Key.Down))
                 {
+                    model.Rockford.Direaction = State.Down;
                     Move(Direction.Down);
                 }
             }
+        }
 
         private void DeleteDirtUnderRockford()
         {
