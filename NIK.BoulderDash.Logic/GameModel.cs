@@ -21,6 +21,7 @@ namespace NIK.BoulderDash.Logic
             Fireflies = new Firefly[width, height];
             Explosion = new int[width, height];
             Camera = new Camera();
+            Exit = new Exit();
         }
         public int WhiteBgCount { get; set; } = 2;
         public int Width { get; private set; }
