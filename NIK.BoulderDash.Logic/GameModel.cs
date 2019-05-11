@@ -18,6 +18,7 @@ namespace NIK.BoulderDash.Logic
             Camera = new Camera();
         }
         public DynamicBlock[,] Blocks { get; set; }
+        public int WhiteBgCount { get; set; } = 2;
         public int Width { get; private set; }
         public int Height { get; private set; }
         public int TextureSet { get; set; }
