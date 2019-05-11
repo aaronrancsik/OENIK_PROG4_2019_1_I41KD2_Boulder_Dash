@@ -47,6 +47,7 @@ namespace NIK.BoulderDash.Logic
                             model.Rockford = new Rockford();
                             model.Rockford.TilePosition = point;
                             model.Rockford.TileOldPosition = initPrev;
+                            //model.Camera.Follow(point);
                             break;
                         case 'P':
                             
@@ -250,7 +251,10 @@ namespace NIK.BoulderDash.Logic
             DoLeftRolls();
 
             DoRightRolls();
-           
+
+            MoveFireFlies();
+
+            FirefliesScan();
 
             if (model.GameOver)
             {
@@ -259,6 +263,53 @@ namespace NIK.BoulderDash.Logic
 
             DeleteDirtUnderRockford();
 
+            UserInput();
+
+
+            CollectDiamondUnderRockford();
+
+            CameraFollowRockford();
+
+        }
+
+        private void FirefliesScan()
+        {
+            foreach (var item in model.Fireflies)
+            {
+                bool found = false;
+                if (item != null)
+                {
+                    int[,] m = new int[,] {
+                        {0, 1, 0 },
+                        {1, 1, 1 },
+                        {0, 1, 0 },
+                    };
+                    for (double x = item.TilePosition.X - 1; x < item.TilePosition.X + 2 && !found; x++)
+                    {
+                        for (double y = item.TilePosition.Y - 1; y < item.TilePosition.Y + 2 && !found; y++)
+                        {
+                            int xx = (int)(x - (item.TilePosition.X - 1));
+                            int yy = (int)(y - (item.TilePosition.Y - 1));
+                            if (m[xx, yy] == 1)
+                            {
+                                if (model.Rockford != null && (int)model.Rockford.TilePosition.X == x && (int)model.Rockford.TilePosition.Y == y)
+                                {
+                                    found = true;
+                                    explode((int)x, (int)y);
+                                }
+                            }
+                        }
+                    }
+                    if (found)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void MoveFireFlies()
+        {
             List<Logic.Firefly> moved = new List<Firefly>();
             foreach (var f in model.Fireflies)
             {
@@ -278,17 +329,11 @@ namespace NIK.BoulderDash.Logic
                     moved.Add(f);
                     model.Fireflies[xx, yy] = null;
                     model.Fireflies[(int)f.TilePosition.X, (int)f.TilePosition.Y] = f;
+                    
 
                 }
 
             }
-
-            UserInput();
-
-            CollectDiamondUnderRockford();
-
-            CameraFollowRockford();
-
         }
 
         private void CameraFollowRockford()
@@ -554,35 +599,54 @@ namespace NIK.BoulderDash.Logic
         }
         private void TryExplode(int centerX, int centerY)
         {
-            if(model.Rockford!=null && model.Rockford.TilePosition.X == centerX && model.Rockford.TilePosition.Y == centerY)
+            var rockford = model.Rockford != null && model.Rockford.TilePosition.X == centerX && model.Rockford.TilePosition.Y == centerY;
+            bool fire = false;
+            foreach (var item in model.Fireflies)
             {
-                for (int x = centerX - 1; x < centerX + 2; x++)
+                if(item != null)
                 {
-                    for (int y = centerY - 1; y < centerY + 2; y++)
+                    if (item.TilePosition.X == centerX && item.TilePosition.Y == centerY)
                     {
-                        if (x < model.Width && x >= 0 && y < model.Height && y >= 0)
-                        {
-                            model.Explosion[x, y] =2;
-                            model.WallMatrix[x, y] = false;
-                            model.DirtMatrix[x, y] = null;
-                            model.Diamonds[x, y] = null;
-                            model.Boulders[x, y] = null;
-                            model.Fireflies[x, y] = null;
-                            if (model.Rockford != null)
-                            {
-                                if (model.Rockford.TilePosition.X == x && model.Rockford.TilePosition.Y == y)
-                                {
-                                    model.Rockford = null;
-                                    model.GameOver = true;
-                                }
-                            }
-
-                        }
-
+                        fire = true;
+                        break;
                     }
                 }
+                
+            }
+            if (rockford || fire)
+            {
+                explode(centerX, centerY);
             }
            
+        }
+        private void explode(int centerX, int centerY)
+        {
+            for (int x = centerX - 1; x < centerX + 2; x++)
+            {
+                for (int y = centerY - 1; y < centerY + 2; y++)
+                {
+                    if (x < model.Width && x >= 0 && y < model.Height && y >= 0)
+                    {
+                        if (model.Rockford != null)
+                        {
+                            if (model.Rockford.TilePosition.X == x && model.Rockford.TilePosition.Y == y)
+                            {
+                                model.Rockford = null;
+                                model.GameOver = true;
+                            }
+                        }
+                        model.Explosion[x, y] = 2;
+                        model.WallMatrix[x, y] = false;
+                        model.DirtMatrix[x, y] = null;
+                        model.Diamonds[x, y] = null;
+                        model.Boulders[x, y] = null;
+                        model.Fireflies[x, y] = null;
+                        
+
+                    }
+
+                }
+            }
         }
 
         public bool CollectedEnought()
