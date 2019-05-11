@@ -11,8 +11,8 @@ namespace NIK.BoulderDash.Logic
     {
         public GameModel(int width, int height)
         {
-            Diamonds = new List<Diamond>();
-            Boulders = new List<Boulder>();
+            Boulders = new Boulder[width, height];
+            Diamonds = new Diamond[width, height];
             Camera = new Camera();
         }
         public DynamicBlock[,] Blocks { get; set; }
@@ -20,8 +20,8 @@ namespace NIK.BoulderDash.Logic
         public int CollectedDiamonds { get; set; }
         public int RequireDiamonds { get; set; }
         public Point ExitPistition { get; set; }
-        public List<Diamond> Diamonds { get; private set; }
-        public List<Boulder> Boulders { get; private set; }
+        public Diamond[,] Diamonds { get; set; }
+        public Boulder[,] Boulders { get; private set; }
         public Dirt[,] DirtMatrix { get; set; }
         public bool[,] TitaniumMatrix { get; set; }
         public bool[,] WallMatrix { get; set; }
