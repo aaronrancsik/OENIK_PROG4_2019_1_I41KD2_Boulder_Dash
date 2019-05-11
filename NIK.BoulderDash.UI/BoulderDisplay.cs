@@ -147,9 +147,9 @@ namespace NIK.BoulderDash.UI
         private Drawing getDirtsDrawing()
         {
             firtGeoDrawGroup = new DrawingGroup();
-            for (int x = 0; x < model.DirtMatrix.GetLength(0); x++)
+            for (int x = 0; x < model.Width; x++)
             {
-                for (int y = 0; y < model.DirtMatrix.GetLength(1); y++)
+                for (int y = 0; y < model.Height; y++)
                 {
                     if (model.DirtMatrix[x, y]!=null && model.Camera.isInStage(new Point(x,y)))
                     {
@@ -160,10 +160,9 @@ namespace NIK.BoulderDash.UI
                         {
                             dirtGeoDraw[c] = new GeometryDrawing(brush, null, new RectangleGeometry(new Rect(c.x, c.y, TileSize, TileSize)));
                         }
-                        else
-                        {
-                            firtGeoDrawGroup.Children.Add(dirtGeoDraw[c]);
-                        }
+ 
+                        firtGeoDrawGroup.Children.Add(dirtGeoDraw[c]);
+                        
                         
                     }
                 }
