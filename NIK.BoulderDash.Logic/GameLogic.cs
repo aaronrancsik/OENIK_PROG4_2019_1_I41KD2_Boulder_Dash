@@ -455,6 +455,132 @@ namespace NIK.BoulderDash.Logic
         }
 
             model.Camera.Follow(model.Player.TilePosition);
+        private void DoFallings()
+        {
+
+            List<Blocks.DynamicBlock> markedFalling = new List<Blocks.DynamicBlock>();
+
+            for (int y = model.Height - 1; y >= 0; y--)
+            {
+                for (int x = 0; x < model.Width; x++)
+                {
+
+                    if (model.Diamonds[x, y] != null)
+                    {
+
+                        if (nothingHere(x, y + 1))
+                        {
+                            markedFalling.Add(model.Diamonds[x, y]);
+                        }
+                        else
+                        {
+                            if (model.Diamonds[x, y].Falling)
+                            {
+                                model.Diamonds[x, y].Falling = false;
+                                TryExplode(x, y + 1);
+                            }
+
+                        }
+                    }
+                    else if (model.Boulders[x, y] != null)
+                    {
+
+                        if (nothingHere(x, y + 1))
+                        {
+                            markedFalling.Add(model.Boulders[x, y]);
+                        }
+                        else
+                        {
+                            if (model.Boulders[x, y].Falling)
+                            {
+                                model.Boulders[x, y].Falling = false;
+                                TryExplode(x, y + 1);
+                            }
+
+                        }
+                    }
+                }
+            }
+            foreach (var m in markedFalling)
+            {
+                m.Falling = true;
+                if (m is Blocks.Diamond)
+                {
+
+                    model.Diamonds[(int)m.TilePosition.X, (int)m.TilePosition.Y] = null;
+                    model.Diamonds[(int)m.TilePosition.X, (int)m.TilePosition.Y + 1] = m as Blocks.Diamond;
+                }
+                else if (m is Blocks.Boulder)
+                {
+                    model.Boulders[(int)m.TilePosition.X, (int)m.TilePosition.Y] = null;
+                    model.Boulders[(int)m.TilePosition.X, (int)m.TilePosition.Y + 1] = m as Blocks.Boulder;
+                }
+                m.TileOldPosition = m.TilePosition;
+                m.TilePosition.Y++;
+            }
+
+        }
+
+        private void CheckExit()
+        {
+            if (model.RequireDiamonds == model.CollectedDiamonds)
+            {
+                model.Exit.Open();
+            }
+        }
+
+        private bool isRoundHere(int x, int y)
+        {
+            if(model.Diamonds[x,y]!=null || model.Boulders[x, y] != null || model.WallMatrix[x, y])
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void ReduceAllExplodes()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (model.Explosion[x, y] > 0)
+                    {
+                        model.Explosion[x, y]--;
+                    }
+                }
+            }
+        }
+        private void TryExplode(int centerX, int centerY)
+        {
+            if(model.Rockford!=null && model.Rockford.TilePosition.X == centerX && model.Rockford.TilePosition.Y == centerY)
+            {
+                for (int x = centerX - 1; x < centerX + 2; x++)
+                {
+                    for (int y = centerY - 1; y < centerY + 2; y++)
+                    {
+                        if (x < model.Width && x >= 0 && y < model.Height && y >= 0)
+                        {
+                            model.Explosion[x, y] =2;
+                            model.WallMatrix[x, y] = false;
+                            model.DirtMatrix[x, y] = null;
+                            model.Diamonds[x, y] = null;
+                            model.Boulders[x, y] = null;
+                            model.Fireflies[x, y] = null;
+                            if (model.Rockford != null)
+                            {
+                                if (model.Rockford.TilePosition.X == x && model.Rockford.TilePosition.Y == y)
+                                {
+                                    model.Rockford = null;
+                                    model.GameOver = true;
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+            }
            
         }
     }
