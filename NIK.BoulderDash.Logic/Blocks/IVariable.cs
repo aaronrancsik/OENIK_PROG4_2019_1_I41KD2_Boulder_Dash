@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NIK.BoulderDash.Logic
+namespace NIK.BoulderDash.Logic.Blocks
 {
-    interface IEnemie
+    public interface IVariable
     {
+        int Variant { get; set; }
     }
 }

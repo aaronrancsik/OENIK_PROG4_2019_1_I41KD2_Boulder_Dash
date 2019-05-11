@@ -4,9 +4,135 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NIK.BoulderDash.UI"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="521" Width="820"
+        UseLayoutRounding="True"
+        ResizeMode="CanMinimize"
+        >
+    <!--<WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>-->
+    <local:BoulderControl Margin="-1,-1,0,-10" SnapsToDevicePixels="True">
+        <local:BoulderControl.Resources>
+            <VisualBrush x:Key="Butterfly1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Butterfly2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Butterfly3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Butterfly4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+
+            <VisualBrush x:Key="Diamond1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Diamond2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Diamond3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Diamond4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Explode">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Explode.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordBirth">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordBirth.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordBlink">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordBlink.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordBlinkNTap">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordBlinkNTap.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordLeft">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordLeft.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordRight">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordRight.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordTap">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordTap.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <ImageBrush x:Key="testbrush" ImageSource="Images/097.bmp">
+            </ImageBrush>
+        </local:BoulderControl.Resources>
+    </local:BoulderControl>
 </Window>

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NIK.BoulderDash.Logic
 {
-    interface IMap
+    public class Map
     {
-        StaticBlock[] StaticBlocks { get; }
-
+        public bool[,] walls;
+        public bool[,] dirt;
     }
 }

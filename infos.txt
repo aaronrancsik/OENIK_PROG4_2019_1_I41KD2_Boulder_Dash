@@ -1,0 +1,14 @@
+birth 110
+rockford 40
+explode 80
+firefly 60
+DiamondBirth 60
+Diamond 40
+System.Runtime.InteropServices.ExternalException: 'A generic error occurred in GDI+.'
+
+v2 van hasznalatban
+explode 120
+
+kamera kezdeti pozi fontos sajnos
+
+'nothngHere' need update for enemies
