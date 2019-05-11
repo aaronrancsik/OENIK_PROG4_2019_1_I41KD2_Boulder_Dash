@@ -299,17 +299,64 @@ namespace NIK.BoulderDash.UI
             model.Rockford.TileOldPosition = model.Rockford.TilePosition;
             return new GeometryDrawing(brush, null, rockfordGeo);
         }
-        private Drawing GetDiamonds(VisualBrush diamondvv)
-        {
-            GeometryGroup gg = new GeometryGroup();
-            diamondvv.TileMode = TileMode.Tile;
-            diamondvv.Viewport = new Rect(0, 0, TileSize, TileSize);
-            diamondvv.ViewportUnits = BrushMappingMode.Absolute;
 
+        Dictionary<Logic.Blocks.Diamond, VisualBrush> visualBrushCache = new Dictionary<Logic.Blocks.Diamond, VisualBrush>();
+        private Drawing getDiamondsDrawing()
+        {
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
+            var ggg = new DrawingGroup();
             foreach (var d in model.Diamonds)
             {
-                Geometry dia = new RectangleGeometry(new Rect(d.TilePosition.X * TileSize, d.TilePosition.Y * TileSize, TileSize, TileSize));
-                gg.Children.Add(dia);
+                if (d != null)
+                {
+                    TranslateTransform diamondTranslate = new TranslateTransform(d.TilePosition.X*TileSize,d.TilePosition.Y*TileSize);
+                    if (!d.TilePosition.Equals(d.TileOldPosition) &&  model.Camera.isInStage(d.TilePosition))
+                    {
+                       
+                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * TileSize, d.TilePosition.X * TileSize, duration);
+                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * TileSize, d.TilePosition.Y * TileSize, duration);
+                        animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                        animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+
+                        diamondTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
+                        diamondTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
+                        
+                    }
+                    
+
+                    Geometry dia = new RectangleGeometry(new Rect(0,0, TileSize, TileSize));
+                    dia.Transform = diamondTranslate;
+                    d.TileOldPosition = d.TilePosition;
+                    if (model.Camera.isInStage(d.TilePosition))
+                    {
+                        if (visualBrushCache.ContainsKey(d))
+                        {
+                            var brush = visualBrushCache[d];
+                            brush.TileMode = TileMode.None;
+                            brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                            brush.ViewportUnits = BrushMappingMode.Absolute;
+                            brush.Transform = diamondTranslate;
+                            ggg.Children.Add(new GeometryDrawing(brush, null, dia));
+                        }
+                        else
+                        {
+                            
+                            var brush = animatedVisualBrushes["Diamond" + model.TextureSet].Clone();
+                            RenderOptions.SetCachingHint(brush, CachingHint.Cache);
+                            visualBrushCache[d] = brush;
+                            brush.TileMode = TileMode.None;
+                            brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                            brush.ViewportUnits = BrushMappingMode.Absolute;
+                            brush.Transform = diamondTranslate;
+                            ggg.Children.Add(new GeometryDrawing(brush, null, dia));
+                        }
+                    }
+                }
+            }
+           
+            return ggg;
+            
+        }
             }
             return new GeometryDrawing(diamondvv, null, gg);
         }
