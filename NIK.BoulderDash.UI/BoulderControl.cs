@@ -12,11 +12,10 @@ namespace NIK.BoulderDash.UI
 {
     public class BoulderControl : FrameworkElement
     {
-        const int MOVETIME = 125;
-        DispatcherTimer timer;
-        DispatcherTimer timer2;
         VisualBrush diamonvb;
         VisualBrush rockfordvb;
+        
+        DispatcherTimer logicCalcTimer;
         GameLogic logic;
         BoulderDisplay display;
         GameModel model;
@@ -40,8 +39,12 @@ namespace NIK.BoulderDash.UI
 
                
                 Task.Delay(MOVETIME*2).ContinueWith(_ =>
+                logicCalcTimer = new DispatcherTimer();      
+                logicCalcTimer.Interval = TimeSpan.FromMilliseconds(GameModel.MOVETIME);
+                logicCalcTimer.Tick += timerTick;
+                Task.Delay(GameModel.MOVETIME*4).ContinueWith(_ =>
                 {
-                    timer.Start();
+                    logicCalcTimer.Start();
                 });
                 Task.Delay(MOVETIME*3).ContinueWith(_ =>
                 {
