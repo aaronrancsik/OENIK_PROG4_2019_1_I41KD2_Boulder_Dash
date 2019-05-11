@@ -113,16 +113,71 @@ namespace NIK.BoulderDash.UI
             return i;
         }
 
-        private Drawing GetBoulders()
+        Dictionary<Logic.Blocks.Boulder, Brush> boulderBrushCache = new Dictionary<Logic.Blocks.Boulder, Brush>();
+        private Drawing getBouldersDrawing()
         {
-
-            GeometryGroup gg = new GeometryGroup();
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
+            
+            var ggg = new DrawingGroup();
             foreach (var d in model.Boulders)
             {
-                Geometry dia = new RectangleGeometry(new Rect(d.TilePosition.X * TileSize, d.TilePosition.Y * TileSize, TileSize, TileSize));
-                gg.Children.Add(dia);
+                if (d != null)
+                {
+                    
+                    TranslateTransform boulderTranslate = new TranslateTransform(d.TilePosition.X * TileSize, d.TilePosition.Y * TileSize);
+                    DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * TileSize, d.TilePosition.X * TileSize, duration);
+                    DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * TileSize, d.TilePosition.Y * TileSize, duration);
+                    animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                    animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                    boulderTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
+                    boulderTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
+
+                    Geometry boulder = new RectangleGeometry(new Rect(0,0, TileSize, TileSize));
+                    boulder.Transform = boulderTranslate;
+                    
+                    if (model.Camera.isInStage(d.TilePosition))
+                    {
+                        ImageBrush brush;
+                        if (!boulderBrushCache.ContainsKey(d))
+                        {
+                            Brush tmpBrush;
+                            switch (d.Variant)
+                            {
+                                case 1:
+                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder1)].Clone();
+                                    break;
+                                case 2:
+                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder2)].Clone();
+                                    break;
+                                case 3:
+                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder3)].Clone();
+                                    break;
+                                case 4:
+                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder4)].Clone();
+                                    break;
+                                default: throw new Exception("Unknown boulder set");
+                            }
+                            boulderBrushCache[d] = tmpBrush;
+                            brush = tmpBrush as ImageBrush;
+                        }
+                        else
+                        {
+                            brush = boulderBrushCache[d] as ImageBrush;
+                        }
+                        brush.TileMode = TileMode.None;
+                        brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                        brush.ViewportUnits = BrushMappingMode.Absolute;
+                        brush.Transform = boulderTranslate;
+
+                        d.TileOldPosition = d.TilePosition;
+                        ggg.Children.Add(new GeometryDrawing(brush, null, boulder));
+
+                    }
+                   
+                }
+
             }
-            return new GeometryDrawing(rockBrush, null, gg);
+            return ggg;
         }
         private Drawing GetDirts()
         {
