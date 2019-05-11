@@ -53,7 +53,7 @@ namespace NIK.BoulderDash.UI
             }
 
             logic = new GameLogic();
-            model = logic.LoadLevel(Properties.Resources.AL10);
+            model = logic.LoadLevel(Properties.Resources.AL14);
             display = new BoulderDisplay(model, ActualWidth, ActualHeight, GameModel.MOVETIME, animatedVisualBrushes);
             InvalidateVisual();
         }
