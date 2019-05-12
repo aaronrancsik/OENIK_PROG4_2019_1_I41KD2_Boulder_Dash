@@ -293,10 +293,14 @@ namespace NIK.BoulderDash.UI
                         if (visualBrushCache.ContainsKey(d))
                         {
                             var brush = visualBrushCache[d];
-                            brush.TileMode = TileMode.None;
-                            brush.Viewport = new Rect(0, 0, TileSize, TileSize);
-                            brush.ViewportUnits = BrushMappingMode.Absolute;
+                            //brush.TileMode = TileMode.None;
+                            //brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                            //brush.ViewportUnits = BrushMappingMode.Absolute;
                             brush.Transform = diamondTranslate;
+                            if (brush.CanFreeze)
+                            {
+                                brush.Freeze();
+                            }
                             ggg.Children.Add(new GeometryDrawing(brush, null, dia));
                         }
                         else
@@ -305,11 +309,13 @@ namespace NIK.BoulderDash.UI
                             var brush = animatedVisualBrushes["Diamond" + model.TextureSet].Clone();
                             RenderOptions.SetCachingHint(brush, CachingHint.Cache);
                             visualBrushCache[d] = brush;
+                            
                             brush.TileMode = TileMode.None;
                             brush.Viewport = new Rect(0, 0, TileSize, TileSize);
                             brush.ViewportUnits = BrushMappingMode.Absolute;
                             brush.Transform = diamondTranslate;
                             ggg.Children.Add(new GeometryDrawing(brush, null, dia));
+                            
                         }
                     }
                 }
