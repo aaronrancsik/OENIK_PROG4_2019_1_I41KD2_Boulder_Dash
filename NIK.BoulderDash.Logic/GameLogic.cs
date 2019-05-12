@@ -341,7 +341,7 @@ namespace NIK.BoulderDash.Logic
                                 if (model.Rockford != null && (int)model.Rockford.TilePosition.X == x && (int)model.Rockford.TilePosition.Y == y)
                                 {
                                     found = true;
-                                    explode((int)x, (int)y);
+                                    diamondExpode((int)x, (int)y);
                                 }
                             }
                         }
@@ -696,11 +696,35 @@ namespace NIK.BoulderDash.Logic
                 }
 
             }
-            if (rockford || fire || butter)
+            if (rockford || fire)
             {
                 explode(centerX, centerY);
             }
+            else if (butter)
+            {
+                diamondExpode(centerX, centerY);
+            }
            
+        }
+        private void diamondExpode(int centerX, int centerY)
+        {
+            explode(centerX, centerY);
+            for (int x = centerX - 1; x < centerX + 2; x++)
+            {
+                for (int y = centerY - 1; y < centerY + 2; y++)
+                {
+                    if (x < model.Width && x >= 0 && y < model.Height && y >= 0)
+                    {
+                        if (!model.TitaniumMatrix[x, y])
+                        {
+                            var d = new Blocks.Diamond();
+                            d.TilePosition  = new Point(x, y);
+                            d.TileOldPosition = new Point(x, y);
+                            model.Diamonds[x, y] = d;
+                        }
+                    }
+                }
+            }
         }
         private void explode(int centerX, int centerY)
         {
@@ -724,7 +748,9 @@ namespace NIK.BoulderDash.Logic
                         model.Diamonds[x, y] = null;
                         model.Boulders[x, y] = null;
                         model.Fireflies[x, y] = null;
-                        
+                        model.Butterflies[x, y] = null;
+
+
 
                     }
 
