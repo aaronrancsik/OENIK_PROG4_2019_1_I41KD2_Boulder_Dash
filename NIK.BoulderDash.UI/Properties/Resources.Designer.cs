@@ -453,6 +453,46 @@ namespace NIK.BoulderDash.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] AL04 {
+            get {
+                object obj = ResourceManager.GetObject("AL04", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AL05 {
+            get {
+                object obj = ResourceManager.GetObject("AL05", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AL06 {
+            get {
+                object obj = ResourceManager.GetObject("AL06", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AL09 {
+            get {
+                object obj = ResourceManager.GetObject("AL09", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] AL10 {
             get {
                 object obj = ResourceManager.GetObject("AL10", resourceCulture);
@@ -463,9 +503,19 @@ namespace NIK.BoulderDash.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] AL10test {
+        internal static byte[] AL11 {
             get {
-                object obj = ResourceManager.GetObject("AL10test", resourceCulture);
+                object obj = ResourceManager.GetObject("AL11", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AL12 {
+            get {
+                object obj = ResourceManager.GetObject("AL12", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -476,6 +526,36 @@ namespace NIK.BoulderDash.UI.Properties {
         internal static byte[] AL14 {
             get {
                 object obj = ResourceManager.GetObject("AL14", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ALDiamondstress {
+            get {
+                object obj = ResourceManager.GetObject("ALDiamondstress", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ALtest {
+            get {
+                object obj = ResourceManager.GetObject("ALtest", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ALTest2 {
+            get {
+                object obj = ResourceManager.GetObject("ALTest2", resourceCulture);
                 return ((byte[])(obj));
             }
         }

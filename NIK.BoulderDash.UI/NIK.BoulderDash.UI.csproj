@@ -116,9 +116,17 @@
     <None Include="Levels\AL01.lvl" />
     <None Include="Levels\AL02.lvl" />
     <None Include="Levels\AL03.lvl" />
+    <None Include="Levels\AL04.lvl" />
+    <None Include="Levels\AL05.lvl" />
+    <None Include="Levels\AL06.lvl" />
+    <None Include="Levels\AL09.lvl" />
     <None Include="Levels\AL10.lvl" />
-    <None Include="Levels\AL10test.lvl" />
+    <None Include="Levels\AL11.lvl" />
+    <None Include="Levels\AL12.lvl" />
     <None Include="Levels\AL14.lvl" />
+    <None Include="Levels\ALDiamondstress.lvl" />
+    <None Include="Levels\ALtest.lvl" />
+    <None Include="Levels\ALTest2.lvl" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -213,5 +221,6 @@
     <Resource Include="Images\TitanWall4.bmp" />
     <Resource Include="Images\Wall .bmp" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
