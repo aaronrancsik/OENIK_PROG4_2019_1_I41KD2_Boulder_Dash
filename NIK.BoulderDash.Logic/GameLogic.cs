@@ -738,6 +738,7 @@ namespace NIK.BoulderDash.Logic
                         {
                             if (model.Rockford.TilePosition.X == x && model.Rockford.TilePosition.Y == y)
                             {
+                                
                                 model.Rockford = null;
                                 model.GameOver = true;
                             }
