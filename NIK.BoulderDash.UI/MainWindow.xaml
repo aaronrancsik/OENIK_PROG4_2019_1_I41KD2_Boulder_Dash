@@ -41,9 +41,9 @@
                     <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond1.gif"/>
                 </VisualBrush.Visual>
             </VisualBrush>
-            <VisualBrush x:Key="Diamond2">
+            <VisualBrush RenderOptions.EdgeMode="Aliased" x:Key="Diamond2">
                 <VisualBrush.Visual>
-                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond2.gif"/>
+                    <Image RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond2.gif"/>
                 </VisualBrush.Visual>
             </VisualBrush>
             <VisualBrush x:Key="Diamond3">
