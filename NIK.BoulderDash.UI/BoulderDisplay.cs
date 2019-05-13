@@ -373,13 +373,13 @@ namespace NIK.BoulderDash.UI
 
             if (!this.model.Camera.Center.Equals(this.model.Camera.CenterOld))
             {
-                Duration durX = new Duration(TimeSpan.FromMilliseconds(this.moveTime * 5));
-                Duration durY = new Duration(TimeSpan.FromMilliseconds(this.moveTime * 2));
-                DoubleAnimation cropAnimX = new DoubleAnimation(fromOffsetX, toOffsetX, durX);
-                DoubleAnimation cropAnimY = new DoubleAnimation(fromOffsetY, toOffsetY, durY);
+                Duration durX = new Duration(TimeSpan.FromMilliseconds(this.moveTime * 6));
+                Duration durY = new Duration(TimeSpan.FromMilliseconds(this.moveTime * 3));
+                DoubleAnimation cropAnimX = new DoubleAnimation(this.cropTrans == null ? fromOffsetX : (double)this.cropTrans.GetValue(TranslateTransform.XProperty), toOffsetX, durX);
+                DoubleAnimation cropAnimY = new DoubleAnimation(this.cropTrans == null ? fromOffsetY : (double)this.cropTrans.GetValue(TranslateTransform.YProperty), toOffsetY, durY);
                 cropAnimX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.3 };
 
-                // cropAnimY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                cropAnimY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.3 };
                 this.clockX = cropAnimX.CreateClock();
                 this.clockY = cropAnimY.CreateClock();
                 this.cropTrans.ApplyAnimationClock(TranslateTransform.XProperty, this.clockX);
