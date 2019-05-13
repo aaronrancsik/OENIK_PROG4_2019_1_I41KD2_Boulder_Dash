@@ -1,40 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿// <copyright file="Butterfly.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace NIK.BoulderDash.Logic
 {
+    using System.Windows;
+
+    /// <summary>
+    /// Class Butterfly.
+    /// Implements the <see cref="NIK.BoulderDash.Logic.Enemie" />.
+    /// </summary>
+    /// <seealso cref="NIK.BoulderDash.Logic.Enemie" />
     public class Butterfly : Enemie
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Butterfly"/> class.
+        /// </summary>
+        /// <param name="initPosition">The initialize position.</param>
         public Butterfly(Point initPosition)
         {
-            TilePosition = initPosition;
-            TileOldPosition = initPosition;
-            FaceDirection = Direction.Down;
+            this.TilePosition = initPosition;
+            this.TileOldPosition = initPosition;
+            this.FaceDirection = Direction.Down;
         }
 
-
+        /// <summary>
+        /// Make a step and can check the specified obstacle.
+        /// Always try to turm right if possible he turn right, if not go forward, if forward also not possible turn left.
+        /// </summary>
+        /// <param name="obstacle">The obstacle.</param>
         public override void Step(bool[,] obstacle)
         {
-            var primTarget = calcUnit(Direction.Right);
-            var secTarget = calcUnit(Direction.Up);
+            var primTarget = this.CalcUnit(Direction.Right);
+            var secTarget = this.CalcUnit(Direction.Up);
             if (!obstacle[(int)primTarget.X, (int)primTarget.Y])
             {
-                FaceDirection = GetRight();
-                move(primTarget);
+                this.FaceDirection = this.GetRight();
+                this.Move(primTarget);
             }
             else if (!obstacle[(int)secTarget.X, (int)secTarget.Y])
             {
-                move(secTarget);
+                this.Move(secTarget);
             }
             else
             {
-                FaceDirection = GetLeft();
+                this.FaceDirection = this.GetLeft();
             }
-
         }
     }
 }

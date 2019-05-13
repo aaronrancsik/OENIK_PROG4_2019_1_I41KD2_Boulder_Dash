@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.3</LangVersion>
+    <DocumentationFile>bin\Debug\NIK.BoulderDash.Logic.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -75,10 +76,8 @@
     <Compile Include="Blocks\Dirt.cs" />
     <Compile Include="Enemie.cs" />
     <Compile Include="Firefly.cs" />
-    <Compile Include="GameItem.cs" />
     <Compile Include="GameLogic.cs" />
     <Compile Include="GameModel.cs" />
-    <Compile Include="Map.cs" />
     <Compile Include="Rockford.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
