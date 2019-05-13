@@ -25,12 +25,12 @@ namespace NIK.BoulderDash.Logic
         }
 
         /// <summary>
-        /// Gets the camera`s viewport width in tile.
+        /// Gets the camera`s view port width in tile.
         /// </summary>
         public int AngleWidthTile { get; } = 20;
 
         /// <summary>
-        ///  Gets the camera`s viewport hieght in tile.
+        ///  Gets the camera`s view port hight in tile.
         /// </summary>
         public int AngleHeightTile { get;  } = 12;
 
@@ -41,13 +41,13 @@ namespace NIK.BoulderDash.Logic
         public ref Point Center { get => ref this.center; }
 
         /// <summary>
-        /// Gets the old center usefull for animations.
+        /// Gets the old center useful for animations.
         /// </summary>
         /// <value>The center old.</value>
         public ref Point CenterOld { get => ref this.centerOld; }
 
         /// <summary>
-        /// Follows the specified target. Set the camera center. Whatch the corne of map.
+        /// Follows the specified target. Set the camera center. Watch the edge of map.
         /// </summary>
         /// <param name="target">The target.</param>
         public void Follow(Point target)
