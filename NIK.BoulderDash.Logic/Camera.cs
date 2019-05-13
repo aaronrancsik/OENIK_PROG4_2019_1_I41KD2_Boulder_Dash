@@ -54,26 +54,6 @@ namespace NIK.BoulderDash.Logic
         {
             this.centerOld = this.center;
 
-            if (target.X < this.AngleWidthTile / 2)
-            {
-                target.X = this.AngleWidthTile / 2;
-            }
-
-            if (target.X > this.AngleWidthTile * 1.5)
-            {
-                target.X = this.AngleWidthTile * 1.5;
-            }
-
-            if (target.Y < this.AngleHeightTile / 2)
-            {
-                target.Y = this.AngleHeightTile / 2;
-            }
-
-            if (target.Y > (this.AngleHeightTile * 1.5) - 2)
-            {
-                target.Y = (this.AngleHeightTile * 1.5) - 2;
-            }
-
             if (this.first)
             {
                 this.Center = target;
@@ -89,6 +69,26 @@ namespace NIK.BoulderDash.Logic
             if (Math.Abs(this.Center.Y - target.Y) >= 2)
             {
                 this.Center.Y = target.Y;
+            }
+
+            if (this.Center.X < this.AngleWidthTile / 2)
+            {
+                this.Center.X = this.AngleWidthTile / 2;
+            }
+
+            if (this.Center.X > this.AngleWidthTile * 1.5)
+            {
+                this.Center.X = this.AngleWidthTile * 1.5;
+            }
+
+            if (this.Center.Y < this.AngleHeightTile / 2)
+            {
+                this.Center.Y = this.AngleHeightTile / 2;
+            }
+
+            if (this.Center.Y > (this.AngleHeightTile * 1.5) - 2)
+            {
+                this.Center.Y = (this.AngleHeightTile * 1.5) - 2;
             }
         }
 
