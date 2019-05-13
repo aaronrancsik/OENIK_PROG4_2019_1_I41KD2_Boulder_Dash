@@ -6,13 +6,18 @@
         xmlns:local="clr-namespace:NIK.BoulderDash.UI"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="MainWindow" Height="521" Width="820"
+        Title="MainWindow" 
         UseLayoutRounding="True"
+        
         ResizeMode="CanMinimize"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterOwner"
         >
-    <!--<WindowChrome.WindowChrome>
+    <!--WindowState="Maximized"-->
+    <!--Height="521" Width="820"-->
+    <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
-    </WindowChrome.WindowChrome>-->
+    </WindowChrome.WindowChrome>
     <local:BoulderControl Margin="-1,-1,0,-10" SnapsToDevicePixels="True">
         <local:BoulderControl.Resources>
             <VisualBrush x:Key="Butterfly1">

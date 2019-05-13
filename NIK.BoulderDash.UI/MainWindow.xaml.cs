@@ -16,7 +16,14 @@ namespace NIK.BoulderDash.UI
         /// </summary>
         public MainWindow()
         {
+            this.WindowState = WindowState.Maximized;
             this.InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as Window).WindowState = WindowState.Normal;
+            (sender as Window).Width = ((sender as Window).ActualHeight / 12) * 20;
         }
     }
 }
