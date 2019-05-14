@@ -21,18 +21,19 @@ namespace NIK.BoulderDash.Logic
         /// </summary>
         public Camera()
         {
-            // center = new Point(-AngleWidthTile, -AngleHeightTile);
+            this.AngleWidthTile = 20;
+            this.AngleHeightTile = 12;
         }
 
         /// <summary>
-        /// Gets the camera`s view port width in tile.
+        /// Gets or sets the camera`s view port width in tile.
         /// </summary>
-        public int AngleWidthTile { get; } = 20;
+        public int AngleWidthTile { get; set; }
 
         /// <summary>
-        ///  Gets the camera`s view port hight in tile.
+        ///  Gets or sets the camera`s view port hight in tile.
         /// </summary>
-        public int AngleHeightTile { get;  } = 12;
+        public int AngleHeightTile { get; set; }
 
         /// <summary>
         /// Gets the center of camera.
@@ -93,7 +94,7 @@ namespace NIK.BoulderDash.Logic
         }
 
         /// <summary>
-        /// IsInStage determine is a point on visible by the camera or not.
+        /// IsInStage determine is point visible by the camera or not.
         /// </summary>
         /// <param name="p">the point we want to check.</param>
         /// <returns>true if the point is visible by the current camera.</returns>
