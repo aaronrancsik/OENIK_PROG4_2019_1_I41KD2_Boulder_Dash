@@ -46,12 +46,15 @@ namespace NIK.BoulderDash.Logic
         private int width;
         private int height;
         private byte[] originalMap;
+        private Action finishMap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameLogic"/> class.
         /// </summary>
-        public GameLogic()
+        public GameLogic(Action finsihMap)
         {
+
+            this.finishMap = finsihMap;
         }
 
         /// <summary>
@@ -155,6 +158,11 @@ namespace NIK.BoulderDash.Logic
                 return;
             }
 
+            if (this.CheckFinish())
+            {
+                return;
+            }
+
             this.DeleteDirtUnderRockford();
 
             this.UserInput();
@@ -162,6 +170,17 @@ namespace NIK.BoulderDash.Logic
             this.CollectDiamondUnderRockford();
 
             this.CameraFollowRockford();
+        }
+
+        private bool CheckFinish()
+        {
+            if (model.Exit.IsOpen && model.Exit.TilePosition.Equals(model.Rockford.TilePosition))
+            {
+                finishMap.Invoke();
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

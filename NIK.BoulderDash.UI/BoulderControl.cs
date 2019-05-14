@@ -21,6 +21,7 @@ namespace NIK.BoulderDash.UI
     /// <seealso cref="System.Windows.FrameworkElement" />
     public class BoulderControl : FrameworkElement
     {
+        private Dictionary<string, byte[]> levels;
         private byte[] map;
         private DispatcherTimer logicCalcTimer;
         private GameLogic logic;
@@ -78,19 +79,48 @@ namespace NIK.BoulderDash.UI
                 }
             }
 
-            this.logic = new GameLogic();
+            this.logic = new GameLogic(finishMap);
             this.model = this.logic.LoadLevel(this.map);
             this.display = new BoulderDisplay(this.model, this.ActualWidth, this.ActualHeight, GameModel.MOVETIME, this.animatedVisualBrushes);
             this.InvalidateVisual();
+        }
+
+        private void finishMap()
+        {
+            bool ok = false;
+            bool okk = false;
+            foreach (var item in levels)
+            {
+                if(item.Value == map)
+                {
+                    ok = true;
+                }
+                if (okk)
+                {
+                    LoadMap(levels, item.Key);
+                    return;
+                }
+                if (ok)
+                {
+                    okk = true;
+                    ok = false;
+                }
+                
+            }
         }
 
         /// <summary>
         /// Loads the map.
         /// </summary>
         /// <param name="map">The map.</param>
-        public void LoadMap(byte[] map)
+        public void LoadMap(Dictionary<string, byte[]> levels, string name)
         {
-            this.map = map;
+            if (this.logicCalcTimer != null)
+            {
+                this.logicCalcTimer.Stop();
+            }
+            this.levels = levels;
+            this.map = levels[name];
             this.Load();
         }
 

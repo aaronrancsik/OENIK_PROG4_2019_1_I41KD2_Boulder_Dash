@@ -4,6 +4,7 @@
 
 namespace NIK.BoulderDash.UI
 {
+    using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Input;
 
@@ -27,10 +28,9 @@ namespace NIK.BoulderDash.UI
         /// Loads the selected map.
         /// </summary>
         /// <param name="map">The map.</param>
-        public void LoadMap(byte[] map)
+        public void LoadMap(Dictionary<string, byte[]> levels, string name)
         {
-            this.map = map;
-            (this.FindName("control") as BoulderControl).LoadMap(map);
+            (this.FindName("control") as BoulderControl).LoadMap(levels, name);
         }
 
         /// <summary>

@@ -8,9 +8,12 @@ namespace NIK.BoulderDash.UI
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Runtime.InteropServices;
     using System.Windows;
+    using System.Windows.Interop;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
+    using System.Windows.Media.Imaging;
     using NIK.BoulderDash.Logic;
 
     /// <summary>
@@ -71,17 +74,18 @@ namespace NIK.BoulderDash.UI
         /// <value>The size of the tile.</value>
         public double TileSize { get; private set; }
 
-        private ImageSource Bitmap2BitmapImageSource(System.Drawing.Bitmap bitmap)
-        {
-            var i =
-                System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                           bitmap.GetHbitmap(),
-                           IntPtr.Zero,
-                           Int32Rect.Empty,
-                           System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-            bitmap.Dispose();
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteObject([In] IntPtr hObject);
 
-            return i;
+        private ImageSource Bitmap2BitmapImageSource(System.Drawing.Bitmap bmp)
+        {
+            var handle = bmp.GetHbitmap();
+            try
+            {
+                return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            }
+            finally { DeleteObject(handle); }
         }
 
 #pragma warning disable SA1201 // Elements should appear in the correct order
