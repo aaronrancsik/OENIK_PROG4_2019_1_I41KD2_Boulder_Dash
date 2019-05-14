@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.3</LangVersion>
+    <DocumentationFile>bin\Debug\NIK.BoulderDash.Logic.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,14 +71,13 @@
     <Compile Include="Blocks\IVariable.cs" />
     <Compile Include="Blocks\Titanium.cs" />
     <Compile Include="Blocks\Wall.cs" />
+    <Compile Include="Butterfly.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Blocks\Dirt.cs" />
     <Compile Include="Enemie.cs" />
     <Compile Include="Firefly.cs" />
-    <Compile Include="GameItem.cs" />
     <Compile Include="GameLogic.cs" />
     <Compile Include="GameModel.cs" />
-    <Compile Include="Map.cs" />
     <Compile Include="Rockford.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -86,6 +86,13 @@
       <Project>{7ad7c681-aded-4104-bc7a-aeacd5c4536b}</Project>
       <Name>NIK.BoulderDash.Repository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

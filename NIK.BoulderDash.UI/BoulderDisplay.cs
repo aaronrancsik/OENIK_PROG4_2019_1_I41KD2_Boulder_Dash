@@ -1,298 +1,345 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using NIK.BoulderDash.Logic;
-using NIK.BoulderDash.Logic.Blocks;
+﻿// <copyright file="BoulderDisplay.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace NIK.BoulderDash.UI
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Runtime.InteropServices;
+    using System.Windows;
+    using System.Windows.Interop;
+    using System.Windows.Media;
+    using System.Windows.Media.Animation;
+    using System.Windows.Media.Imaging;
+    using NIK.BoulderDash.Logic;
+
+    /// <summary>
+    /// Class BoulderDisplay.
+    /// </summary>
     public class BoulderDisplay
     {
-        int MOVETIME;
-        GameModel model;
-        double width;
-        double height;
-        public double TileSize { get; private set; }
-        Dictionary<string, Brush> assetBrushes = new Dictionary<string, Brush>();
-        Dictionary<string, VisualBrush> animatedVisualBrushes = new Dictionary<string, VisualBrush>();
+        private int moveTime;
+        private GameModel model;
+        private double width;
+        private double height;
+        private Dictionary<string, Brush> assetBrushes = new Dictionary<string, Brush>();
+        private Dictionary<string, VisualBrush> animatedVisualBrushes = new Dictionary<string, VisualBrush>();
 
-        public BoulderDisplay(GameModel model, double w, double h, int MOVETIME, Dictionary<string, VisualBrush> animatedVisualBrushes)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoulderDisplay"/> class.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="w">The width.</param>
+        /// <param name="h">The height.</param>
+        /// <param name="moveTime">The movetime.</param>
+        /// <param name="animatedVisualBrushes">The animated visual brushes that we create from resources.</param>
+        public BoulderDisplay(GameModel model, double w, double h, int moveTime, Dictionary<string, VisualBrush> animatedVisualBrushes)
         {
             this.animatedVisualBrushes = animatedVisualBrushes;
-            this.MOVETIME = (int)MOVETIME;
+            this.moveTime = (int)moveTime;
             this.model = model;
             this.width = w;
             this.height = h;
 
-            TileSize = Math.Min(
+            this.TileSize = Math.Min(
                 w / model.Camera.AngleWidthTile,
-                h / model.Camera.AngleHeightTile
-            );
+                h / model.Camera.AngleHeightTile);
 
             foreach (DictionaryEntry item in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true))
             {
                 if ((item.Value as System.Drawing.Bitmap) != null)
                 {
-                    ImageBrush ib = new ImageBrush(Bitmap2BitmapImageSource(item.Value as System.Drawing.Bitmap));
+                    ImageBrush ib = new ImageBrush(this.Bitmap2BitmapImageSource(item.Value as System.Drawing.Bitmap));
                     ib.TileMode = TileMode.Tile;
-                    ib.Viewport = new Rect(0, 0, TileSize, TileSize);
+                    ib.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
                     ib.ViewportUnits = BrushMappingMode.Absolute;
-                    assetBrushes[item.Key.ToString()] = ib;
+                    this.assetBrushes[item.Key.ToString()] = ib;
                 }
             }
+
             foreach (var item in animatedVisualBrushes)
             {
-                item.Value.Viewport = new Rect(0, 0, TileSize, TileSize);
+                item.Value.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
             }
 
-            
-            titaniums = createTitaniumDrawing();
-        }
-        private ImageSource Bitmap2BitmapImageSource(System.Drawing.Bitmap bitmap)
-        {
-            var i =
-                System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                           bitmap.GetHbitmap(),
-                           IntPtr.Zero,
-                           Int32Rect.Empty,
-                           System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions()
-                );
-            bitmap.Dispose();
-            
-            return i;
-
+            this.titaniums = this.CreateTitaniumDrawing();
         }
 
-        Dictionary<Logic.Blocks.Boulder, Brush> boulderBrushCache = new Dictionary<Logic.Blocks.Boulder, Brush>();
-        private Drawing getBouldersDrawing()
+        /// <summary>
+        /// Gets the size of the tile.
+        /// </summary>
+        /// <value>The size of the tile.</value>
+        public double TileSize { get; private set; }
+
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteObject([In] IntPtr hObject);
+
+        private ImageSource Bitmap2BitmapImageSource(System.Drawing.Bitmap bmp)
         {
-            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
-            
+            var handle = bmp.GetHbitmap();
+            try
+            {
+                return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            }
+            finally { DeleteObject(handle); }
+        }
+
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private Dictionary<Logic.Blocks.Boulder, Brush> boulderBrushCache = new Dictionary<Logic.Blocks.Boulder, Brush>();
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
+        private Drawing GetBouldersDrawing()
+        {
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, this.moveTime));
+
             var ggg = new DrawingGroup();
-            foreach (var d in model.Boulders)
+            foreach (var d in this.model.Boulders)
             {
                 if (d != null)
                 {
-                    
-                    TranslateTransform boulderTranslate = new TranslateTransform(d.TilePosition.X * TileSize, d.TilePosition.Y * TileSize);
-                    DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * TileSize, d.TilePosition.X * TileSize, duration);
-                    DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * TileSize, d.TilePosition.Y * TileSize, duration);
+                    TranslateTransform boulderTranslate = new TranslateTransform(d.TilePosition.X * this.TileSize, d.TilePosition.Y * this.TileSize);
+                    DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * this.TileSize, d.TilePosition.X * this.TileSize, duration);
+                    DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * this.TileSize, d.TilePosition.Y * this.TileSize, duration);
                     animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
                     animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
                     boulderTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
                     boulderTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
 
-                    Geometry boulder = new RectangleGeometry(new Rect(0,0, TileSize, TileSize));
+                    Geometry boulder = new RectangleGeometry(new Rect(0, 0, this.TileSize, this.TileSize));
                     boulder.Transform = boulderTranslate;
-                    
-                    if (model.Camera.isInStage(d.TilePosition))
+
+                    if (this.model.Camera.IsInStage(d.TilePosition))
                     {
                         ImageBrush brush;
-                        if (!boulderBrushCache.ContainsKey(d))
+                        if (!this.boulderBrushCache.ContainsKey(d))
                         {
                             Brush tmpBrush;
                             switch (d.Variant)
                             {
                                 case 1:
-                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder1)].Clone();
+                                    tmpBrush = this.assetBrushes[nameof(Properties.Resources.Boulder1)].Clone();
                                     break;
                                 case 2:
-                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder2)].Clone();
+                                    tmpBrush = this.assetBrushes[nameof(Properties.Resources.Boulder2)].Clone();
                                     break;
                                 case 3:
-                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder3)].Clone();
+                                    tmpBrush = this.assetBrushes[nameof(Properties.Resources.Boulder3)].Clone();
                                     break;
                                 case 4:
-                                    tmpBrush = assetBrushes[nameof(Properties.Resources.Boulder4)].Clone();
+                                    tmpBrush = this.assetBrushes[nameof(Properties.Resources.Boulder4)].Clone();
                                     break;
                                 default: throw new Exception("Unknown boulder set");
                             }
-                            boulderBrushCache[d] = tmpBrush;
+
+                            this.boulderBrushCache[d] = tmpBrush;
                             brush = tmpBrush as ImageBrush;
                         }
                         else
                         {
-                            brush = boulderBrushCache[d] as ImageBrush;
+                            brush = this.boulderBrushCache[d] as ImageBrush;
                         }
+
                         brush.TileMode = TileMode.None;
-                        brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                        brush.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
                         brush.ViewportUnits = BrushMappingMode.Absolute;
                         brush.Transform = boulderTranslate;
 
                         d.TileOldPosition = d.TilePosition;
                         ggg.Children.Add(new GeometryDrawing(brush, null, boulder));
-
                     }
-                   
                 }
-
             }
+
             return ggg;
         }
 
-        DrawingGroup dirtGeoDraw = new DrawingGroup();
-        private Drawing getDirtsDrawing()
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private DrawingGroup firtGeoDrawGroup = new DrawingGroup();
+#pragma warning restore SA1201 // Elements should appear in the correct order
+        private Dictionary<Coord, GeometryDrawing> dirtGeoDraw = new Dictionary<Coord, GeometryDrawing>();
+
+        private Drawing GetDirtsDrawing()
         {
-            dirtGeoDraw = new DrawingGroup();
-            for (int x = 0; x < model.DirtMatrix.GetLength(0); x++)
+            this.firtGeoDrawGroup = new DrawingGroup();
+            for (int x = 0; x < this.model.Width; x++)
             {
-                for (int y = 0; y < model.DirtMatrix.GetLength(1); y++)
+                for (int y = 0; y < this.model.Height; y++)
                 {
-                    if (model.DirtMatrix[x, y]!=null)
+                    if (this.model.DirtMatrix[x, y] != null && this.model.Camera.IsInStage(new Point(x, y)))
                     {
-                        Brush a;
-                        a = assetBrushes["_" + (93 + (model.TextureSet * 4) + (model.DirtMatrix[x, y].Variant - 1)).ToString("000")];
-                        dirtGeoDraw.Children.Add(new GeometryDrawing(a, null, new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize))));
+                        Brush brush;
+                        brush = this.assetBrushes["_" + (93 + (this.model.TextureSet * 4) + (this.model.DirtMatrix[x, y].Variant - 1)).ToString("000")];
+                        var c = new Coord() { X = x * this.TileSize, Y = y * this.TileSize };
+                        if (!this.dirtGeoDraw.ContainsKey(c))
+                        {
+                            this.dirtGeoDraw[c] = new GeometryDrawing(brush, null, new RectangleGeometry(new Rect(c.X, c.Y, this.TileSize, this.TileSize)));
+                        }
+
+                        this.firtGeoDrawGroup.Children.Add(this.dirtGeoDraw[c]);
                     }
                 }
             }
 
-            
-            
-           
-            return dirtGeoDraw;
+            return this.firtGeoDrawGroup;
         }
-        private Drawing getWallsDrawing()
+
+        private Drawing GetWallsDrawing()
         {
             GeometryGroup wallgeo = new GeometryGroup();
-            for (int x = 0; x < model.WallMatrix.GetLength(0); x++)
+            for (int x = 0; x < this.model.WallMatrix.GetLength(0); x++)
             {
-                for (int y = 0; y < model.WallMatrix.GetLength(1); y++)
+                for (int y = 0; y < this.model.WallMatrix.GetLength(1); y++)
                 {
-                    if (model.WallMatrix[x, y])
+                    if (this.model.WallMatrix[x, y])
                     {
-                        Geometry box = new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize));
+                        Geometry box = new RectangleGeometry(new Rect(x * this.TileSize, y * this.TileSize, this.TileSize, this.TileSize));
                         wallgeo.Children.Add(box);
                     }
                 }
             }
-            var ret = new GeometryDrawing(assetBrushes[nameof(Properties.Resources.Wall)], null, wallgeo);
+
+            var ret = new GeometryDrawing(this.assetBrushes[nameof(Properties.Resources.Wall)], null, wallgeo);
             return ret;
         }
 
-        Drawing titaniums;
-        private Drawing createTitaniumDrawing()
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private Drawing titaniums;
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
+        private Drawing CreateTitaniumDrawing()
         {
             GeometryGroup tianiumGeo = new GeometryGroup();
-            for (int x = 0; x < model.TitaniumMatrix.GetLength(0); x++)
+            for (int x = 0; x < this.model.TitaniumMatrix.GetLength(0); x++)
             {
-                for (int y = 0; y < model.TitaniumMatrix.GetLength(1); y++)
+                for (int y = 0; y < this.model.TitaniumMatrix.GetLength(1); y++)
                 {
-                    if (model.TitaniumMatrix[x, y])
+                    if (this.model.TitaniumMatrix[x, y])
                     {
-                        Geometry box = new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize));
+                        Geometry box = new RectangleGeometry(new Rect(x * this.TileSize, y * this.TileSize, this.TileSize, this.TileSize));
                         tianiumGeo.Children.Add(box);
                     }
                 }
             }
-            return new GeometryDrawing(assetBrushes["TitanWall"+model.TextureSet], null, tianiumGeo);
+
+            return new GeometryDrawing(this.assetBrushes["TitanWall" + this.model.TextureSet], null, tianiumGeo);
         }
 
-        TranslateTransform rockfordTranslate;
-        VisualBrush rockfordVisualBrush;
-        Geometry rockfordGeo;
-        private Drawing getRockfordDrawing()
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private TranslateTransform rockfordTranslate;
+#pragma warning restore SA1201 // Elements should appear in the correct order
+        private VisualBrush rockfordVisualBrush;
+        private Geometry rockfordGeo;
+
+        private Drawing GetRockfordDrawing()
         {
-            if(rockfordGeo==null)
-                rockfordGeo = new RectangleGeometry(new Rect(0, 0, TileSize, TileSize));
-            if(rockfordTranslate==null)
-                rockfordTranslate = new TranslateTransform(model.Rockford.TilePosition.X * TileSize, model.Rockford.TilePosition.Y*TileSize);
-
-            if (!model.Rockford.TileOldPosition.Equals(model.Rockford.TilePosition))
+            if (this.rockfordGeo == null)
             {
-                Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
-                DoubleAnimation animX = new DoubleAnimation(model.Rockford.TileOldPosition.X * TileSize, model.Rockford.TilePosition.X * TileSize, duration);
-                DoubleAnimation animY = new DoubleAnimation(model.Rockford.TileOldPosition.Y * TileSize, model.Rockford.TilePosition.Y * TileSize, duration);
-                animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power=1.2 };
-                animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power=1.2 };
-
-                rockfordTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
-                rockfordTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
-
+                this.rockfordGeo = new RectangleGeometry(new Rect(0, 0, this.TileSize, this.TileSize));
             }
 
-            rockfordGeo.Transform = rockfordTranslate;
+            if (this.rockfordTranslate == null)
+            {
+                this.rockfordTranslate = new TranslateTransform(this.model.Rockford.TilePosition.X * this.TileSize, this.model.Rockford.TilePosition.Y * this.TileSize);
+            }
 
-            switch (model.Rockford.Direaction)
+            if (!this.model.Rockford.TileOldPosition.Equals(this.model.Rockford.TilePosition))
+            {
+                Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, this.moveTime));
+                DoubleAnimation animX = new DoubleAnimation(this.model.Rockford.TileOldPosition.X * this.TileSize, this.model.Rockford.TilePosition.X * this.TileSize, duration);
+                DoubleAnimation animY = new DoubleAnimation(this.model.Rockford.TileOldPosition.Y * this.TileSize, this.model.Rockford.TilePosition.Y * this.TileSize, duration);
+                animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+
+                this.rockfordTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
+                this.rockfordTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
+            }
+
+            this.rockfordGeo.Transform = this.rockfordTranslate;
+
+            switch (this.model.Rockford.Direaction)
             {
                 case State.Left:
-                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordLeft)];
+                    this.rockfordVisualBrush = this.animatedVisualBrushes[nameof(Properties.Resources.RockfordLeft)];
                     break;
                 case State.Right:
-                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordRight)];
+                    this.rockfordVisualBrush = this.animatedVisualBrushes[nameof(Properties.Resources.RockfordRight)];
                     break;
                 case State.Stand:
-                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordTap)];
+                    this.rockfordVisualBrush = this.animatedVisualBrushes[nameof(Properties.Resources.RockfordTap)];
                     break;
                 case State.Birth:
-                    rockfordVisualBrush = animatedVisualBrushes[nameof(Properties.Resources.RockfordBirth)];
+                    this.rockfordVisualBrush = this.animatedVisualBrushes[nameof(Properties.Resources.RockfordBirth)];
                     break;
-                default :
-                    rockfordVisualBrush = animatedVisualBrushes[model.Rockford.isLastMoveWasRight ? nameof(Properties.Resources.RockfordRight) : nameof(Properties.Resources.RockfordLeft)];
+                default:
+                    this.rockfordVisualBrush = this.animatedVisualBrushes[this.model.Rockford.IsLastMoveWasRight ? nameof(Properties.Resources.RockfordRight) : nameof(Properties.Resources.RockfordLeft)];
                     break;
             }
-            var brush = rockfordVisualBrush;
+
+            var brush = this.rockfordVisualBrush;
             brush.TileMode = TileMode.None;
-            brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+            brush.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
             brush.ViewportUnits = BrushMappingMode.Absolute;
-            brush.Transform = rockfordTranslate;
-            model.Rockford.TileOldPosition = model.Rockford.TilePosition;
-            return new GeometryDrawing(brush, null, rockfordGeo);
+            brush.Transform = this.rockfordTranslate;
+            this.model.Rockford.TileOldPosition = this.model.Rockford.TilePosition;
+            return new GeometryDrawing(brush, null, this.rockfordGeo);
         }
 
-        Dictionary<Logic.Blocks.Diamond, VisualBrush> visualBrushCache = new Dictionary<Logic.Blocks.Diamond, VisualBrush>();
-        private Drawing getDiamondsDrawing()
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private Dictionary<Logic.Blocks.Diamond, VisualBrush> visualBrushCache = new Dictionary<Logic.Blocks.Diamond, VisualBrush>();
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
+        private Drawing GetDiamondsDrawing()
         {
-            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, this.moveTime));
             var ggg = new DrawingGroup();
-            foreach (var d in model.Diamonds)
+            foreach (var d in this.model.Diamonds)
             {
                 if (d != null)
                 {
-                    TranslateTransform diamondTranslate = new TranslateTransform(d.TilePosition.X*TileSize,d.TilePosition.Y*TileSize);
-                    if (!d.TilePosition.Equals(d.TileOldPosition) &&  model.Camera.isInStage(d.TilePosition))
+                    TranslateTransform diamondTranslate = new TranslateTransform(d.TilePosition.X * this.TileSize, d.TilePosition.Y * this.TileSize);
+                    if (!d.TilePosition.Equals(d.TileOldPosition) && this.model.Camera.IsInStage(d.TilePosition))
                     {
-                       
-                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * TileSize, d.TilePosition.X * TileSize, duration);
-                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * TileSize, d.TilePosition.Y * TileSize, duration);
+                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * this.TileSize, d.TilePosition.X * this.TileSize, duration);
+                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * this.TileSize, d.TilePosition.Y * this.TileSize, duration);
                         animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
                         animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
 
                         diamondTranslate.BeginAnimation(TranslateTransform.XProperty, animX);
                         diamondTranslate.BeginAnimation(TranslateTransform.YProperty, animY);
-                        
                     }
-                    
 
-                    Geometry dia = new RectangleGeometry(new Rect(0,0, TileSize, TileSize));
+                    Geometry dia = new RectangleGeometry(new Rect(0, 0, this.TileSize, this.TileSize));
                     dia.Transform = diamondTranslate;
                     d.TileOldPosition = d.TilePosition;
-                    if (model.Camera.isInStage(d.TilePosition))
+                    if (this.model.Camera.IsInStage(d.TilePosition))
                     {
-                        if (visualBrushCache.ContainsKey(d))
+                        if (this.visualBrushCache.ContainsKey(d))
                         {
-                            var brush = visualBrushCache[d];
-                            brush.TileMode = TileMode.None;
-                            brush.Viewport = new Rect(0, 0, TileSize, TileSize);
-                            brush.ViewportUnits = BrushMappingMode.Absolute;
+                            var brush = this.visualBrushCache[d];
+
+                            // brush.TileMode = TileMode.None;
+                            // brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                            // brush.ViewportUnits = BrushMappingMode.Absolute;
                             brush.Transform = diamondTranslate;
+                            if (brush.CanFreeze)
+                            {
+                                brush.Freeze();
+                            }
+
                             ggg.Children.Add(new GeometryDrawing(brush, null, dia));
                         }
                         else
                         {
-                            
-                            var brush = animatedVisualBrushes["Diamond" + model.TextureSet].Clone();
+                            var brush = this.animatedVisualBrushes["Diamond" + this.model.TextureSet].Clone();
                             RenderOptions.SetCachingHint(brush, CachingHint.Cache);
-                            visualBrushCache[d] = brush;
+                            this.visualBrushCache[d] = brush;
+
                             brush.TileMode = TileMode.None;
-                            brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                            brush.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
                             brush.ViewportUnits = BrushMappingMode.Absolute;
                             brush.Transform = diamondTranslate;
                             ggg.Children.Add(new GeometryDrawing(brush, null, dia));
@@ -300,197 +347,291 @@ namespace NIK.BoulderDash.UI
                     }
                 }
             }
-           
+
             return ggg;
-            
         }
 
-        DrawingGroup mainDrGr = new DrawingGroup();
-        TranslateTransform cropTrans;
-        AnimationClock clockX;
-        AnimationClock clockY;
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private DrawingGroup mainDrGr = new DrawingGroup();
+#pragma warning restore SA1201 // Elements should appear in the correct order
+        private TranslateTransform cropTrans;
+        private AnimationClock clockX;
+        private AnimationClock clockY;
+
+        /// <summary>
+        /// The main drawing builder.
+        /// </summary>
+        /// <returns>Drawing.</returns>
         public Drawing BuildDrawing()
         {
-            double toOffsetX = (1 - model.Camera.Center.X * TileSize) + TileSize * model.Camera.AngleWidthTile / 2;
-            double toOffsetY = (1 - model.Camera.Center.Y * TileSize) + TileSize * model.Camera.AngleHeightTile / 2;
-            double fromOffsetX = (1 - model.Camera.CenterOld.X * TileSize) + TileSize * model.Camera.AngleWidthTile / 2;
-            double fromOffsetY = (1 - model.Camera.CenterOld.Y * TileSize) + TileSize * model.Camera.AngleHeightTile / 2;
-            if (cropTrans == null)
-                cropTrans = new TranslateTransform(toOffsetX, toOffsetY);
-            RenderOptions.SetBitmapScalingMode(mainDrGr, BitmapScalingMode.NearestNeighbor);
-
-            
-            if (!model.Camera.Center.Equals(model.Camera.CenterOld))
+            double toOffsetX = (1 - (this.model.Camera.Center.X * this.TileSize)) + (this.TileSize * this.model.Camera.AngleWidthTile / 2);
+            double toOffsetY = (1 - (this.model.Camera.Center.Y * this.TileSize)) + (this.TileSize * this.model.Camera.AngleHeightTile / 2);
+            double fromOffsetX = (1 - (this.model.Camera.CenterOld.X * this.TileSize)) + (this.TileSize * this.model.Camera.AngleWidthTile / 2);
+            double fromOffsetY = (1 - (this.model.Camera.CenterOld.Y * this.TileSize)) + (this.TileSize * this.model.Camera.AngleHeightTile / 2);
+            if (this.cropTrans == null)
             {
-                Duration durX = new Duration(TimeSpan.FromMilliseconds(MOVETIME*5));
-                Duration durY = new Duration(TimeSpan.FromMilliseconds(MOVETIME*2));
-                DoubleAnimation cropAnimX = new DoubleAnimation(fromOffsetX, toOffsetX , durX);
-                DoubleAnimation cropAnimY = new DoubleAnimation(fromOffsetY, toOffsetY , durY);
+                this.cropTrans = new TranslateTransform(toOffsetX, toOffsetY);
+            }
+
+            RenderOptions.SetBitmapScalingMode(this.mainDrGr, BitmapScalingMode.NearestNeighbor);
+
+            if (!this.model.Camera.Center.Equals(this.model.Camera.CenterOld))
+            {
+                Duration durX = new Duration(TimeSpan.FromMilliseconds(this.moveTime * 6));
+                Duration durY = new Duration(TimeSpan.FromMilliseconds(this.moveTime * 3));
+                DoubleAnimation cropAnimX = new DoubleAnimation(this.cropTrans == null ? fromOffsetX : (double)this.cropTrans.GetValue(TranslateTransform.XProperty), toOffsetX, durX);
+                DoubleAnimation cropAnimY = new DoubleAnimation(this.cropTrans == null ? fromOffsetY : (double)this.cropTrans.GetValue(TranslateTransform.YProperty), toOffsetY, durY);
                 cropAnimX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.3 };
-                //cropAnimY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
-                clockX = cropAnimX.CreateClock();
-                clockY = cropAnimY.CreateClock();
-                cropTrans.ApplyAnimationClock(TranslateTransform.XProperty, clockX);
-                cropTrans.ApplyAnimationClock(TranslateTransform.YProperty, clockY);
-                
+
+                cropAnimY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.3 };
+                this.clockX = cropAnimX.CreateClock();
+                this.clockY = cropAnimY.CreateClock();
+                this.cropTrans.ApplyAnimationClock(TranslateTransform.XProperty, this.clockX);
+                this.cropTrans.ApplyAnimationClock(TranslateTransform.YProperty, this.clockY);
             }
-            mainDrGr.Transform = cropTrans;
-            mainDrGr.Children = new DrawingCollection();
-            mainDrGr.Children.Add(getBackGroundDrawing());
-            mainDrGr.Children.Add(titaniums);
-            mainDrGr.Children.Add(getWallsDrawing());
-            mainDrGr.Children.Add(getDirtsDrawing());
-            mainDrGr.Children.Add(getFirefliesDrawing());
-            mainDrGr.Children.Add(getDiamondsDrawing());
-           
-            
-            mainDrGr.Children.Add(getExitDrawing());
-            mainDrGr.Children.Add(getBouldersDrawing());
-            if (!model.GameOver)
+
+            this.mainDrGr.Transform = this.cropTrans;
+            this.mainDrGr.Children = new DrawingCollection();
+            this.mainDrGr.Children.Add(this.GetBackGroundDrawing());
+            this.mainDrGr.Children.Add(this.titaniums);
+            this.mainDrGr.Children.Add(this.GetWallsDrawing());
+            this.mainDrGr.Children.Add(this.GetDirtsDrawing());
+            this.mainDrGr.Children.Add(this.GetFirefliesDrawing());
+            this.mainDrGr.Children.Add(this.GetButterfliesDrawing());
+            this.mainDrGr.Children.Add(this.GetDiamondsDrawing());
+
+            this.mainDrGr.Children.Add(this.GetExitDrawing());
+            this.mainDrGr.Children.Add(this.GetBouldersDrawing());
+            if (!this.model.GameOver)
             {
-                mainDrGr.Children.Add(getRockfordDrawing());
+                this.mainDrGr.Children.Add(this.GetRockfordDrawing());
             }
 
-            mainDrGr.Children.Add(getExplodeDrawing(animatedVisualBrushes[nameof(Properties.Resources.Explode)]));
+            this.mainDrGr.Children.Add(this.GetExplodeDrawing(this.animatedVisualBrushes[nameof(Properties.Resources.Explode)]));
 
-            return mainDrGr; //TODO minimalize new calls
+            return this.mainDrGr; // TODO minimalize new calls
         }
 
-        bool exitCache = false;
-        Drawing exit;
-        private Drawing getExitDrawing()
-        {
-            if (model.Exit.IsOpen == exitCache && exit!=null)
-            {
-                return exit;
-            }
-            if (!model.Exit.IsOpen)
-            {
-                exitCache = model.Exit.IsOpen;
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private bool exitCache = false;
+#pragma warning restore SA1201 // Elements should appear in the correct order
+        private Drawing exit;
 
-                
-                exit = new GeometryDrawing(assetBrushes["ExitClose" + model.TextureSet], null, new RectangleGeometry(new Rect(model.Exit.TilePosition.X * TileSize, model.Exit.TilePosition.Y * TileSize, TileSize, TileSize)));
-            }
-            else 
+        private Drawing GetExitDrawing()
+        {
+            if (this.model.Exit.IsOpen == this.exitCache && this.exit != null)
             {
-                exitCache = model.Exit.IsOpen;
-                exit = new GeometryDrawing(assetBrushes["ExitOpen" + model.TextureSet], null, new RectangleGeometry(new Rect(model.Exit.TilePosition.X * TileSize, model.Exit.TilePosition.Y * TileSize, TileSize, TileSize)));
+                return this.exit;
             }
-            return exit;
-           
+
+            if (!this.model.Exit.IsOpen)
+            {
+                this.exitCache = this.model.Exit.IsOpen;
+
+                this.exit = new GeometryDrawing(this.assetBrushes["ExitClose" + this.model.TextureSet], null, new RectangleGeometry(new Rect(this.model.Exit.TilePosition.X * this.TileSize, this.model.Exit.TilePosition.Y * this.TileSize, this.TileSize, this.TileSize)));
+            }
+            else
+            {
+                this.exitCache = this.model.Exit.IsOpen;
+                this.exit = new GeometryDrawing(this.assetBrushes["ExitOpen" + this.model.TextureSet], null, new RectangleGeometry(new Rect(this.model.Exit.TilePosition.X * this.TileSize, this.model.Exit.TilePosition.Y * this.TileSize, this.TileSize, this.TileSize)));
+            }
+
+            return this.exit;
         }
 
-        Drawing bg;
-        private Drawing getBackGroundDrawing()
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private Drawing bg;
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
+        private Drawing GetBackGroundDrawing()
         {
-            if (model.RequireDiamonds <= model.CollectedDiamonds && model.WhiteBgCount > 0)
+            if (this.model.RequireDiamonds <= this.model.CollectedDiamonds && this.model.WhiteBgCount > 0)
             {
-                bg = new GeometryDrawing(Brushes.White, null, new RectangleGeometry(new Rect(0, 0, model.WallMatrix.GetLength(0) * TileSize, model.WallMatrix.GetLength(1) * TileSize)));
-                model.WhiteBgCount--;
-                if (model.WhiteBgCount == 0)
+                this.bg = new GeometryDrawing(Brushes.White, null, new RectangleGeometry(new Rect(0, 0, this.model.WallMatrix.GetLength(0) * this.TileSize, this.model.WallMatrix.GetLength(1) * this.TileSize)));
+                this.model.WhiteBgCount--;
+                if (this.model.WhiteBgCount == 0)
                 {
-                    bg = null;
-                }  
+                    this.bg = null;
+                }
             }
-            if (bg == null)
+
+            if (this.bg == null)
             {
-                bg = new GeometryDrawing(Brushes.Black, null, new RectangleGeometry(new Rect(0, 0, model.WallMatrix.GetLength(0) * TileSize, model.WallMatrix.GetLength(1) * TileSize)));
+                this.bg = new GeometryDrawing(Brushes.Black, null, new RectangleGeometry(new Rect(0, 0, this.model.WallMatrix.GetLength(0) * this.TileSize, this.model.WallMatrix.GetLength(1) * this.TileSize)));
             }
 
-
-            return bg;
+            return this.bg;
         }
 
-        GeometryGroup explodeGG = new GeometryGroup();
-        private Drawing getExplodeDrawing(VisualBrush visualBrush)
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private GeometryGroup explodeGG = new GeometryGroup();
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
+        private Drawing GetExplodeDrawing(VisualBrush visualBrush)
         {
             visualBrush.TileMode = TileMode.Tile;
-            visualBrush.Viewport = new Rect(0, 0, TileSize, TileSize);
+            visualBrush.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
             visualBrush.ViewportUnits = BrushMappingMode.Absolute;
 
             List<Geometry> marked = new List<Geometry>();
-            foreach (var item in explodeGG.Children)
+            foreach (var item in this.explodeGG.Children)
             {
-                int y = (int)((item as RectangleGeometry).Rect.Y/TileSize);
-                int x = (int)((item as RectangleGeometry).Rect.X/TileSize);
-                if (model.Explosion[x,y] == 0)
+                int y = (int)((item as RectangleGeometry).Rect.Y / this.TileSize);
+                int x = (int)((item as RectangleGeometry).Rect.X / this.TileSize);
+                if (this.model.Explosion[x, y] == 0)
                 {
                     marked.Add(item);
-                } 
-            }
-            foreach (var item in marked)
-            {
-                explodeGG.Children.Remove(item);
+                }
             }
 
-            for (int x = 0; x < model.Width; x++)
+            foreach (var item in marked)
             {
-                for (int y = 0; y < model.Height; y++)
+                this.explodeGG.Children.Remove(item);
+            }
+
+            for (int x = 0; x < this.model.Width; x++)
+            {
+                for (int y = 0; y < this.model.Height; y++)
                 {
-                    if(model.Explosion[x,y]>0)
-                        explodeGG.Children.Add(new RectangleGeometry(new Rect(x * TileSize, y * TileSize, TileSize, TileSize)));
-                    else if (model.Explosion[x, y] == 0)
+                    if (this.model.Explosion[x, y] > 0)
                     {
-                    
+                        this.explodeGG.Children.Add(new RectangleGeometry(new Rect(x * this.TileSize, y * this.TileSize, this.TileSize, this.TileSize)));
+                    }
+                    else if (this.model.Explosion[x, y] == 0)
+                    {
                     }
                 }
             }
-            return new GeometryDrawing(visualBrush, null, explodeGG);
+
+            return new GeometryDrawing(visualBrush, null, this.explodeGG);
         }
 
-        Dictionary<Logic.Firefly, VisualBrush> visualBrushFirefliesCache = new Dictionary<Logic.Firefly, VisualBrush>();
-        private Drawing getFirefliesDrawing()
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private Dictionary<Firefly, VisualBrush> visualBrushFirefliesCache = new Dictionary<Firefly, VisualBrush>();
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
+        private Drawing GetFirefliesDrawing()
         {
-            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, MOVETIME));
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, this.moveTime));
             var ggg = new DrawingGroup();
-            foreach (var d in model.Fireflies)
+            foreach (var d in this.model.Fireflies)
             {
                 if (d != null)
                 {
-                    TranslateTransform fireFlyTrans = new TranslateTransform(d.TilePosition.X * TileSize, d.TilePosition.Y * TileSize);
-                    if (!d.TilePosition.Equals(d.TileOldPosition) && model.Camera.isInStage(d.TilePosition))
+                    TranslateTransform fireFlyTrans = new TranslateTransform(d.TilePosition.X * this.TileSize, d.TilePosition.Y * this.TileSize);
+                    if (!d.TilePosition.Equals(d.TileOldPosition) && this.model.Camera.IsInStage(d.TilePosition))
                     {
-
-                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * TileSize, d.TilePosition.X * TileSize, duration);
-                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * TileSize, d.TilePosition.Y * TileSize, duration);
+                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * this.TileSize, d.TilePosition.X * this.TileSize, duration);
+                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * this.TileSize, d.TilePosition.Y * this.TileSize, duration);
                         animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
                         animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
 
                         fireFlyTrans.BeginAnimation(TranslateTransform.XProperty, animX);
                         fireFlyTrans.BeginAnimation(TranslateTransform.YProperty, animY);
-
                     }
 
-
-                    Geometry fireflyGeo = new RectangleGeometry(new Rect(0, 0, TileSize, TileSize));
+                    Geometry fireflyGeo = new RectangleGeometry(new Rect(0, 0, this.TileSize, this.TileSize));
                     fireflyGeo.Transform = fireFlyTrans;
                     d.TileOldPosition = d.TilePosition;
-                    if (model.Camera.isInStage(d.TilePosition))
+                    if (this.model.Camera.IsInStage(d.TilePosition))
                     {
                         VisualBrush brush;
-                        if (visualBrushFirefliesCache.ContainsKey(d))
+                        if (this.visualBrushFirefliesCache.ContainsKey(d))
                         {
-                            brush = visualBrushFirefliesCache[d];
-                            
+                            brush = this.visualBrushFirefliesCache[d];
+
                             ggg.Children.Add(new GeometryDrawing(brush, null, fireflyGeo));
                         }
                         else
                         {
-
-                            brush = animatedVisualBrushes["Firefly" + model.TextureSet].Clone();
+                            brush = this.animatedVisualBrushes["Firefly" + this.model.TextureSet].Clone();
                             RenderOptions.SetCachingHint(brush, CachingHint.Cache);
-                            visualBrushFirefliesCache[d] = brush;
-                            
+                            this.visualBrushFirefliesCache[d] = brush;
+
                             ggg.Children.Add(new GeometryDrawing(brush, null, fireflyGeo));
                         }
+
                         brush.TileMode = TileMode.None;
-                        brush.Viewport = new Rect(0, 0, TileSize, TileSize);
+                        brush.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
                         brush.ViewportUnits = BrushMappingMode.Absolute;
                         brush.Transform = fireFlyTrans;
                     }
                 }
             }
+
             return ggg;
+        }
+
+#pragma warning disable SA1201 // Elements should appear in the correct order
+        private Dictionary<Butterfly, VisualBrush> visualBrushButterfliesCache = new Dictionary<Butterfly, VisualBrush>();
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
+        private Drawing GetButterfliesDrawing()
+        {
+            Duration duration = new Duration(new TimeSpan(0, 0, 0, 0, this.moveTime));
+            var ggg = new DrawingGroup();
+            foreach (var d in this.model.Butterflies)
+            {
+                if (d != null)
+                {
+                    TranslateTransform butterflyTrans = new TranslateTransform(d.TilePosition.X * this.TileSize, d.TilePosition.Y * this.TileSize);
+                    if (!d.TilePosition.Equals(d.TileOldPosition) && this.model.Camera.IsInStage(d.TilePosition))
+                    {
+                        DoubleAnimation animX = new DoubleAnimation(d.TileOldPosition.X * this.TileSize, d.TilePosition.X * this.TileSize, duration);
+                        DoubleAnimation animY = new DoubleAnimation(d.TileOldPosition.Y * this.TileSize, d.TilePosition.Y * this.TileSize, duration);
+                        animX.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+                        animY.EasingFunction = new PowerEase() { EasingMode = EasingMode.EaseInOut, Power = 1.2 };
+
+                        butterflyTrans.BeginAnimation(TranslateTransform.XProperty, animX);
+                        butterflyTrans.BeginAnimation(TranslateTransform.YProperty, animY);
+                    }
+
+                    Geometry butterflyGeo = new RectangleGeometry(new Rect(0, 0, this.TileSize, this.TileSize));
+                    butterflyGeo.Transform = butterflyTrans;
+                    d.TileOldPosition = d.TilePosition;
+                    if (this.model.Camera.IsInStage(d.TilePosition))
+                    {
+                        VisualBrush brush;
+                        if (this.visualBrushButterfliesCache.ContainsKey(d))
+                        {
+                            brush = this.visualBrushButterfliesCache[d];
+
+                            ggg.Children.Add(new GeometryDrawing(brush, null, butterflyGeo));
+                        }
+                        else
+                        {
+                            brush = this.animatedVisualBrushes["Butterfly" + this.model.TextureSet].Clone();
+                            RenderOptions.SetCachingHint(brush, CachingHint.Cache);
+                            this.visualBrushButterfliesCache[d] = brush;
+
+                            ggg.Children.Add(new GeometryDrawing(brush, null, butterflyGeo));
+                        }
+
+                        brush.TileMode = TileMode.None;
+                        brush.Viewport = new Rect(0, 0, this.TileSize, this.TileSize);
+                        brush.ViewportUnits = BrushMappingMode.Absolute;
+                        brush.Transform = butterflyTrans;
+                    }
+                }
+            }
+
+            return ggg;
+        }
+
+        /// <summary>
+        /// Simple Struct Coord require for performance porpouse.
+        /// </summary>
+        internal struct Coord
+        {
+            /// <summary>
+            /// The x.
+            /// </summary>
+            public double X;
+
+            /// <summary>
+            /// The y.
+            /// </summary>
+            public double Y;
         }
     }
 }

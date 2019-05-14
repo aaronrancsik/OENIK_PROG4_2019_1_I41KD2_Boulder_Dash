@@ -21,10 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C Logic", "C Logic", "{0D8B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "D View", "D View", "{FAE455FB-CA65-4962-823E-EB6CC4FB563B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{52BD53EA-3BA2-4AEB-8CAA-8C96180FBDF1}"
+	ProjectSection(SolutionItems) = preProject
+		oenik.ruleset = oenik.ruleset
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -85,6 +87,12 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D1A86AEC-3D48-4E9B-B8D2-E33F4A7C9B81}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

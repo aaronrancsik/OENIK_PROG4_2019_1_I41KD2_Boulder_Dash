@@ -118,18 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AL01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\levels\al01.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AL02" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\levels\al02.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AL03" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\levels\al03.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AL10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\levels\al10.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Boulder1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\boulder1.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -360,5 +348,56 @@
   </data>
   <data name="_132" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\132.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\cover.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cover_00005" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\cover_00005.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\hs.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cave_A_Intro_001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_a_intro_001.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_B_Rooms_002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_b_rooms_002.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_C__Maze_003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_c _maze_003.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_D_Butterflies_004" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_d_butterflies_004.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_E_Guards_005" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_e_guards_005.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_F_Firefly_dens_006" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_f_firefly_dens_006.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_I_Greed_009" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_i_greed_009.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_J_Tracks_010" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_j_tracks_010.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_K_Crowd_011" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_k_crowd_011.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_L_Walls_012" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_l_walls_012.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cave_N_Zigzag_014" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\cave_n_zigzag_014.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Diamondstress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\diamondstress.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Test" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\test.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Test2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\levels\test2.lvl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
