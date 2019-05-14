@@ -13,7 +13,7 @@ namespace NIK.BoulderDash.UI
     /// <summary>
     /// Class MyMenuItem.
     /// </summary>
-    public class MyMenuItem
+    public class MyMenuItem : IComparable
     {
         /// <summary>
         /// Gets or sets the name.
@@ -26,5 +26,15 @@ namespace NIK.BoulderDash.UI
         /// </summary>
         /// <value>The map.</value>
         public byte[] Map { get; set; }
+
+        /// <summary>
+        /// Compares the current instance with another object by name.
+        /// </summary>
+        /// <param name="obj">An object to compare with this instance.</param>
+        /// <returns>A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="obj" /> in the sort order. Zero This instance occurs in the same position in the sort order as <paramref name="obj" />. Greater than zero This instance follows <paramref name="obj" /> in the sort order.</returns>
+        public int CompareTo(object obj)
+        {
+            return (obj as MyMenuItem).Name.CompareTo(this.Name);
+        }
     }
 }

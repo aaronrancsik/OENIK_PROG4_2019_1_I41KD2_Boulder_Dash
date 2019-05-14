@@ -75,16 +75,20 @@ namespace NIK.BoulderDash.UI
             }
 
             this.mapp = this.FindName("map") as Grid;
-            var lb = this.FindName("lbMain");
-            (lb as ListBox).Focus();
-            foreach (DictionaryEntry item in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true))
+            ListBox lb = this.FindName("lbMain") as ListBox;
+            lb.Focus();
+            var rss = Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+
+            foreach (DictionaryEntry item in rss)
             {
                 if (item.Value is byte[])
                 {
-                    ImageSourceConverter c = new ImageSourceConverter();
                     (lb as ListBox).Items.Add(new MyMenuItem() { Name = item.Key.ToString(), Map = item.Value as byte[] });
                 }
             }
+
+            lb.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription(string.Empty, System.ComponentModel.ListSortDirection.Descending));
+            lb.SelectedIndex = 0;
         }
 
         private BitmapImage BitmapToImageSource(Bitmap bitmap)

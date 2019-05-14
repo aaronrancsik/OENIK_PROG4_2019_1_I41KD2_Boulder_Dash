@@ -154,8 +154,8 @@
                     Background="Transparent"  
                     Margin="50,590,50,60" 
                     x:Name="lbMain"
-                     SelectionChanged="LbMain_Selected"
-                 RenderOptions.BitmapScalingMode="NearestNeighbor" FontFamily="Algerian" FontSize="72">
+                    SelectionChanged="LbMain_Selected"
+                    RenderOptions.BitmapScalingMode="NearestNeighbor" FontFamily="Algerian" FontSize="72">
                     
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type local:MyMenuItem}">

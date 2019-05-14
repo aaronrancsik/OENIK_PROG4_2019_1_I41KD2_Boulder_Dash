@@ -122,20 +122,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Levels\AL01.lvl" />
-    <None Include="Levels\AL02.lvl" />
-    <None Include="Levels\AL03.lvl" />
-    <None Include="Levels\AL04.lvl" />
-    <None Include="Levels\AL05.lvl" />
-    <None Include="Levels\AL06.lvl" />
-    <None Include="Levels\AL09.lvl" />
-    <None Include="Levels\AL10.lvl" />
-    <None Include="Levels\AL11.lvl" />
-    <None Include="Levels\AL12.lvl" />
-    <None Include="Levels\AL14.lvl" />
-    <None Include="Levels\ALDiamondstress.lvl" />
-    <None Include="Levels\ALtest.lvl" />
-    <None Include="Levels\ALTest2.lvl" />
+    <None Include="Levels\Cave_A_Intro_001.lvl" />
+    <None Include="Levels\Cave_B_Rooms_002.lvl" />
+    <None Include="Levels\Cave_C _Maze_003.lvl" />
+    <None Include="Levels\Cave_D_Butterflies_004.lvl" />
+    <None Include="Levels\Cave_E_Guards_005.lvl" />
+    <None Include="Levels\Cave_F_Firefly_dens_006.lvl" />
+    <None Include="Levels\Cave_I_Greed_009.lvl" />
+    <None Include="Levels\Cave_J_Tracks_010.lvl" />
+    <None Include="Levels\Cave_K_Crowd_011.lvl" />
+    <None Include="Levels\Cave_L_Walls_012.lvl" />
+    <None Include="Levels\Cave_N_Zigzag_014.lvl" />
+    <None Include="Levels\Diamondstress.lvl" />
+    <None Include="Levels\Test.lvl" />
+    <None Include="Levels\Test2.lvl" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
