@@ -1,0 +1,182 @@
+﻿<Window x:Class="NIK.BoulderDash.UI.MainMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NIK.BoulderDash.UI"
+        mc:Ignorable="d"
+        Background="Black"
+        Title="MianMenu"
+        Width="1152" Height="720"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        RenderOptions.BitmapScalingMode="NearestNeighbor">
+    <Window.Resources>
+            <VisualBrush x:Key="Butterfly1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Butterfly2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Butterfly3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Butterfly4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Butterfly4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+
+            <VisualBrush x:Key="Diamond1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush RenderOptions.EdgeMode="Aliased" x:Key="Diamond2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Diamond3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Diamond4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Diamond4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="DiamondBirth4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/DiamondBirth4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Explode">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Explode.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly1">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly1.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly2">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly2.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly3">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly3.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="Firefly4">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/Firefly4.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordBirth">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordBirth.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordBlink">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordBlink.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordBlinkNTap">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordBlinkNTap.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordLeft">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordLeft.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordRight">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordRight.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <VisualBrush x:Key="RockfordTap">
+                <VisualBrush.Visual>
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor" gif:ImageBehavior.AnimatedSource="Images/RockfordTap.gif"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <ImageBrush x:Key="testbrush" ImageSource="Images/097.bmp">
+            </ImageBrush>
+        <BooleanToVisibilityConverter x:Key="booleanVisibleConverter" />
+    </Window.Resources>
+    <Viewbox Name="MainViewbox" Stretch="Uniform">
+        <Grid Width="1152" Height="720">
+            <Grid x:Name="map" Width="1152" Height="720">
+
+            </Grid>
+            <Grid Width="1152" Height="720" x:Name="grid" RenderOptions.BitmapScalingMode="NearestNeighbor" >
+                <Grid.Background>
+                    <ImageBrush ImageSource="/Images/cover_00005.png"></ImageBrush>
+                </Grid.Background>
+            </Grid>
+            <Grid Width="1152" Height="720">
+
+                <ListBox 
+                    KeyDown="LbMain_KeyDown"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    BorderThickness="0"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                    Background="Transparent"  
+                    Margin="50,590,50,60" 
+                    x:Name="lbMain"
+                     SelectionChanged="LbMain_Selected"
+                 RenderOptions.BitmapScalingMode="NearestNeighbor" FontFamily="Algerian" FontSize="72">
+                    
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:MyMenuItem}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock 
+                            Foreground="White"
+                            FontSize="40"
+                            Margin="3" 
+                            Text="{Binding Name}"
+                            />
+                                <!--<Image
+                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource booleanVisibleConverter}}" 
+                            Margin="3" 
+                            Source="{Binding Pa}"/>-->
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+    </Viewbox>
+    
+</Window>
