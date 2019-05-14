@@ -21,6 +21,7 @@ namespace NIK.BoulderDash.UI
     /// <seealso cref="System.Windows.FrameworkElement" />
     public class BoulderControl : FrameworkElement
     {
+        private byte[] map;
         private DispatcherTimer logicCalcTimer;
         private GameLogic logic;
         private BoulderDisplay display;
@@ -82,6 +83,15 @@ namespace NIK.BoulderDash.UI
             this.InvalidateVisual();
         }
 
+        /// <summary>
+        /// Loads the map.
+        /// </summary>
+        /// <param name="map">The map.</param>
+        public void LoadMap(byte[] map)
+        {
+            this.map = map;
+            this.Load();
+        }
         private void BoulderControl_Loaded(object sender, RoutedEventArgs e)
         {
             this.Load();
