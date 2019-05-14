@@ -92,6 +92,19 @@ namespace NIK.BoulderDash.UI
             this.map = map;
             this.Load();
         }
+
+        /// <summary>
+        /// When overridden in a derived class, participates in rendering operations that are directed by the layout system. The rendering instructions for this element are not used directly when this method is invoked, and are instead preserved for later asynchronous use by layout and drawing.
+        /// </summary>
+        /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            if (this.display != null)
+            {
+                drawingContext.DrawDrawing(this.display.BuildDrawing());
+            }
+        }
+
         private void BoulderControl_Loaded(object sender, RoutedEventArgs e)
         {
             this.Load();
