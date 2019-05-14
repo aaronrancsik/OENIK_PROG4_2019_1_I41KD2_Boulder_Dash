@@ -391,4 +391,13 @@
   <data name="_132" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\132.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="cover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\cover.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cover_00005" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\cover_00005.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\hs.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

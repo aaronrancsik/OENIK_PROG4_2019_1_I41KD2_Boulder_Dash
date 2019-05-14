@@ -643,6 +643,26 @@ namespace NIK.BoulderDash.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cover {
+            get {
+                object obj = ResourceManager.GetObject("cover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cover_00005 {
+            get {
+                object obj = ResourceManager.GetObject("cover_00005", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Diamond1 {
             get {
                 object obj = ResourceManager.GetObject("Diamond1", resourceCulture);
@@ -846,6 +866,16 @@ namespace NIK.BoulderDash.UI.Properties {
         internal static System.Drawing.Bitmap Firefly4 {
             get {
                 object obj = ResourceManager.GetObject("Firefly4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap hs {
+            get {
+                object obj = ResourceManager.GetObject("hs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
