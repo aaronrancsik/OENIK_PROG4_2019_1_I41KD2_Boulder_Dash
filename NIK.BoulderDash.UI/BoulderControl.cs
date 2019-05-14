@@ -25,7 +25,7 @@ namespace NIK.BoulderDash.UI
         private GameLogic logic;
         private BoulderDisplay display;
         private GameModel model;
-        private Dictionary<string, VisualBrush> animatedVisualBrushes = new Dictionary<string, VisualBrush>();
+        private Dictionary<string, VisualBrush> animatedVisualBrushes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoulderControl"/> class.
@@ -47,9 +47,12 @@ namespace NIK.BoulderDash.UI
             }
         }
 
-        private void BoulderControl_Loaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Load up a map.
+        /// </summary>
+        public void Load()
         {
-            Window win = Window.GetWindow(this);
+            this.animatedVisualBrushes = new Dictionary<string, VisualBrush>();
             if (true)
             {
                 this.logicCalcTimer = new DispatcherTimer();
@@ -63,7 +66,7 @@ namespace NIK.BoulderDash.UI
 
             foreach (DictionaryEntry item in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true))
             {
-                if ((item.Value as System.Drawing.Bitmap) != null)
+                if (item.Value is System.Drawing.Bitmap)
                 {
                     var brush = this.TryFindResource(item.Key.ToString());
                     if (brush is VisualBrush)
@@ -74,9 +77,14 @@ namespace NIK.BoulderDash.UI
             }
 
             this.logic = new GameLogic();
-            this.model = this.logic.LoadLevel(Properties.Resources.AL14);
+            this.model = this.logic.LoadLevel(this.map);
             this.display = new BoulderDisplay(this.model, this.ActualWidth, this.ActualHeight, GameModel.MOVETIME, this.animatedVisualBrushes);
             this.InvalidateVisual();
+        }
+
+        private void BoulderControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Load();
         }
 
         private void TimerTick(object sender, EventArgs e)
