@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" 
         UseLayoutRounding="True"
-        
+        PreviewKeyDown="Window_PreviewKeyDown"
         ResizeMode="CanMinimize"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterOwner"
@@ -18,7 +18,7 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
     </WindowChrome.WindowChrome>
-    <local:BoulderControl Margin="-1,-1,0,-10" SnapsToDevicePixels="True">
+    <local:BoulderControl Margin="-1,-1,0,-10" SnapsToDevicePixels="True" x:Name="control">
         <local:BoulderControl.Resources>
             <VisualBrush x:Key="Butterfly1">
                 <VisualBrush.Visual>
