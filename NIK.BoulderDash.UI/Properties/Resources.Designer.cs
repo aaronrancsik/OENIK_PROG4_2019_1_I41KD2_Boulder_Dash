@@ -421,146 +421,6 @@ namespace NIK.BoulderDash.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL01 {
-            get {
-                object obj = ResourceManager.GetObject("AL01", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL02 {
-            get {
-                object obj = ResourceManager.GetObject("AL02", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL03 {
-            get {
-                object obj = ResourceManager.GetObject("AL03", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL04 {
-            get {
-                object obj = ResourceManager.GetObject("AL04", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL05 {
-            get {
-                object obj = ResourceManager.GetObject("AL05", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL06 {
-            get {
-                object obj = ResourceManager.GetObject("AL06", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL09 {
-            get {
-                object obj = ResourceManager.GetObject("AL09", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL10 {
-            get {
-                object obj = ResourceManager.GetObject("AL10", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL11 {
-            get {
-                object obj = ResourceManager.GetObject("AL11", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL12 {
-            get {
-                object obj = ResourceManager.GetObject("AL12", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] AL14 {
-            get {
-                object obj = ResourceManager.GetObject("AL14", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ALDiamondstress {
-            get {
-                object obj = ResourceManager.GetObject("ALDiamondstress", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ALtest {
-            get {
-                object obj = ResourceManager.GetObject("ALtest", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ALTest2 {
-            get {
-                object obj = ResourceManager.GetObject("ALTest2", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Boulder1 {
@@ -637,6 +497,116 @@ namespace NIK.BoulderDash.UI.Properties {
             get {
                 object obj = ResourceManager.GetObject("Butterfly4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_A_Intro_001 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_A_Intro_001", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_B_Rooms_002 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_B_Rooms_002", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_C__Maze_003 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_C__Maze_003", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_D_Butterflies_004 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_D_Butterflies_004", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_E_Guards_005 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_E_Guards_005", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_F_Firefly_dens_006 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_F_Firefly_dens_006", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_I_Greed_009 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_I_Greed_009", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_J_Tracks_010 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_J_Tracks_010", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_K_Crowd_011 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_K_Crowd_011", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_L_Walls_012 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_L_Walls_012", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cave_N_Zigzag_014 {
+            get {
+                object obj = ResourceManager.GetObject("Cave_N_Zigzag_014", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -737,6 +707,16 @@ namespace NIK.BoulderDash.UI.Properties {
             get {
                 object obj = ResourceManager.GetObject("DiamondBirth4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Diamondstress {
+            get {
+                object obj = ResourceManager.GetObject("Diamondstress", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -947,6 +927,26 @@ namespace NIK.BoulderDash.UI.Properties {
             get {
                 object obj = ResourceManager.GetObject("RockfordTap", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Test {
+            get {
+                object obj = ResourceManager.GetObject("Test", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Test2 {
+            get {
+                object obj = ResourceManager.GetObject("Test2", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
