@@ -63,10 +63,9 @@ namespace NIK.BoulderDash.Logic
             string[] lines = this.LoadFileLinesFromResource(levelResource);
             this.width = int.Parse(lines[0]); // cella szeleseeg, magasseg
             this.height = int.Parse(lines[1]);
-            GameModel model = new GameModel(this.width, this.height);
-            this.model = model;
-            model.RequireDiamonds = int.Parse(lines[2]);
-            model.TextureSet = int.Parse(lines[3]);
+            this.model = new GameModel(this.width, this.height);
+            this.model.RequireDiamonds = int.Parse(lines[2]);
+            this.model.TextureSet = int.Parse(lines[3]);
             for (int x = 0; x < this.width; x++)
             {
                 for (int y = 0; y < this.height; y++)
@@ -77,53 +76,53 @@ namespace NIK.BoulderDash.Logic
                     switch (current)
                     {
                         case 'w':
-                            model.WallMatrix[x, y] = true;
+                            this.model.WallMatrix[x, y] = true;
                             break;
                         case 'X':
-                            model.Rockford = new Rockford();
-                            model.Rockford.TilePosition = point;
-                            model.Rockford.TileOldPosition = initPrev;
+                            this.model.Rockford = new Rockford();
+                            this.model.Rockford.TilePosition = point;
+                            this.model.Rockford.TileOldPosition = initPrev;
 
                             // model.Camera.Follow(point);
                             break;
                         case 'P':
 
-                            model.Exit.TilePosition = new Point(x, y);
+                            this.model.Exit.TilePosition = new Point(x, y);
                             break;
                         case 'r':
                             var boulder = new Blocks.Boulder();
                             boulder.TilePosition = point;
                             boulder.TileOldPosition = initPrev;
                             boulder.Variant = rnd.Next(1, 5);
-                            model.Boulders[x, y] = boulder;
+                            this.model.Boulders[x, y] = boulder;
                             break;
                         case 'd':
                             var diamond = new Blocks.Diamond();
                             diamond.TilePosition = point;
                             diamond.TileOldPosition = initPrev;
-                            model.Diamonds[x, y] = diamond;
+                            this.model.Diamonds[x, y] = diamond;
                             break;
                         case '.':
                             var dirt = new Blocks.Dirt();
                             dirt.Variant = rnd.Next(1, 5);
-                            model.DirtMatrix[x, y] = dirt;
+                            this.model.DirtMatrix[x, y] = dirt;
                             break;
                         case 'W':
-                            model.TitaniumMatrix[x, y] = true;
+                            this.model.TitaniumMatrix[x, y] = true;
                             break;
                         case 'q':
-                            model.Fireflies[x, y] = new Firefly(point);
+                            this.model.Fireflies[x, y] = new Firefly(point);
                             break;
                         case 'B':
-                            model.Butterflies[x, y] = new Butterfly(point);
+                            this.model.Butterflies[x, y] = new Butterfly(point);
                             break;
                     }
                 }
             }
 
             this.CameraFollowRockford();
-            model.Rockford.Direaction = State.Birth;
-            return model;
+            this.model.Rockford.Direaction = State.Birth;
+            return this.model;
         }
 
         /// <summary>
