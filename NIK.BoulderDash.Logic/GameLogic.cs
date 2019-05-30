@@ -266,7 +266,6 @@ namespace NIK.BoulderDash.Logic
                     {
                         if (rollLuck)
                         {
-                            this.model.Boulders[x, y].TileOldPosition = this.model.Boulders[x, y].TilePosition;
                             this.model.Boulders[x, y].TilePosition.X -= 1;
 
                             this.model.Boulders[x - 1, y] = this.model.Boulders[x, y];
@@ -292,7 +291,6 @@ namespace NIK.BoulderDash.Logic
                     {
                         if (rollLuck)
                         {
-                            this.model.Boulders[x, y].TileOldPosition = this.model.Boulders[x, y].TilePosition;
                             this.model.Boulders[x, y].TilePosition.X += 1;
 
                             this.model.Boulders[x + 1, y] = this.model.Boulders[x, y];
