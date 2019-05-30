@@ -79,46 +79,24 @@ namespace NIK.BoulderDash.UI
                 }
             }
 
-            this.logic = new GameLogic(finishMap);
+            this.logic = new GameLogic(this.FinishMap);
             this.model = this.logic.LoadLevel(this.map);
             this.display = new BoulderDisplay(this.model, this.ActualWidth, this.ActualHeight, GameModel.MOVETIME, this.animatedVisualBrushes);
             this.InvalidateVisual();
         }
 
-        private void finishMap()
-        {
-            bool ok = false;
-            bool okk = false;
-            foreach (var item in levels)
-            {
-                if(item.Value == map)
-                {
-                    ok = true;
-                }
-                if (okk)
-                {
-                    LoadMap(levels, item.Key);
-                    return;
-                }
-                if (ok)
-                {
-                    okk = true;
-                    ok = false;
-                }
-                
-            }
-        }
-
         /// <summary>
         /// Loads the map.
         /// </summary>
-        /// <param name="map">The map.</param>
+        /// <param name="levels">all levels.</param>
+        /// <param name="name">current level name.</param>
         public void LoadMap(Dictionary<string, byte[]> levels, string name)
         {
             if (this.logicCalcTimer != null)
             {
                 this.logicCalcTimer.Stop();
             }
+
             this.levels = levels;
             this.map = levels[name];
             this.Load();
@@ -133,6 +111,31 @@ namespace NIK.BoulderDash.UI
             if (this.display != null)
             {
                 drawingContext.DrawDrawing(this.display.BuildDrawing());
+            }
+        }
+
+        private void FinishMap()
+        {
+            bool ok = false;
+            bool okk = false;
+            foreach (var item in this.levels)
+            {
+                if (item.Value == this.map)
+                {
+                    ok = true;
+                }
+
+                if (okk)
+                {
+                    this.LoadMap(this.levels, item.Key);
+                    return;
+                }
+
+                if (ok)
+                {
+                    okk = true;
+                    ok = false;
+                }
             }
         }
 

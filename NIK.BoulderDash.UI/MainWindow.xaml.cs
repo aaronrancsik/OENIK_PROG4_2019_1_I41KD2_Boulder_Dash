@@ -13,8 +13,6 @@ namespace NIK.BoulderDash.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private byte[] map;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
@@ -27,7 +25,8 @@ namespace NIK.BoulderDash.UI
         /// <summary>
         /// Loads the selected map.
         /// </summary>
-        /// <param name="map">The map.</param>
+        /// <param name="levels">The levels.</param>
+        /// <param name="name">The chosen level name.</param>
         public void LoadMap(Dictionary<string, byte[]> levels, string name)
         {
             (this.FindName("control") as BoulderControl).LoadMap(levels, name);

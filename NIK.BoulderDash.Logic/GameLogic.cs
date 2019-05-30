@@ -51,9 +51,9 @@ namespace NIK.BoulderDash.Logic
         /// <summary>
         /// Initializes a new instance of the <see cref="GameLogic"/> class.
         /// </summary>
+        /// <param name="finsihMap">Invoke this after finished a map.</param>
         public GameLogic(Action finsihMap)
         {
-
             this.finishMap = finsihMap;
         }
 
@@ -174,9 +174,9 @@ namespace NIK.BoulderDash.Logic
 
         private bool CheckFinish()
         {
-            if (model.Exit.IsOpen && model.Exit.TilePosition.Equals(model.Rockford.TilePosition))
+            if (this.model.Exit.IsOpen && this.model.Exit.TilePosition.Equals(this.model.Rockford.TilePosition))
             {
-                finishMap.Invoke();
+                this.finishMap.Invoke();
                 return true;
             }
 

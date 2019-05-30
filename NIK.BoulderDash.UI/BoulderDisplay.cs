@@ -76,7 +76,8 @@ namespace NIK.BoulderDash.UI
 
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteObject([In] IntPtr hObject);
+
+        private static extern bool DeleteObject([In] IntPtr hObject);
 
         private ImageSource Bitmap2BitmapImageSource(System.Drawing.Bitmap bmp)
         {
@@ -85,7 +86,10 @@ namespace NIK.BoulderDash.UI
             {
                 return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             }
-            finally { DeleteObject(handle); }
+            finally
+            {
+                DeleteObject(handle);
+            }
         }
 
 #pragma warning disable SA1201 // Elements should appear in the correct order

@@ -23,11 +23,7 @@ namespace NIK.BoulderDash.UI
     public partial class MainMenu : Window
     {
         private MyMenuItem selectedMenu;
-        private GameLogic logic = new GameLogic(finsihMap);
-
-        private static void finsihMap()
-        {
-        }
+        private GameLogic logic = new GameLogic(() => { });
 
         private GameModel model;
         private BoulderDisplay display;
@@ -44,7 +40,6 @@ namespace NIK.BoulderDash.UI
         public MainMenu()
         {
             this.WindowState = WindowState.Maximized;
-            
             foreach (DictionaryEntry item in Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true))
             {
                 if (item.Value is byte[])
@@ -60,6 +55,7 @@ namespace NIK.BoulderDash.UI
                     this.rs.Add(item.Value as Bitmap);
                 }
             }
+
             this.InitializeComponent();
         }
 
@@ -127,7 +123,7 @@ namespace NIK.BoulderDash.UI
             if (e.Key == Key.Space)
             {
                 MainWindow win = new MainWindow();
-                win.LoadMap(levels, this.selectedMenu.Name);
+                win.LoadMap(this.levels, this.selectedMenu.Name);
                 win.Show();
                 this.Close();
             }
