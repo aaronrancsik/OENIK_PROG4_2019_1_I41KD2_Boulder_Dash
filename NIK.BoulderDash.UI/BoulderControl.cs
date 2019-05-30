@@ -23,6 +23,8 @@ namespace NIK.BoulderDash.UI
     {
         private Dictionary<string, byte[]> levels;
         private byte[] map;
+        private string currentLevel;
+        private List<string> levelNames = new List<string>();
         private DispatcherTimer logicCalcTimer;
         private GameLogic logic;
         private BoulderDisplay display;
@@ -51,9 +53,49 @@ namespace NIK.BoulderDash.UI
         }
 
         /// <summary>
+        /// Loads the map.
+        /// </summary>
+        /// <param name="levels">all levels.</param>
+        /// <param name="name">current level name.</param>
+        public void LoadMap(Dictionary<string, byte[]> levels, string name)
+        {
+            if (this.logicCalcTimer != null)
+            {
+                this.logicCalcTimer.Stop();
+            }
+
+            if (this.levels == null)
+            {
+                this.levels = levels;
+                foreach (var item in this.levels)
+                {
+                    this.levelNames.Add(item.Key);
+                }
+
+                this.levelNames.Sort();
+            }
+
+            this.currentLevel = name;
+            this.map = levels[name];
+            this.Load();
+        }
+
+        /// <summary>
+        /// When overridden in a derived class, participates in rendering operations that are directed by the layout system. The rendering instructions for this element are not used directly when this method is invoked, and are instead preserved for later asynchronous use by layout and drawing.
+        /// </summary>
+        /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            if (this.display != null)
+            {
+                drawingContext.DrawDrawing(this.display.BuildDrawing());
+            }
+        }
+
+        /// <summary>
         /// Load up a map.
         /// </summary>
-        public void Load()
+        private void Load()
         {
             this.animatedVisualBrushes = new Dictionary<string, VisualBrush>();
             if (true)
@@ -85,58 +127,11 @@ namespace NIK.BoulderDash.UI
             this.InvalidateVisual();
         }
 
-        /// <summary>
-        /// Loads the map.
-        /// </summary>
-        /// <param name="levels">all levels.</param>
-        /// <param name="name">current level name.</param>
-        public void LoadMap(Dictionary<string, byte[]> levels, string name)
-        {
-            if (this.logicCalcTimer != null)
-            {
-                this.logicCalcTimer.Stop();
-            }
-
-            this.levels = levels;
-            this.map = levels[name];
-            this.Load();
-        }
-
-        /// <summary>
-        /// When overridden in a derived class, participates in rendering operations that are directed by the layout system. The rendering instructions for this element are not used directly when this method is invoked, and are instead preserved for later asynchronous use by layout and drawing.
-        /// </summary>
-        /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            if (this.display != null)
-            {
-                drawingContext.DrawDrawing(this.display.BuildDrawing());
-            }
-        }
-
         private void FinishMap()
         {
-            bool ok = false;
-            bool okk = false;
-            foreach (var item in this.levels)
-            {
-                if (item.Value == this.map)
-                {
-                    ok = true;
-                }
-
-                if (okk)
-                {
-                    this.LoadMap(this.levels, item.Key);
-                    return;
-                }
-
-                if (ok)
-                {
-                    okk = true;
-                    ok = false;
-                }
-            }
+            int newIndex = (this.levelNames.IndexOf(this.currentLevel) + 1) % this.levelNames.Count;
+            this.currentLevel = this.levelNames[newIndex];
+            this.LoadMap(this.levels, this.levelNames[newIndex]);
         }
 
         private void BoulderControl_Loaded(object sender, RoutedEventArgs e)
