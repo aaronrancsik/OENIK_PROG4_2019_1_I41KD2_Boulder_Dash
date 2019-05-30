@@ -45,7 +45,6 @@ namespace NIK.BoulderDash.Logic
         private GameModel model;
         private int width;
         private int height;
-        private byte[] originalMap;
         private Action finishMap;
 
         /// <summary>
@@ -64,7 +63,6 @@ namespace NIK.BoulderDash.Logic
         /// <returns>GameModel.</returns>
         public GameModel LoadLevel(byte[] levelResource)
         {
-            this.originalMap = levelResource;
             string[] lines = this.LoadFileLinesFromResource(levelResource);
             this.width = int.Parse(lines[0]); // cella szeleseeg, magasseg
             this.height = int.Parse(lines[1]);
